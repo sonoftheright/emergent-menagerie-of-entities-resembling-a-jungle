@@ -417,7 +417,9 @@ function zoomIn()
     var factor = 1.05;// * state.controls.mouse.wheel.delta;
     map.scale *= factor;
     map.focusPoint.x *= factor;
+    map.focusPoint.x -= (el.middleX - state.controls.mouse.x) / map.scale;
     map.focusPoint.y *= factor;
+    map.focusPoint.y -= (el.middleY - state.controls.mouse.y) / map.scale;
     return 1;
 }
 
@@ -425,10 +427,12 @@ function zoomOut()
 {
     if(map.scale > 0.005)
     {
-         var factor = 0.95;// state.controls.mouse.wheel.delta;
+        var factor = 0.95;// state.controls.mouse.wheel.delta;
         map.scale *= factor;
         map.focusPoint.x *= factor;
+        map.focusPoint.x += (el.middleX - state.controls.mouse.x) / map.scale;
         map.focusPoint.y *= factor;
+        map.focusPoint.y += (el.middleY - state.controls.mouse.y) / map.scale;
     }
     else
     {
@@ -569,6 +573,8 @@ function initializeHUD()
     addStatToHud({"text": "      M A P", "value": function() {return "";}, style: "subheader" });
     addStatToHud({"text": "focusX: ", "value": function() {return map.focusPoint.x;}, style: "item" });
     addStatToHud({"text": "focusY: ", "value": function() {return map.focusPoint.y;}, style: "item" });
+    addStatToHud({"text": "el.middleX: ", "value": function() {return el.middleX;}, style: "item" });
+    addStatToHud({"text": "el.middleY: ", "value": function() {return el.middleY;}, style: "item" });
     addStatToHud({"text": "map.scale: ", "value": function() {return map.scale;}, style: "item" });
     addStatToHud({"text": "     I N P U T", "value": function() {return "";}, style: "subheader" });
     addStatToHud({"text": "mouse.x: ", "value": function() {return state.controls.mouse.x;}, style: "item" });
