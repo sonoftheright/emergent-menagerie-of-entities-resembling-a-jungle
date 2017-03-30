@@ -1,0 +1,1133 @@
+{
+	"auto_complete":
+	{
+		"selected_items":
+		[
+			[
+				"add",
+				"addStatToHud"
+			],
+			[
+				"permu",
+				"PERMUTATION_LENGTH"
+			],
+			[
+				"MAP",
+				"MAP_BUFFER_WIDTH"
+			],
+			[
+				"sizeChunk",
+				"sizeChunkY"
+			],
+			[
+				"chunk",
+				"CHUNK_SIDE_SIZE"
+			],
+			[
+				"CHUNK",
+				"CHUNK_SIDE_SIZE"
+			],
+			[
+				"xf",
+				"xfade"
+			],
+			[
+				"OBJE",
+				"OBJECT_FLAGS"
+			],
+			[
+				"init",
+				"initViewport"
+			],
+			[
+				"worldFo",
+				"worldFocusCoordX"
+			],
+			[
+				"world",
+				"worldFocusCoordX"
+			],
+			[
+				"populate",
+				"populateIteration"
+			],
+			[
+				"po",
+				"populateIteration"
+			],
+			[
+				"print",
+				"printEnvironmentInfo"
+			],
+			[
+				"Po",
+				"POSITION"
+			],
+			[
+				"get",
+				"getGridpointPosition"
+			],
+			[
+				"grid",
+				"gridPoints"
+			],
+			[
+				"bottom",
+				"bottomMiddle"
+			],
+			[
+				"neighborMa",
+				"neighborMaxZ"
+			],
+			[
+				"DEF",
+				"DEF_MAP_WIDTH"
+			],
+			[
+				"DEF_MA",
+				"DEF_MAP_HEIGHT"
+			],
+			[
+				"MAX",
+				"MAX_INPUT_LENGTH"
+			],
+			[
+				"Buffer",
+				"BufferDescription"
+			],
+			[
+				"balance",
+				"balanceCheck"
+			],
+			[
+				"server",
+				"serverInfo"
+			],
+			[
+				"N",
+				"NETWORK_OK"
+			],
+			[
+				"listening",
+				"listeningSocket"
+			],
+			[
+				"NETO",
+				"NETWORK_ERROR"
+			],
+			[
+				"tripl",
+				"tripleByValue"
+			],
+			[
+				"triple",
+				"tripleByValue"
+			],
+			[
+				"guess",
+				"guesses"
+			],
+			[
+				"XInput",
+				"XInputSetState"
+			],
+			[
+				"x_inpu",
+				"x_input_get_state"
+			],
+			[
+				"Bitmap",
+				"BitmapHeight"
+			],
+			[
+				"Window",
+				"WindowRect"
+			],
+			[
+				"BitmA",
+				"BitmapMemorySize"
+			],
+			[
+				"BITM",
+				"BITMAPINFO"
+			],
+			[
+				"lp",
+				"lpszClassName"
+			],
+			[
+				"Win",
+				"WindowClass"
+			]
+		]
+	},
+	"buffers":
+	[
+		{
+			"file": "app.js",
+			"settings":
+			{
+				"buffer_size": 19384,
+				"encoding": "UTF-8",
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "bedlam.html",
+			"settings":
+			{
+				"buffer_size": 168,
+				"encoding": "UTF-8",
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "perlin.js",
+			"settings":
+			{
+				"buffer_size": 10436,
+				"encoding": "UTF-8",
+				"line_ending": "Windows"
+			}
+		}
+	],
+	"build_system": "",
+	"build_system_choices":
+	[
+		[
+			[
+				[
+					"Packages/C++/C++ Single File.sublime-build",
+					""
+				],
+				[
+					"Packages/C++/C++ Single File.sublime-build",
+					"Run"
+				]
+			],
+			[
+				"Packages/C++/C++ Single File.sublime-build",
+				""
+			]
+		]
+	],
+	"build_varint": "",
+	"command_palette":
+	{
+		"height": 127.0,
+		"last_filter": "install",
+		"selected_items":
+		[
+			[
+				"install",
+				"Package Control: Install Package"
+			],
+			[
+				"orgmode",
+				"Set Syntax: orgmode"
+			],
+			[
+				"package",
+				"Preferences: Browse Packages"
+			]
+		],
+		"width": 464.0
+	},
+	"console":
+	{
+		"height": 126.0,
+		"history":
+		[
+			"sublime.log_commands(True)",
+			"import urllib.request,os,hashlib; h = '2915d1851351e5ee549c20394736b442' + '8bc59f460fa1548d1514676163dafc88'; pf = 'Package Control.sublime-package'; ipp = sublime.installed_packages_path(); urllib.request.install_opener( urllib.request.build_opener( urllib.request.ProxyHandler()) ); by = urllib.request.urlopen( 'http://packagecontrol.io/' + pf.replace(' ', '%20')).read(); dh = hashlib.sha256(by).hexdigest(); print('Error validating download (got %s instead of %s), please try manual install' % (dh, h)) if dh != h else open(os.path.join( ipp, pf), 'wb' ).write(by)"
+		]
+	},
+	"distraction_free":
+	{
+		"menu_visible": true,
+		"show_minimap": false,
+		"show_open_files": false,
+		"show_tabs": false,
+		"side_bar_visible": false,
+		"status_bar_visible": false
+	},
+	"expanded_folders":
+	[
+		"/C/Users/Bookstore.RECEIVINGROOM/Downloads/Other/Prog/Practice/blending-bedlam"
+	],
+	"file_history":
+	[
+		"/C/Users/Bookstore.RECEIVINGROOM/Downloads/Other/Prog/Practice/blending-bedlam/perlin.js",
+		"/C/Users/Bookstore.RECEIVINGROOM/Downloads/Other/Journal.hjt",
+		"/C/Users/Bookstore.RECEIVINGROOM/Downloads/Other/Prog/Frenetic Etchings App/app.js",
+		"/C/Users/Bookstore.RECEIVINGROOM/Downloads/Other/Prog/Server/Server/server.js",
+		"/C/Users/Bookstore.RECEIVINGROOM/Downloads/Other/Prog/mainserver.js",
+		"/C/Users/Bookstore.RECEIVINGROOM/Downloads/Other/Prog/T1OmniCrack.js",
+		"/C/Users/Bookstore.RECEIVINGROOM/Downloads/Other/Prog/Practice/game0/perlin.cpp",
+		"/C/Users/Bookstore.RECEIVINGROOM/Downloads/Other/Prog/Practice/game0/build-systemstest.bat",
+		"/C/Users/Bookstore.RECEIVINGROOM/AppData/Roaming/Sublime Text 3/Packages/User/build-systemstest.sublime-build",
+		"/C/Users/Bookstore.RECEIVINGROOM/Downloads/Other/Prog/Jygdaal's Keep/main.cpp",
+		"/C/Users/Bookstore.RECEIVINGROOM/Downloads/Other/Prog/Practice/game0/systemstestio.h",
+		"/C/Users/Bookstore.RECEIVINGROOM/Downloads/Other/Prog/Practice/game0/systemstestio.cpp",
+		"/C/Users/Bookstore.RECEIVINGROOM/Downloads/Other/Prog/Practice/game0/architecturalbrainstorm.md",
+		"/C/Users/Bookstore.RECEIVINGROOM/AppData/Roaming/Sublime Text 3/Packages/FileHeader/FileHeader.sublime-settings",
+		"/C/Users/Bookstore.RECEIVINGROOM/Downloads/Other/Prog/Practice/game0/systemstest.h",
+		"/C/Users/admin/Dropbox/Programming/Tutorials/Handmade Hero/handmade_hero_251_source/handmade_hero_day_251_source/code/handmade.cpp",
+		"/C/Users/admin/AppData/Roaming/Sublime Text 3/Packages/User/FileHeader.sublime-settings",
+		"/C/Users/admin/Dropbox/game0/systemstest.h",
+		"/C/Users/admin/Dropbox/game0/systemstest.cpp",
+		"/C/Users/admin/Dropbox/realterm commands.mdown",
+		"/C/Users/admin/Dropbox/game0/architecturalbrainstorm.md",
+		"/C/Users/admin/Dropbox/game0/maintest-winplatform.cpp",
+		"/C/Users/admin/Dropbox/game0/maintest-winplatform.h",
+		"/C/Users/admin/Dropbox/game0/maintest.cpp",
+		"/C/Users/admin/Dropbox/game0/tutorial.cpp",
+		"/C/Users/admin/Dropbox/game0/game0.sublime-project",
+		"/C/Users/admin/Dropbox/game0/README.md",
+		"/C/Users/admin/Dropbox/ds dynamic",
+		"/C/Users/admin/Dropbox/Programming/Tutorials/Handmade Hero/handmade_hero_251_source/handmade_hero_day_251_source/code/handmade_sim_region.h",
+		"/C/Users/admin/Dropbox/quora.c",
+		"/C/Users/admin/Dropbox/Programming/Tutorials/Handmade Hero/handmade_hero_251_source/handmade_hero_day_251_source/code/handmade_entity.cpp",
+		"/C/Users/admin/Dropbox/Programming/Tutorials/Handmade Hero/handmade_hero_251_source/handmade_hero_day_251_source/code/handmade_entity.h",
+		"/C/Users/admin/Dropbox/Programming/Tutorials/Handmade Hero/handmade_hero_251_source/handmade_hero_day_251_source/code/handmade_sim_region.cpp",
+		"/C/Users/admin/Dropbox/game0/game0/README.md",
+		"/C/Users/admin/Desktop/JavaScript/JavaScript.sublime-syntax",
+		"/C/Users/admin/Dropbox/Programming/C++/Project Alpha/project-alpha/maintest.cpp",
+		"/C/Users/admin/Desktop/JavaScript/syntax_test_js.js",
+		"/C/Users/admin/Dropbox/Kowloon/build/basic git.bat",
+		"/C/Users/admin/Dropbox/Programming/12days.c",
+		"/C/Users/admin/Desktop/This is a Word document - Copy.xml",
+		"/C/Users/admin/Desktop/This is a Word document - Copy.docx/word/document.xml",
+		"/C/Users/admin/Dropbox/Programming/C++/SDL Fun/build.bat",
+		"/C/Users/admin/Dropbox/Programming/C++/SDL Fun/SDLFun.h",
+		"/C/Users/admin/Dropbox/Programming/C++/SDL Fun/assets.cpp",
+		"/C/Users/admin/Dropbox/Programming/C++/SDL Fun/assets.h",
+		"/C/Users/admin/Dropbox/Programming/C++/SDL Fun/map.cpp",
+		"/C/Users/admin/Dropbox/Programming/C++/SDL Fun/SDLFun.cpp",
+		"/C/Users/admin/Dropbox/Programming/C++/SDL Fun/SDLFunHome.h",
+		"/C/Users/admin/Dropbox/Programming/C++/ToDo list for Raw Windowed Program",
+		"/C/Users/admin/Dropbox/Programming/Tutorials/Handmade Hero/handmade_hero_day_352_source/code/build.bat",
+		"/C/Users/admin/Dropbox/Programming/Tutorials/Handmade Hero/handmade_hero_day_352_source/code/win32_handmade.cpp",
+		"/C/Users/admin/Dropbox/Programming/Tutorials/Handmade Hero/handmade_hero_day_352_source/readme.txt",
+		"/C/Users/admin/Dropbox/Programming/Tutorials/Handmade Hero/handmade_hero_day_352_source/code/win32_handmade.h",
+		"/C/Users/admin/Dropbox/Programming/Tutorials/Handmade Hero/handmade_hero_251_source/handmade_hero_day_251_source/code/build.bat",
+		"/C/Users/admin/Dropbox/Programming/Tutorials/Handmade Hero/handmade_hero_010_source/handmade/code/build.bat",
+		"/C/Users/admin/Dropbox/Programming/C++/SDL Fun/main.cpp",
+		"/C/Users/admin/Dropbox/Kowloon/index.html",
+		"/C/Users/admin/Dropbox/Kowloon/events.js",
+		"/C/Users/admin/Dropbox/Kowloon/context.js",
+		"/C/Users/admin/Dropbox/Kowloon/blendingbedlam.js",
+		"/C/Users/admin/Dropbox/Kowloon/dataprinting.js",
+		"/C/Users/admin/Dropbox/Kowloon/map.js",
+		"/C/Users/admin/Downloads/SDL2-2.0.5/SDL2-2.0.5/README.txt",
+		"/D/Program Files/Stream/steamapps/common/RollerCoaster Tycoon Deluxe/readme.txt",
+		"/C/Users/admin/Dropbox/Jygdaal's Keep/main.c",
+		"/C/Users/admin/Dropbox/Jygdaal's Keep/main.h",
+		"/C/Users/admin/Desktop/test.html",
+		"/C/Users/admin/Dropbox/Programming/C++/main.cpp",
+		"/C/Users/admin/Dropbox/Programming/Java/angry cousins outline",
+		"/C/Users/admin/Desktop/guests",
+		"/C/Users/admin/Dropbox/Programming/C/Tinkerings/main.c",
+		"/C/Users/admin/Dropbox/D&D/3.5 Character Sheet.html",
+		"/C/Users/admin/Dropbox/D&D/js.js",
+		"/C/Users/admin/Dropbox/D&D/DnD.5e/Nootksy.nfo",
+		"/C/Users/admin/Dropbox/Programming/Javascript/WebGL/index2.html",
+		"/C/Users/admin/Dropbox/Programming/Javascript/WebGL/webgltest2.js",
+		"/C/Users/admin/Dropbox/Programming/Javascript/WebGL/webgltest.js",
+		"/C/Users/admin/Downloads/FP223B3X13005852_20160912.conf",
+		"/C/Users/admin/Dropbox/Server/server.js",
+		"/C/Users/admin/Dropbox/Server/public/js/GoingApey.js",
+		"/C/Users/admin/Dropbox/Server/public/index.html",
+		"/C/Users/admin/Dropbox/Server/webgltest.js",
+		"/C/main.cpp",
+		"/C/Users/admin/Dropbox/Programming/Javascript/WebGL/index.html",
+		"/C/Users/admin/Downloads/toji-gl-matrix-v2.3.2-14-g256747e/toji-gl-matrix-256747e/README.md",
+		"/C/Users/admin/Dropbox/Programming/Javascript/Frenetic Etchings App/js.js",
+		"/E/Sync Files/Mobile Sync/Programming/Frenetic Etchings App/js.js",
+		"/E/Sync Files/Mobile Sync/Programming/Frenetic Etchings App/index.html",
+		"/C/Users/admin/Dropbox/Programming/Javascript/Blending Bedlam/blendingbedlam.js",
+		"/C/Users/admin/Dropbox/Programming/Javascript/going-apey/js/Going Apey.js",
+		"/C/Users/admin/Dropbox/Programming/Javascript/Blending Bedlam/WWpopulateCoordinates.js",
+		"/C/Users/admin/Dropbox/Jygdaal's Keep/Notes/calculations for ideal gridpoint size on larger screens",
+		"/C/Users/admin/Dropbox/Programming/Javascript/Blending Bedlam/BlendingBedlam notes",
+		"/C/Users/admin/Dropbox/Jygdaal's Keep/build.bat",
+		"/C/Users/admin/Dropbox/Jygdaal's Keep/Notes/Notes on Perlin Noise",
+		"/C/Users/admin/Dropbox/Jygdaal's Keep/Notes/Future Data Structure Implementation Goals",
+		"/C/Users/admin/Downloads/tutorial password cheat engine",
+		"/C/Users/admin/Dropbox/Jygdaal's Keep/Notes on Perlin Noise",
+		"/C/Users/admin/Dropbox/Jygdaal's Keep/string_utilities.h",
+		"/C/Users/admin/Dropbox/Jygdaal's Keep/string_utilities.c",
+		"/C/Users/admin/Dropbox/Jygdaal's Keep/input_output.h",
+		"/C/Users/admin/Dropbox/Jygdaal's Keep/input_output.c",
+		"/C/Users/admin/Dropbox/Jygdaal's Keep/game_map.h",
+		"/C/Users/admin/Dropbox/Jygdaal's Keep/game_map.c",
+		"/C/Users/admin/Dropbox/Jygdaal's Keep/string_utilities.cpp",
+		"/C/Users/admin/Dropbox/Jygdaal's Keep/input_output.cpp",
+		"/C/Users/admin/Dropbox/Jygdaal's Keep/game_map.cpp",
+		"/C/Users/admin/Dropbox/Jygdaal's Keep/main.cpp",
+		"/C/Users/admin/Dropbox/ProjectAlf/Serious Code/Jygdaal's Keep/main.cpp",
+		"/C/Users/admin/Dropbox/ProjectAlf/Serious Code/Jygdaal's Keep/string_utilities.h",
+		"/C/Users/admin/Dropbox/ProjectAlf/Serious Code/Jygdaal's Keep/input_output.h",
+		"/C/Users/admin/Dropbox/ProjectAlf/Serious Code/Jygdaal's Keep/input_output.cpp",
+		"/C/Users/admin/Dropbox/ProjectAlf/Serious Code/Jygdaal's Keep/game_map.h",
+		"/C/Users/admin/Dropbox/ProjectAlf/Serious Code/Jygdaal's Keep/game_map.cpp",
+		"/C/Users/admin/Dropbox/ProjectAlf/Serious Code/Jygdaal's Keep/main.h",
+		"/C/Users/admin/Dropbox/ProjectAlf/Serious Code/Jygdaal's Keep/string_utilities.cpp",
+		"/C/Users/admin/Dropbox/ProjectAlf/Serious Code/Jygdaal's Keep/datautil.h",
+		"/C/Users/admin/Dropbox/ProjectAlf/Serious Code/Jygdaal's Keep/datautil.cpp",
+		"/C/Users/admin/Dropbox/ProjectAlf/Serious Code/Jygdaal's Keep/flowlogic.h",
+		"/C/Users/admin/Dropbox/ProjectAlf/Serious Code/Jygdaal's Keep/flowlogic.cpp",
+		"/C/Users/admin/Dropbox/ProjectAlf/Serious Code/Jygdaal's Keep/gamemap.h",
+		"/C/Users/admin/Dropbox/ProjectAlf/Serious Code/Jygdaal's Keep/gamemap.cpp",
+		"/C/Users/admin/Dropbox/ProjectAlf/Serious Code/Jygdaal's Keep/mapconstants.h",
+		"/C/Users/admin/Dropbox/ProjectAlf/Serious Code/Jygdaal's Keep/build.bat",
+		"/C/Users/admin/Dropbox/ProjectAlf/Serious Code/build.bat",
+		"/C/Users/admin/Dropbox/ProjectAlf/Serious Code/winmain.cpp",
+		"/C/Users/admin/Downloads/FP223B3X13005852_20160527.conf",
+		"/C/Users/admin/AppData/Roaming/Sublime Text 3/Packages/User/Default (Windows).sublime-keymap"
+	],
+	"find":
+	{
+		"height": 34.0
+	},
+	"find_in_files":
+	{
+		"height": 90.0,
+		"where_history":
+		[
+			""
+		]
+	},
+	"find_state":
+	{
+		"case_sensitive": false,
+		"find_history":
+		[
+			"leftdown",
+			"element.width",
+			"\t\n",
+			"state",
+			"state.inactive",
+			"initializeEngine",
+			"state.inactive",
+			"state.input",
+			"console.log(\"Mouse",
+			"state.inactive",
+			"engine.inactive",
+			"state.inactive",
+			"console.log",
+			";\n",
+			"statFont",
+			"statfont",
+			"font",
+			"drawborders",
+			"printmap",
+			"d",
+			";\n",
+			"}\n",
+			"zi",
+			"yi",
+			"xi",
+			"inc(xi)",
+			"1 ",
+			"1  ",
+			"0 ",
+			"enum NUMBERS",
+			"Entityflag_simming",
+			"extern",
+			"mainwindo",
+			"Running",
+			"\t\t",
+			"Running",
+			"tree ",
+			"tree",
+			"person",
+			"render",
+			"getlisten",
+			"getlistener",
+			"printmapstats",
+			"getMapStats",
+			"gridpoint",
+			"setTileType",
+			"Tiletype",
+			"setTilety",
+			"puts(rand()",
+			"settiletype",
+			"system",
+			"rand",
+			"printenvironm",
+			"long",
+			"getgridpointposition",
+			"strncpy",
+			"validateString",
+			"5726",
+			"1024",
+			"2048",
+			"rotationaxis",
+			"getcontext",
+			"shaderProjectionMatrixUniform",
+			"projectionMatrix",
+			"findprey",
+			"makeeater",
+			"beginpath",
+			"path.join",
+			"path + \"\\\\\" + files[f]",
+			"stat",
+			");\n",
+			"vertexPos",
+			"vertexPos ",
+			"vertexPos",
+			");\n",
+			"rendero",
+			"render()",
+			"render(",
+			"render()",
+			"renderObject",
+			"render",
+			"draw",
+			"slowspeed",
+			"cameraspeed",
+			"camera",
+			"cameraspeed",
+			"cameraSpeed",
+			"$.graphics.world.cameraSpeed",
+			"cameraspeed",
+			"worldfocuscoord",
+			"runningtest",
+			"cameraSpeed",
+			"cameraspeed",
+			"$.element.width",
+			"document.width",
+			"canvas.width",
+			"updateborders",
+			"findmapproperties",
+			"graphics.hud.draw",
+			"animate",
+			"objects.animate",
+			"objects",
+			"graphics.objects",
+			"togglegrid",
+			"if($.graphics.hu",
+			"hud",
+			"All",
+			"draw",
+			"$.graphics",
+			"draw",
+			"type",
+			"graphics",
+			"populateCoordinates",
+			"offsetx",
+			"width",
+			"math.ran",
+			"shiftdown",
+			"shift",
+			"populatecoordinates",
+			"first topgridcoord",
+			"hud",
+			"getmapstats",
+			"mapstats",
+			"label",
+			"size",
+			"movetoneighbor",
+			"compare",
+			" comp("
+		],
+		"highlight": true,
+		"in_selection": false,
+		"preserve_case": false,
+		"regex": false,
+		"replace_history":
+		[
+			"bool32 "
+		],
+		"reverse": false,
+		"show_context": true,
+		"use_buffer2": true,
+		"whole_word": false,
+		"wrap": true
+	},
+	"groups":
+	[
+		{
+			"selected": 0,
+			"sheets":
+			[
+				{
+					"buffer": 0,
+					"file": "app.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 19384,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								11132,
+								11132
+							]
+						],
+						"settings":
+						{
+							"bracket_highlighter.busy": false,
+							"bracket_highlighter.locations":
+							{
+								"close":
+								{
+									"1":
+									[
+										11131,
+										11132
+									]
+								},
+								"icon":
+								{
+									"1":
+									[
+										"Packages/BracketHighlighter/icons/curly_bracket.png",
+										"brackethighlighter.default"
+									]
+								},
+								"open":
+								{
+									"1":
+									[
+										10913,
+										10914
+									]
+								},
+								"unmatched":
+								{
+								}
+							},
+							"bracket_highlighter.regions":
+							[
+								"bh_c_define",
+								"bh_c_define_center",
+								"bh_c_define_open",
+								"bh_c_define_close",
+								"bh_c_define_content",
+								"bh_double_quote",
+								"bh_double_quote_center",
+								"bh_double_quote_open",
+								"bh_double_quote_close",
+								"bh_double_quote_content",
+								"bh_default",
+								"bh_default_center",
+								"bh_default_open",
+								"bh_default_close",
+								"bh_default_content",
+								"bh_tag",
+								"bh_tag_center",
+								"bh_tag_open",
+								"bh_tag_close",
+								"bh_tag_content",
+								"bh_unmatched",
+								"bh_unmatched_center",
+								"bh_unmatched_open",
+								"bh_unmatched_close",
+								"bh_unmatched_content",
+								"bh_curly",
+								"bh_curly_center",
+								"bh_curly_open",
+								"bh_curly_close",
+								"bh_curly_content",
+								"bh_single_quote",
+								"bh_single_quote_center",
+								"bh_single_quote_open",
+								"bh_single_quote_close",
+								"bh_single_quote_content",
+								"bh_square",
+								"bh_square_center",
+								"bh_square_open",
+								"bh_square_close",
+								"bh_square_content",
+								"bh_angle",
+								"bh_angle_center",
+								"bh_angle_open",
+								"bh_angle_close",
+								"bh_angle_content",
+								"bh_regex",
+								"bh_regex_center",
+								"bh_regex_open",
+								"bh_regex_close",
+								"bh_regex_content",
+								"bh_round",
+								"bh_round_center",
+								"bh_round_open",
+								"bh_round_close",
+								"bh_round_content"
+							],
+							"c_time":
+							[
+								128,
+								3,
+								99,
+								100,
+								97,
+								116,
+								101,
+								116,
+								105,
+								109,
+								101,
+								10,
+								100,
+								97,
+								116,
+								101,
+								116,
+								105,
+								109,
+								101,
+								10,
+								113,
+								0,
+								67,
+								10,
+								7,
+								225,
+								3,
+								21,
+								9,
+								48,
+								55,
+								11,
+								141,
+								124,
+								113,
+								1,
+								133,
+								113,
+								2,
+								82,
+								113,
+								3,
+								46
+							],
+							"color_scheme": "Packages/User/Color Highlighter/themes/Monokai.tmTheme",
+							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 4770.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 0,
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "bedlam.html",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 168,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								131,
+								131
+							]
+						],
+						"settings":
+						{
+							"bracket_highlighter.busy": false,
+							"bracket_highlighter.locations":
+							{
+								"close":
+								{
+									"1":
+									[
+										124,
+										130
+									]
+								},
+								"icon":
+								{
+									"1":
+									[
+										"Packages/BracketHighlighter/icons/tag.png",
+										"brackethighlighter.default"
+									]
+								},
+								"open":
+								{
+									"1":
+									[
+										101,
+										107
+									]
+								},
+								"unmatched":
+								{
+								}
+							},
+							"bracket_highlighter.regions":
+							[
+								"bh_c_define",
+								"bh_c_define_center",
+								"bh_c_define_open",
+								"bh_c_define_close",
+								"bh_c_define_content",
+								"bh_double_quote",
+								"bh_double_quote_center",
+								"bh_double_quote_open",
+								"bh_double_quote_close",
+								"bh_double_quote_content",
+								"bh_default",
+								"bh_default_center",
+								"bh_default_open",
+								"bh_default_close",
+								"bh_default_content",
+								"bh_tag",
+								"bh_tag_center",
+								"bh_tag_open",
+								"bh_tag_close",
+								"bh_tag_content",
+								"bh_unmatched",
+								"bh_unmatched_center",
+								"bh_unmatched_open",
+								"bh_unmatched_close",
+								"bh_unmatched_content",
+								"bh_curly",
+								"bh_curly_center",
+								"bh_curly_open",
+								"bh_curly_close",
+								"bh_curly_content",
+								"bh_single_quote",
+								"bh_single_quote_center",
+								"bh_single_quote_open",
+								"bh_single_quote_close",
+								"bh_single_quote_content",
+								"bh_square",
+								"bh_square_center",
+								"bh_square_open",
+								"bh_square_close",
+								"bh_square_content",
+								"bh_angle",
+								"bh_angle_center",
+								"bh_angle_open",
+								"bh_angle_close",
+								"bh_angle_content",
+								"bh_regex",
+								"bh_regex_center",
+								"bh_regex_open",
+								"bh_regex_close",
+								"bh_regex_content",
+								"bh_round",
+								"bh_round_center",
+								"bh_round_open",
+								"bh_round_close",
+								"bh_round_content"
+							],
+							"c_time":
+							[
+								128,
+								3,
+								99,
+								100,
+								97,
+								116,
+								101,
+								116,
+								105,
+								109,
+								101,
+								10,
+								100,
+								97,
+								116,
+								101,
+								116,
+								105,
+								109,
+								101,
+								10,
+								113,
+								0,
+								67,
+								10,
+								7,
+								225,
+								3,
+								21,
+								9,
+								48,
+								55,
+								11,
+								141,
+								124,
+								113,
+								1,
+								133,
+								113,
+								2,
+								82,
+								113,
+								3,
+								46
+							],
+							"color_scheme": "Packages/User/Color Highlighter/themes/Monokai.tmTheme",
+							"syntax": "Packages/HTML/HTML.sublime-syntax"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 2,
+					"type": "text"
+				},
+				{
+					"buffer": 2,
+					"file": "perlin.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 10436,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								624,
+								624
+							]
+						],
+						"settings":
+						{
+							"bracket_highlighter.busy": false,
+							"bracket_highlighter.locations":
+							{
+								"close":
+								{
+								},
+								"icon":
+								{
+								},
+								"open":
+								{
+								},
+								"unmatched":
+								{
+									"1":
+									[
+										516,
+										517
+									]
+								}
+							},
+							"bracket_highlighter.regions":
+							[
+								"bh_c_define",
+								"bh_c_define_center",
+								"bh_c_define_open",
+								"bh_c_define_close",
+								"bh_c_define_content",
+								"bh_double_quote",
+								"bh_double_quote_center",
+								"bh_double_quote_open",
+								"bh_double_quote_close",
+								"bh_double_quote_content",
+								"bh_default",
+								"bh_default_center",
+								"bh_default_open",
+								"bh_default_close",
+								"bh_default_content",
+								"bh_tag",
+								"bh_tag_center",
+								"bh_tag_open",
+								"bh_tag_close",
+								"bh_tag_content",
+								"bh_unmatched",
+								"bh_unmatched_center",
+								"bh_unmatched_open",
+								"bh_unmatched_close",
+								"bh_unmatched_content",
+								"bh_curly",
+								"bh_curly_center",
+								"bh_curly_open",
+								"bh_curly_close",
+								"bh_curly_content",
+								"bh_single_quote",
+								"bh_single_quote_center",
+								"bh_single_quote_open",
+								"bh_single_quote_close",
+								"bh_single_quote_content",
+								"bh_square",
+								"bh_square_center",
+								"bh_square_open",
+								"bh_square_close",
+								"bh_square_content",
+								"bh_angle",
+								"bh_angle_center",
+								"bh_angle_open",
+								"bh_angle_close",
+								"bh_angle_content",
+								"bh_regex",
+								"bh_regex_center",
+								"bh_regex_open",
+								"bh_regex_close",
+								"bh_regex_content",
+								"bh_round",
+								"bh_round_center",
+								"bh_round_open",
+								"bh_round_close",
+								"bh_round_content"
+							],
+							"c_time":
+							[
+								128,
+								3,
+								99,
+								100,
+								97,
+								116,
+								101,
+								116,
+								105,
+								109,
+								101,
+								10,
+								100,
+								97,
+								116,
+								101,
+								116,
+								105,
+								109,
+								101,
+								10,
+								113,
+								0,
+								67,
+								10,
+								7,
+								225,
+								3,
+								22,
+								10,
+								49,
+								13,
+								1,
+								249,
+								60,
+								113,
+								1,
+								133,
+								113,
+								2,
+								82,
+								113,
+								3,
+								46
+							],
+							"color_scheme": "Packages/User/Color Highlighter/themes/Monokai.tmTheme",
+							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 1,
+					"type": "text"
+				}
+			]
+		}
+	],
+	"incremental_find":
+	{
+		"height": 23.0
+	},
+	"input":
+	{
+		"height": 31.0
+	},
+	"layout":
+	{
+		"cells":
+		[
+			[
+				0,
+				0,
+				1,
+				1
+			]
+		],
+		"cols":
+		[
+			0.0,
+			1.0
+		],
+		"rows":
+		[
+			0.0,
+			1.0
+		]
+	},
+	"menu_visible": true,
+	"output.exec":
+	{
+		"height": 238.0
+	},
+	"output.find_results":
+	{
+		"height": 0.0
+	},
+	"pinned_build_system": "Packages/User/build-systemstest.sublime-build",
+	"project": "blending-bedlam.sublime-project",
+	"replace":
+	{
+		"height": 42.0
+	},
+	"save_all_on_build": true,
+	"select_file":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_project":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_symbol":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"selected_group": 0,
+	"settings":
+	{
+	},
+	"show_minimap": true,
+	"show_open_files": false,
+	"show_tabs": true,
+	"side_bar_visible": true,
+	"side_bar_width": 145.0,
+	"status_bar_visible": true,
+	"template_settings":
+	{
+	}
+}
