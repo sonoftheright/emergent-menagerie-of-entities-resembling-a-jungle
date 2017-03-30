@@ -362,14 +362,15 @@ objects.push(newSquare2());
 function drawObjects(obs)
 {
     ctx.strokeStyle="black";
-    if(!)
+    //if(!)
     //don't multiply the el width by map scale too, unless you want things to shift to the upper left/lower right
     for(var x = 0; x < objects.length; x++)
     {
-        ctx.rect(el.middleX + (map.focusPoint.x + objects[x].x) * map.scale,
-             el.middleY + (objects[x].x + map.focusPoint.y) * map.scale,
-             objects[x].width  * map.scale,
-             objects[x].height * map.scale);
+        ctx.rect(
+            el.middleX + (map.focusPoint.x + objects[x].x) * map.scale,
+            el.middleY + (objects[x].x + map.focusPoint.y) * map.scale,
+            objects[x].width  * map.scale,
+            objects[x].height * map.scale);
     }
 }
 
@@ -450,8 +451,8 @@ function handleInput()
         	state.input[i] == "leftmousedown" ? 	1 :
         	state.input[i] == "rightmouseup" ?  	1 :
         	state.input[i] == "rightmousedown" ?	1 :
-        	state.input[i] == "mousewheelup" ?  	zoomIn():
-        	state.input[i] == "mousewheeldown" ?	zoomOut():
+        	state.input[i] == "mousewheelup" ?  	zoomOut():
+        	state.input[i] == "mousewheeldown" ?	zoomIn():
         	state.input[i] == "leftdown" ?        	1 :
         	state.input[i] == "leftup" ?      		1 :
         	state.input[i] == "rightdown" ?       	1 :
@@ -492,10 +493,10 @@ function handleInput()
         map.draggedY = 0;
     }
 
-    if(state.controls.rightdown){ map.focusPoint.x -= map.moveSpeedX; state.x++;}
-    if(state.controls.leftdown) { map.focusPoint.x += map.moveSpeedX; state.x++;}
-    if(state.controls.updown)   { map.focusPoint.y += map.moveSpeedY; state.x++;}
-    if(state.controls.downdown) { map.focusPoint.y -= map.moveSpeedY; state.x++;}
+    if(state.controls.rightdown){ map.focusPoint.x -= map.moveSpeedX / map.scale; state.x++;}
+    if(state.controls.leftdown) { map.focusPoint.x += map.moveSpeedX / map.scale; state.x++;}
+    if(state.controls.updown)   { map.focusPoint.y += map.moveSpeedY / map.scale; state.x++;}
+    if(state.controls.downdown) { map.focusPoint.y -= map.moveSpeedY / map.scale; state.x++;}
 
     if(state.x > 0) { state.inactive = 0; } else {state.inactive++;}
     state.input = [];
