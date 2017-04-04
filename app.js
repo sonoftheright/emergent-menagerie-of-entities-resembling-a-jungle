@@ -417,9 +417,9 @@ function zoomIn()
     var factor = 1.05;// * state.controls.mouse.wheel.delta;
     map.scale *= factor;
     //map.focusPoint.x *= factor;
-    map.focusPoint.x += (el.middleX - state.controls.mouse.x) / (map.scale * map.scale);
+    //map.focusPoint.x += (el.middleX - state.controls.mouse.x) / (map.scale * map.scale);
     //map.focusPoint.y *= factor;
-    map.focusPoint.y += (el.middleY - state.controls.mouse.y) / (map.scale * map.scale);
+    //map.focusPoint.y += (el.middleY - state.controls.mouse.y) / (map.scale * map.scale);
     return 1;
 }
 
@@ -430,9 +430,9 @@ function zoomOut()
         var factor = 0.95;// state.controls.mouse.wheel.delta;
         map.scale *= factor;
         //map.focusPoint.x *= factor;
-        map.focusPoint.x += (el.middleX - state.controls.mouse.x) / (map.scale);
+        //map.focusPoint.x += (el.middleX - state.controls.mouse.x) / (map.scale);
         //map.focusPoint.y *= factor;
-        map.focusPoint.y += (el.middleY - state.controls.mouse.y) / (map.scale);
+        //map.focusPoint.y += (el.middleY - state.controls.mouse.y) / (map.scale);
     }
     else
     {
