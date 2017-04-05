@@ -163,15 +163,6 @@
 	},
 	"buffers":
 	[
-		{
-			"file": "app.js",
-			"settings":
-			{
-				"buffer_size": 20236,
-				"encoding": "UTF-8",
-				"line_ending": "Unix"
-			}
-		}
 	],
 	"build_system": "",
 	"build_system_choices":
@@ -233,10 +224,6 @@
 		"side_bar_visible": false,
 		"status_bar_visible": false
 	},
-	"expanded_folders":
-	[
-		"/Users/Benjamin/Dropbox/emergent-menagerie-of-entities-resembling-a-jungle"
-	],
 	"file_history":
 	[
 		"/Users/Benjamin/Dropbox/emergent-menagerie-of-entities-resembling-a-jungle/app.js",
@@ -370,7 +357,7 @@
 	],
 	"find":
 	{
-		"height": 35.0
+		"height": 22.0
 	},
 	"find_in_files":
 	{
@@ -531,45 +518,14 @@
 	"groups":
 	[
 		{
-			"selected": 0,
 			"sheets":
 			[
-				{
-					"buffer": 0,
-					"file": "app.js",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 20236,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								13050,
-								13050
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax",
-							"tab_size": 4,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 5498.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 0,
-					"type": "text"
-				}
 			]
 		}
 	],
 	"incremental_find":
 	{
-		"height": 23.0
+		"height": 22.0
 	},
 	"input":
 	{
@@ -607,10 +563,10 @@
 		"height": 0.0
 	},
 	"pinned_build_system": "Packages/User/build-systemstest.sublime-build",
-	"project": "blending-bedlam.sublime-project",
+	"project": "index.sublime-project",
 	"replace":
 	{
-		"height": 42.0
+		"height": 40.0
 	},
 	"save_all_on_build": true,
 	"select_file":

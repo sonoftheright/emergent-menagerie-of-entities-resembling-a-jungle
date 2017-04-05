@@ -48,8 +48,8 @@ function createEventListeners()
     window.addEventListener('mousemove', function (event)
     {
         var pos = findPos(el);
-        state.controls.mouse.x = event.pageX - pos.x - hud.buffer;
-        state.controls.mouse.y = event.pageY - pos.y - hud.buffer;
+        state.controls.mouse.x = event.pageX - pos.x;
+        state.controls.mouse.y = event.pageY - pos.y;
         // console.log("mouse.x: " + state.controls.mouse.x);
         // console.log("mouse.y: " + state.controls.mouse.y);
     });
@@ -158,11 +158,15 @@ function initializeMap()
     map.moveSpeedX   = 5;
     map.moveSpeedY   = 5;
     map.scale = 1.0;
+    map.scaleDifference = 0;
 }
 initializeMap();
 
 function refreshMap()
 {
+    map.focusPoint.x = el.middleX;
+    map.focusPoint.y = el.middleY;
+    map.scale = 1.0;
 }
 
 /*#####################*/
@@ -339,25 +343,23 @@ function addStatToHud( stat )
 
 /*   D R A W I N G   */
 
-function newSquare (){
+function newSquare ( x, y, w, h){
 return {
-    x: 0,
-    y: 0,
-    height: 10,
-    width: 10
-    };
-}
-function newSquare2(){
-return {
-    x: 20,
-    y: 20,
-    height: 10,
-    width: 10
+    x: x,
+    y: y,
+    height: h,
+    width: w
     };
 }
 
-objects.push(newSquare());
-objects.push(newSquare2());
+objects.push(newSquare(-20, -20, 10, 10));
+objects.push(newSquare(-10, -10, 10, 10));
+objects.push(newSquare(0, 0, 10, 10));
+objects.push(newSquare(0, -10, 10, 10));
+objects.push(newSquare(-10, 0, 10, 10));
+objects.push(newSquare(10, 10, 10, 10));
+objects.push(newSquare(-20, 10, 10, 10));
+objects.push(newSquare(10, -20, 10, 10));
 
 function drawObjects(obs)
 {
@@ -367,8 +369,8 @@ function drawObjects(obs)
     for(var x = 0; x < objects.length; x++)
     {
         ctx.rect(
-            el.middleX + (map.focusPoint.x + objects[x].x) * map.scale,
-            el.middleY + (objects[x].x + map.focusPoint.y) * map.scale,
+            (map.focusPoint.x + objects[x].x) * map.scale,
+            (map.focusPoint.y + objects[x].y) * map.scale,
             objects[x].width  * map.scale,
             objects[x].height * map.scale);
     }
@@ -414,12 +416,29 @@ function mouseUp()
 
 function zoomIn()
 {
-    var factor = 1.05;// * state.controls.mouse.wheel.delta;
-    map.scale *= factor;
-    //map.focusPoint.x *= factor;
-    //map.focusPoint.x += (el.middleX - state.controls.mouse.x) / (map.scale * map.scale);
-    //map.focusPoint.y *= factor;
-    //map.focusPoint.y += (el.middleY - state.controls.mouse.y) / (map.scale * map.scale);
+    var factor = 0.05;// * state.controls.mouse.wheel.delta;
+    //var angleX = Math.atan(map.scale / (state.controls.mouse.x - el.middleX));
+    //var angleY = Math.atan(map.scale / (state.controls.mouse.y - el.middleY));
+    //map.motionX = (1 / (Math.tan(angleX) / map.scaleDifference));
+    //map.motionY = (1 / (Math.tan(angleY) / map.scaleDifference));
+    //map.focusPoint.x += map.motionX;
+    //map.focusPoint.y += map.motionY;
+    map.scaleDifference = (map.scale + factor) - map.scale;
+    map.scaleDiffRatio = map.scaleDifference / map.scale;
+    map.motionX = (state.controls.mouse.x - el.middleX) * (map.scaleDiffRatio);
+    map.motionY = (state.controls.mouse.y - el.middleY) * (map.scaleDiffRatio);
+    map.focusPoint.x -= (map.focusPoint.x * map.scaleDiffRatio) + map.motionX/*map.motionX + (el.middleX /** (map.scale + factor))*/; 
+    map.focusPoint.y -= (map.focusPoint.y * map.scaleDiffRatio) + map.motionY/*map.motionY + (el.middleY /** (map.scale + factor))*/;
+    console.log("map.scale: " + map.scale); 
+    console.log("scaleDifference: " + map.scaleDifference);
+    console.log("motionY: " + map.motionY);
+    console.log("motionX: " + map.motionX);
+    console.log("focusPointY: " + map.focusPoint.y);
+    console.log("focusPointX: " + map.focusPoint.x);
+    console.log("mouseX: " + state.controls.mouse.x);
+    console.log("mouseY: " + state.controls.mouse.y); 
+    map.scale += factor;
+    console.log("new map.scale: " + map.scale);
     return 1;
 }
 
@@ -427,12 +446,31 @@ function zoomOut()
 {
     if(map.scale > 0.005)
     {
-        var factor = 0.95;// state.controls.mouse.wheel.delta;
-        map.scale *= factor;
-        //map.focusPoint.x *= factor;
-        //map.focusPoint.x += (el.middleX - state.controls.mouse.x) / (map.scale);
-        //map.focusPoint.y *= factor;
-        //map.focusPoint.y += (el.middleY - state.controls.mouse.y) / (map.scale);
+        var factor = 0.05;// state.controls.mouse.wheel.delta;
+        //var angleX = Math.atan(map.scale / (el.middleX - state.controls.mouse.x));
+        //var angleY = Math.atan(map.scale / (el.middleY - state.controls.mouse.y));
+        //map.scaleDifference = map.scale - (map.scale - factor);
+        //map.motionX = (1 / (Math.tan(angleX) / map.scaleDifference));
+        //map.motionY = (1 / (Math.tan(angleY) / map.scaleDifference));
+        //map.focusPoint.x += map.motionX;
+        //map.focusPoint.y += map.motionY;
+        map.scaleDifference = map.scale - (map.scale - factor);
+        map.scaleDiffRatio = map.scaleDifference / map.scale;
+        map.motionX = (state.controls.mouse.x - el.middleX) * (map.scaleDiffRatio);
+        map.motionY = (state.controls.mouse.y - el.middleY) * (map.scaleDiffRatio);
+        map.focusPoint.x += (map.focusPoint.x * map.scaleDiffRatio) + map.motionX /*+ (el.middleX /** (map.scale - factor))*/; 
+        map.focusPoint.y += (map.focusPoint.y * map.scaleDiffRatio) + map.motionY /*+ (el.middleY /** (map.scale - factor))*/;
+        console.log("map.scale: " + map.scale); 
+        console.log("scaleDifference: " + map.scaleDifference);
+        console.log("motionY: " + map.motionY);
+        console.log("motionX: " + map.motionX);
+        console.log("focusPointY: " + map.focusPoint.y);
+        console.log("focusPointX: " + map.focusPoint.x);
+        console.log("mouseX: " + state.controls.mouse.x);
+        console.log("mouseY: " + state.controls.mouse.y);
+        map.scale -= factor;
+        console.log("new map.scale: " + map.scale);
+
     }
     else
     {
@@ -576,6 +614,10 @@ function initializeHUD()
     addStatToHud({"text": "el.middleX: ", "value": function() {return el.middleX;}, style: "item" });
     addStatToHud({"text": "el.middleY: ", "value": function() {return el.middleY;}, style: "item" });
     addStatToHud({"text": "map.scale: ", "value": function() {return map.scale;}, style: "item" });
+    addStatToHud({"text": "map.motionX: ", "value": function() {return map.motionX;}, style: "item" });
+    addStatToHud({"text": "map.motionY: ", "value": function() {return map.motionY;}, style: "item" });
+    addStatToHud({"text": "map.scaleDifference: ", "value": function() {return map.scaleDifference;}, style: "item" });
+    addStatToHud({"text": "map.scaleDiffRatio: ", "value": function() {return map.scaleDiffRatio;}, style: "item" });
     addStatToHud({"text": "     I N P U T", "value": function() {return "";}, style: "subheader" });
     addStatToHud({"text": "mouse.x: ", "value": function() {return state.controls.mouse.x;}, style: "item" });
     addStatToHud({"text": "mouse.y: ", "value": function() {return state.controls.mouse.y;}, style: "item" });
@@ -607,3 +649,4 @@ function loop()
 };
 
 initializeEngine();
+refreshMap();
