@@ -354,12 +354,12 @@ return {
 
 objects.push(newSquare(-20, -20, 10, 10));
 objects.push(newSquare(-10, -10, 10, 10));
-objects.push(newSquare(0, 0, 10, 10));
-objects.push(newSquare(0, -10, 10, 10));
-objects.push(newSquare(-10, 0, 10, 10));
-objects.push(newSquare(10, 10, 10, 10));
-objects.push(newSquare(-20, 10, 10, 10));
-objects.push(newSquare(10, -20, 10, 10));
+objects.push(newSquare(  0,   0, 10, 10));
+objects.push(newSquare(  0, -10, 10, 10));
+objects.push(newSquare(-10,   0, 10, 10));
+objects.push(newSquare( 10,  10, 10, 10));
+objects.push(newSquare(-20,  10, 10, 10));
+objects.push(newSquare( 10, -20, 10, 10));
 
 function drawObjects(obs)
 {
@@ -509,7 +509,6 @@ function handleInput()
         	state.input[i] == "escdown" ?       	1 :
         	state.input[i] == "shiftup" ?			1 :
         	state.input[i] == "shiftdown" ?     	1 : 0;
-
 	}
 
 
@@ -535,10 +534,10 @@ function handleInput()
         map.draggedY = 0;
     }
 
-    if(state.controls.rightdown){ map.focusPoint.x -= map.moveSpeedX / map.scale; state.x++;}
-    if(state.controls.leftdown) { map.focusPoint.x += map.moveSpeedX / map.scale; state.x++;}
-    if(state.controls.updown)   { map.focusPoint.y += map.moveSpeedY / map.scale; state.x++;}
-    if(state.controls.downdown) { map.focusPoint.y -= map.moveSpeedY / map.scale; state.x++;}
+    if(state.controls.rightdown){ map.focusPoint.x -= map.moveSpeedX / map.scale; state.x++; }
+    if(state.controls.leftdown) { map.focusPoint.x += map.moveSpeedX / map.scale; state.x++; }
+    if(state.controls.updown)   { map.focusPoint.y += map.moveSpeedY / map.scale; state.x++; }
+    if(state.controls.downdown) { map.focusPoint.y -= map.moveSpeedY / map.scale; state.x++; }
 
     if(state.x > 0) { state.inactive = 0; } else {state.inactive++;}
     state.input = [];
@@ -621,6 +620,8 @@ function initializeHUD()
     addStatToHud({"text": "     I N P U T", "value": function() {return "";}, style: "subheader" });
     addStatToHud({"text": "mouse.x: ", "value": function() {return state.controls.mouse.x;}, style: "item" });
     addStatToHud({"text": "mouse.y: ", "value": function() {return state.controls.mouse.y;}, style: "item" });
+    addStatToHud({"text": "relative mouse.x: ", "value": function() {return state.controls.mouse.x - el.middleX;}, style: "item" });
+    addStatToHud({"text": "relative mouse.y: ", "value": function() {return state.controls.mouse.y - el.middleY;}, style: "item" });
 }
 
 function initializeEngine()

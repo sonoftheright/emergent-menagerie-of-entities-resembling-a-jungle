@@ -167,7 +167,7 @@
 			"file": "app.js",
 			"settings":
 			{
-				"buffer_size": 20236,
+				"buffer_size": 23022,
 				"encoding": "UTF-8",
 				"line_ending": "Unix"
 			}
@@ -385,6 +385,10 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"))*/;",
+			"hud.buffer",
+			"mouse.x",
+			"middleX",
 			"leftdown",
 			"element.width",
 			"\t\n",
@@ -508,11 +512,7 @@
 			"hud",
 			"getmapstats",
 			"mapstats",
-			"label",
-			"size",
-			"movetoneighbor",
-			"compare",
-			" comp("
+			"label"
 		],
 		"highlight": true,
 		"in_selection": false,
@@ -540,15 +540,15 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 20236,
+						"buffer_size": 23022,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								13050,
-								13050
+								14033,
+								14033
 							]
 						],
 						"settings":
@@ -558,7 +558,7 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 5498.0,
+						"translation.y": 5722.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 0,
@@ -648,7 +648,7 @@
 	"show_open_files": false,
 	"show_tabs": true,
 	"side_bar_visible": true,
-	"side_bar_width": 145.0,
+	"side_bar_width": 174.0,
 	"status_bar_visible": true,
 	"template_settings":
 	{
