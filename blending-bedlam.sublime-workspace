@@ -4,6 +4,10 @@
 		"selected_items":
 		[
 			[
+				"getGraphics",
+				"getGraphicsCoordinatesX"
+			],
+			[
 				"add",
 				"addStatToHud"
 			],
@@ -167,7 +171,7 @@
 			"file": "app.js",
 			"settings":
 			{
-				"buffer_size": 23507,
+				"buffer_size": 23002,
 				"encoding": "UTF-8",
 				"line_ending": "Unix"
 			}
@@ -235,7 +239,7 @@
 	},
 	"expanded_folders":
 	[
-		"/Users/Benjamin/Dropbox/emergent-menagerie-of-entities-resembling-a-jungle"
+		"/C/Users/admin/Dropbox/emergent-menagerie-of-entities-resembling-a-jungle"
 	],
 	"file_history":
 	[
@@ -385,13 +389,31 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"getEngCoordsY",
+			"getGraphicsCoordinates",
+			"updateMap",
+			"initializemap",
+			"relative",
+			"updatemap",
+			"relative",
+			"getrelative",
+			"state.controls.mouse.rx",
+			"focuspoint.x",
+			"map.focusPoint.x",
+			"updatemap",
+			"refreshhud",
+			"newSmartSquare",
+			"update",
 			"refreshMap",
-			"initializeengine",
-			"initializem",
+			"initializeMap",
 			"initialize",
-			"f()",
-			");",
-			"map.focusPoint",
+			"map.right",
+			"map.top",
+			"el =",
+			"el.",
+			"newSquare",
+			"map.scale",
+			"map.",
 			"))*/;",
 			"hud.buffer",
 			"mouse.x",
@@ -494,25 +516,7 @@
 			"canvas.width",
 			"updateborders",
 			"findmapproperties",
-			"graphics.hud.draw",
-			"animate",
-			"objects.animate",
-			"objects",
-			"graphics.objects",
-			"togglegrid",
-			"if($.graphics.hu",
-			"hud",
-			"All",
-			"draw",
-			"$.graphics",
-			"draw",
-			"type",
-			"graphics",
-			"populateCoordinates",
-			"offsetx",
-			"width",
-			"math.ran",
-			"shiftdown"
+			"graphics.hud.draw"
 		],
 		"highlight": true,
 		"in_selection": false,
@@ -540,25 +544,72 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 23507,
+						"buffer_size": 23002,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								23112,
-								23112
+								14948,
+								14948
 							]
 						],
 						"settings":
 						{
+							"c_time":
+							[
+								128,
+								3,
+								99,
+								100,
+								97,
+								116,
+								101,
+								116,
+								105,
+								109,
+								101,
+								10,
+								100,
+								97,
+								116,
+								101,
+								116,
+								105,
+								109,
+								101,
+								10,
+								113,
+								0,
+								67,
+								10,
+								7,
+								225,
+								4,
+								10,
+								11,
+								12,
+								29,
+								10,
+								71,
+								218,
+								113,
+								1,
+								133,
+								113,
+								2,
+								82,
+								113,
+								3,
+								46
+							],
 							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax",
 							"tab_size": 4,
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 7643.0,
+						"translation.y": 8648.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 0,
@@ -569,7 +620,7 @@
 	],
 	"incremental_find":
 	{
-		"height": 21.0
+		"height": 27.0
 	},
 	"input":
 	{
@@ -610,7 +661,7 @@
 	"project": "blending-bedlam.sublime-project",
 	"replace":
 	{
-		"height": 42.0
+		"height": 50.0
 	},
 	"save_all_on_build": true,
 	"select_file":
@@ -648,7 +699,7 @@
 	"show_open_files": false,
 	"show_tabs": true,
 	"side_bar_visible": true,
-	"side_bar_width": 124.0,
+	"side_bar_width": 159.0,
 	"status_bar_visible": true,
 	"template_settings":
 	{
