@@ -24,11 +24,11 @@ var state =
     input: [],
     controls:
     {
-        mouse: 
+        mouse:
         {
             x: 0,
             y: 0,
-            wheel: 
+            wheel:
             {
                 delta: 0
             }
@@ -165,22 +165,22 @@ function initializeMap()
 
 initializeMap();
 
-function setFocusPoint(unitsX, unitsY) 
-{ 
+function setFocusPoint(unitsX, unitsY)
+{
     map.focusPoint.x = unitsX;
     map.focusPoint.y = unitsY;
 }
 
-function moveFocusPointInGraphics(unitsX, unitsY) 
-{ 
+function moveFocusPointInGraphics(unitsX, unitsY)
+{
     map.focusPoint.x += unitsX;
     map.focusPoint.y += unitsY;
 }
 
 function moveFocusPointInEngine(unitsX, unitsY)
 {
-    map.focusPoint.x += unitsX / map.scale; 
-    map.focusPoint.y += unitsY / map.scale; 
+    map.focusPoint.x += unitsX / map.scale;
+    map.focusPoint.y += unitsY / map.scale;
 }
 
 function resetMap()
@@ -191,13 +191,13 @@ function resetMap()
     map.scale = 1.0;
 }
 
-function getGfxCoordsX(engineX) { return map.focusPoint.x - (engineX / map.scale); }
-function getGfxCoordsY(engineY) { return map.focusPoint.y - (engineY / map.scale); }
+function getGfxCoordsX(engineX) { return map.focusPoint.x + (engineX * map.scale); }
+function getGfxCoordsY(engineY) { return map.focusPoint.y + (engineY * map.scale); }
 
-function getEngCoordsX(gfxX) { return (gfxX * map.scale) - map.focusPoint.x; }
-function getEngCoordsY(gfxY) { return (gfxY * map.scale) - map.focusPoint.y; }
+function getEngCoordsX(gfxX) { return ((gfxX - map.focusPoint.x) / map.scale); }
+function getEngCoordsY(gfxY) { return ((gfxY - map.focusPoint.y) / map.scale); }
 
-function updateMap() 
+function updateMap()
 {
 
 }
@@ -378,7 +378,7 @@ function addStatToHud( stat )
 /*   D R A W I N G   */
 
 function newSquare ( x, y, w, h)
-{ 
+{
     return {
         x: x,
         y: y,
@@ -387,13 +387,14 @@ function newSquare ( x, y, w, h)
     };
 }
 
-function newSmartSquare( x, y, w, h, f)
+function newSmartSquare( x, y, w, h, d, f)
 {
     return {
         x: x,
         y: y,
         height: h,
         width: w,
+        coordType: d,
         f: f
     };
 }
@@ -414,20 +415,37 @@ function drawObjects(obs)
     //don't multiply the el width by map scale too, unless you want things to shift to the upper left/lower right
     for(var x = 0; x < objects.length; x++)
     {
-        ctx.rect(
-            map.focusPoint.x + (objects[x].x * map.scale),
-            map.focusPoint.y + (objects[x].y * map.scale),
-            objects[x].width  * map.scale,
-            objects[x].height * map.scale);
+        ctx.rect
+        (
+            getGfxCoordsX(objects[x].x),    // convert engine coords to graphics context
+            getGfxCoordsY(objects[x].y),
+            objects[x].width  * map.scale,  // scale the object's subjective size
+            objects[x].height * map.scale
+        );
     }
     for(var x = 0; x < smartObjects.length; x++)
     {
         smartObjects[x].f();
-        ctx.rect(
-            map.focusPoint.x + (smartObjects[x].x * map.scale),
-            map.focusPoint.y + (smartObjects[x].y * map.scale),
-            smartObjects[x].width * map.scale,
-            smartObjects[x].height * map.scale);
+        if(smartObjects[x].coordType == "eng")
+        {
+            ctx.rect
+            (
+                    getGfxCoordsX(smartObjects[x].x),
+                    getGfxCoordsY(smartObjects[x].y),
+                    smartObjects[x].width * map.scale,
+                    smartObjects[x].height * map.scale
+            );
+        }
+        else
+        {
+            ctx.rect
+            (
+                    smartObjects[x].x,                  // draw in coordinates already adjusted to context
+                    smartObjects[x].y,
+                    smartObjects[x].width * map.scale,  // .. but still scale it. 
+                    smartObjects[x].height * map.scale
+            );
+        }
     }
 }
 
@@ -475,16 +493,25 @@ function zoomIn()
 {
     //map.focusPoint.x += state.controls.mouse.x - (state.controls.mouse.x * map.scale);
     //map.focusPoint.y += state.controls.mouse.y - (state.controls.mouse.y * map.scale);
-    if(map.scale < 30) 
-    { 
-        map.scale *= 1.1; 
+    if(map.scale < 30)
+    {
+        var engMouseX = getEngCoordsX(state.controls.mouse.x);
+        var engMouseY = getEngCoordsY(state.controls.mouse.y);
+        map.focusPoint.x += engMouseX - (engMouseX * (map.scale * 1.1));
+        map.focusPoint.y += engMouseY - (engMouseY * (map.scale * 1.1));
+
+        map.scale *= 1.1;
     }
 }
 
 function zoomOut()
 {
     if(map.scale > 0.2)
-    { 
+    {
+        var engMouseX = getEngCoordsX(state.controls.mouse.x);
+        var engMouseY = getEngCoordsY(state.controls.mouse.y);
+        map.focusPoint.x += engMouseX - (engMouseX * (map.scale / 1.1));
+        map.focusPoint.y += engMouseY - (engMouseY * (map.scale / 1.1));
         map.scale /= 1.1;
     }
 }
@@ -663,12 +690,16 @@ function loop()
 
 initializeEngine();
 resetMap();
-var leftEdgeSquare = newSmartSquare((map.focusPoint.x - hud.buffer), map.focusPoint.y + (el.height / 2), 10, 10, 
-                                    function() {
-                                        leftEdgeSquare.x = (map.engineX + (el.width / 2) + hud.buffer) / map.scale;
-                                        leftEdgeSquare.y = (map.engineY + (el.height)) / map.scale;
-                                       // leftEdgeSquare.y = el.height / 2;
-                                     //   console.log("leftEdgeSquare.x: " + leftEdgeSquare.x + ", leftEdgeSquare.y: " + leftEdgeSquare.y);
-                                    }
+var leftEdgeSquare =
+    newSmartSquare((map.focusPoint.x - hud.buffer),
+                    el.middleY,
+                    10,
+                    10,
+                    "gfx",
+                    function()
+                    {
+                        this.x = hud.buffer + (this.width / 2);
+                       // this.y = el.middleY;
+                    }
 );
 smartObjects.push(leftEdgeSquare);
