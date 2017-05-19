@@ -379,12 +379,15 @@ function addStatToHud( stat )
 
 function newSquare ( x, y, w, h)
 {
-    return {
+    var number = objects.length;
+    var square = {
         x: x,
         y: y,
         height: h,
         width: w
     };
+    addStatToHud({"text": "square" + number + " graphics coords: ", "value": function() { return "x: " + getGfxCoordsX(square.x) + " y: " + getGfxCoordsX(square.y); }, style: "item"});
+    return square;
 }
 
 function newSmartSquare( x, y, w, h, d, f)
@@ -399,14 +402,6 @@ function newSmartSquare( x, y, w, h, d, f)
     };
 }
 
-objects.push(newSquare(-20, -20, 10, 10));
-objects.push(newSquare(-10, -10, 10, 10));
-objects.push(newSquare(  0,   0, 10, 10));
-objects.push(newSquare(  0, -10, 10, 10));
-objects.push(newSquare(-10,   0, 10, 10));
-objects.push(newSquare( 10,  10, 10, 10));
-objects.push(newSquare(-20,  10, 10, 10));
-objects.push(newSquare( 10, -20, 10, 10));
 
 function drawObjects(obs)
 {
@@ -485,67 +480,74 @@ function updateGraphics()
 
 function mouseUp()
 {
-	//do something here when we have object tracking data structure set up
-	return 1;
+    //do something here when we have object tracking data structure set up
+    return 1;
 }
 
 function zoomIn()
 {
-    //map.focusPoint.x += state.controls.mouse.x - (state.controls.mouse.x * map.scale);
-    //map.focusPoint.y += state.controls.mouse.y - (state.controls.mouse.y * map.scale);
     if(map.scale < 30)
     {
-        var engMouseX = getEngCoordsX(state.controls.mouse.x);
-        var engMouseY = getEngCoordsY(state.controls.mouse.y);
-        map.focusPoint.x += engMouseX - (engMouseX * (map.scale * 1.1));
-        map.focusPoint.y += engMouseY - (engMouseY * (map.scale * 1.1));
+        var engineX1 = getEngCoordsX(state.controls.mouse.x);
+        var engineY1 = getEngCoordsY(state.controls.mouse.y);
+        map.scale += 1;
+        var engineX2 = getEngCoordsX(state.controls.mouse.x);
+        var engineY2 = getEngCoordsY(state.controls.mouse.y);
+        map.scaleDifferenceX = engineX1 - engineX2;
+        map.scaleDifferenceY = engineY1 - engineX2;
 
-        map.scale *= 1.1;
+        map.focusPoint.x += (engineX1 - engineX2) / map.scale;
+        map.focusPoint.y += (engineX1 - engineX2) / map.scale;
     }
 }
 
 function zoomOut()
 {
-    if(map.scale > 0.2)
+    if(map.scale > 1)
     {
-        var engMouseX = getEngCoordsX(state.controls.mouse.x);
-        var engMouseY = getEngCoordsY(state.controls.mouse.y);
-        map.focusPoint.x += engMouseX - (engMouseX * (map.scale / 1.1));
-        map.focusPoint.y += engMouseY - (engMouseY * (map.scale / 1.1));
-        map.scale /= 1.1;
+        var engineX1 = getEngCoordsX(state.controls.mouse.x);
+        var engineY1 = getEngCoordsY(state.controls.mouse.y);
+        map.scale -= 1;
+        var engineX2 = getEngCoordsX(state.controls.mouse.x);
+        var engineY2 = getEngCoordsY(state.controls.mouse.y);
+        map.scaleDifferenceX = (engineX1 - engineX2);
+        map.scaleDifferenceY = (engineY1 - engineX2);
+
+        map.focusPoint.x += (engineX1 - engineX2) / map.scale;
+        map.focusPoint.y += (engineX1 - engineX2) / map.scale;
     }
 }
 
 function handleInput()
 {
-	state.x = 0;
+    state.x = 0;
     for(var i = 0; i < state.input.length; i++)
     {
-		var activity = state.inactive;
+        var activity = state.inactive;
         //functions here must return an integer (1 or 0 are preferred) for activity tracking purposes
         state.x +=
-        	state.input[i] == "resize"         ? fitElementSize() :
-        	state.input[i] == "leftmouseup"    ? mouseUp()        :
-        	state.input[i] == "leftmousedown"  ? 1 :
-        	state.input[i] == "rightmouseup"   ? 1 :
-        	state.input[i] == "rightmousedown" ? 1 :
-        	state.input[i] == "mousewheelup"   ? zoomOut()        :
-        	state.input[i] == "mousewheeldown" ? zoomIn()         :
-        	state.input[i] == "leftdown"       ? 1 :
-        	state.input[i] == "leftup"         ? 1 :
-        	state.input[i] == "rightdown"      ? 1 :
-        	state.input[i] == "rightup"        ? 1 :
-        	state.input[i] == "downdown"       ? 1 :
-        	state.input[i] == "downup"         ? 1 :
-        	state.input[i] == "upup"           ? 1 :
-        	state.input[i] == "updown"         ? 1 :
-        	state.input[i] == "spacedown"      ? 1 :
-        	state.input[i] == "spaceup"        ? 1 :
-        	state.input[i] == "escup"          ? 1 :
-        	state.input[i] == "escdown"        ? 1 :
-        	state.input[i] == "shiftup"        ? 1 :
-        	state.input[i] == "shiftdown"      ? 1 : 0;
-	}
+            state.input[i] == "resize"         ? fitElementSize() :
+            state.input[i] == "leftmouseup"    ? mouseUp()        :
+            state.input[i] == "leftmousedown"  ? 1 :
+            state.input[i] == "rightmouseup"   ? 1 :
+            state.input[i] == "rightmousedown" ? 1 :
+            state.input[i] == "mousewheelup"   ? zoomOut()        :
+            state.input[i] == "mousewheeldown" ? zoomIn()         :
+            state.input[i] == "leftdown"       ? 1 :
+            state.input[i] == "leftup"         ? 1 :
+            state.input[i] == "rightdown"      ? 1 :
+            state.input[i] == "rightup"        ? 1 :
+            state.input[i] == "downdown"       ? 1 :
+            state.input[i] == "downup"         ? 1 :
+            state.input[i] == "upup"           ? 1 :
+            state.input[i] == "updown"         ? 1 :
+            state.input[i] == "spacedown"      ? 1 :
+            state.input[i] == "spaceup"        ? 1 :
+            state.input[i] == "escup"          ? 1 :
+            state.input[i] == "escdown"        ? 1 :
+            state.input[i] == "shiftup"        ? 1 :
+            state.input[i] == "shiftdown"      ? 1 : 0;
+    }
 
     if(state.input.includes("leftmousedown") && state.controls.mouse.leftmousedown)
     {
@@ -584,27 +586,27 @@ var engine = {};
 function refreshEngineVariables()
 {
     engine.running = true;
-	engine.frame = 0;
-	engine.framerate = 0;
-	engine.framepoll = 0;
-	engine.framepollperiod = 5;
-	engine.frameratereporting = true;
+    engine.frame = 0;
+    engine.framerate = 0;
+    engine.framepoll = 0;
+    engine.framepollperiod = 5;
+    engine.frameratereporting = true;
 }
 
 function calculateFrameRate()
 {
-	if(engine.frame % engine.framepollperiod == 0)
+    if(engine.frame % engine.framepollperiod == 0)
     {
-    	engine.framerate = 1000 / (engine.framepoll / engine.framepollperiod);
-    	engine.framepoll = 0;
+        engine.framerate = 1000 / (engine.framepoll / engine.framepollperiod);
+        engine.framepoll = 0;
     }
     else
     {
-    	engine.framepoll += engine.frameLength;
+        engine.framepoll += engine.frameLength;
     }
     // if(engine.frame % 100 == 0 && engine.frameratereporting)
     // {
-    // 	console.log("Engine is running at " + engine.framerate + " frames per second.");
+    //  console.log("Engine is running at " + engine.framerate + " frames per second.");
     // }
 }
 
@@ -640,26 +642,21 @@ function initializeHUD()
     addStatToHud({"text": "framerate: ", "value": function() {return engine.framerate + " FPS";}, style: "item" });
     addStatToHud({"text": "Frames inactive: ", "value": function() {return state.inactive + " frames";}, style: "item" });
     addStatToHud({"text": "state.x: ", "value": function() {return state.x;}, style: "item" });
-    addStatToHud({"text": "      H U D", "value": function() {return "";}, style: "subheader" });
-    addStatToHud({"text": "columns: ", "value": function() {return hud.statColumns;}, style: "item" });
-    addStatToHud({"text": "column width: ", "value": function() {return hud.statColumnWidth.toFixed(2);}, style: "item"});
+    addStatToHud({"text": "     I N P U T", "value": function() {return "";}, style: "subheader" });
+    addStatToHud({"text": "focusPointXGfx:", "value": function() {return getGfxCoordsX(map.focusPoint.x);}, style: "item" });
+    addStatToHud({"text": "focusPointYGfx:", "value": function() {return getGfxCoordsY(map.focusPoint.y);}, style: "item" });
     addStatToHud({"text": "      M A P", "value": function() {return "";}, style: "subheader" });
     addStatToHud({"text": "focusX: ", "value": function() {return map.focusPoint.x;}, style: "item" });
     addStatToHud({"text": "focusY: ", "value": function() {return map.focusPoint.y;}, style: "item" });
     addStatToHud({"text": "el.middleX: ", "value": function() {return el.middleX;}, style: "item" });
     addStatToHud({"text": "el.middleY: ", "value": function() {return el.middleY;}, style: "item" });
     addStatToHud({"text": "map.scale: ", "value": function() {return map.scale;}, style: "item" });
-    addStatToHud({"text": "map.scaleDifference: ", "value": function() {return map.scaleDifference;}, style: "item" });
-    addStatToHud({"text": "map.scaleDiffRatio: ", "value": function() {return map.scaleDiffRatio;}, style: "item" });
-    addStatToHud({"text": "     I N P U T", "value": function() {return "";}, style: "subheader" });
     addStatToHud({"text": "mouse.x: ", "value": function() {return state.controls.mouse.x;}, style: "item" });
-    addStatToHud({"text": "mouse.y: ", "value": function() {return state.controls.mouse.y;}, style: "item" });
-    addStatToHud({"text": "engineX: ", "value": function() {return map.engineX;}, style: "item" });
-    addStatToHud({"text": "engineY: ", "value": function() {return map.engineY;}, style: "item" });
-    addStatToHud({"text": "focusPointXGfx:", "value": function() {return getGfxCoordsX(map.focusPoint.x);}, style: "item" });
-    addStatToHud({"text": "focusPointYGfx:", "value": function() {return getGfxCoordsY(map.focusPoint.y);}, style: "item" });
     addStatToHud({"text": "engineMouseX: ", "value": function() {return getEngCoordsX(state.controls.mouse.x);}, style: "item" });
+    addStatToHud({"text": "mouse.y: ", "value": function() {return state.controls.mouse.y;}, style: "item" });
     addStatToHud({"text": "engineMouseY: ", "value": function() {return getEngCoordsY(state.controls.mouse.y);}, style: "item" });
+    addStatToHud({"text": "differenceXAfterZoom: ", "value": function() {return map.scaleDifferenceX;}, style: "item" });
+    addStatToHud({"text": "differenceYAfterZoom: ", "value": function() {return map.scaleDifferenceY;}, style: "item" });
 }
 
 function initializeEngine()
@@ -690,6 +687,7 @@ function loop()
 
 initializeEngine();
 resetMap();
+
 var leftEdgeSquare =
     newSmartSquare((map.focusPoint.x - hud.buffer),
                     el.middleY,
@@ -702,4 +700,14 @@ var leftEdgeSquare =
                        // this.y = el.middleY;
                     }
 );
+
+objects.push(newSquare(-20, -20, 10, 10));
+objects.push(newSquare(-10, -10, 10, 10));
+objects.push(newSquare(  0,   0, 10, 10));
+objects.push(newSquare(  0, -10, 10, 10));
+objects.push(newSquare(-10,   0, 10, 10));
+objects.push(newSquare( 10,  10, 10, 10));
+objects.push(newSquare(-20,  10, 10, 10));
+objects.push(newSquare( 10, -20, 10, 10));
+
 smartObjects.push(leftEdgeSquare);
