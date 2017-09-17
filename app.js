@@ -531,8 +531,8 @@ function handleInput()
             state.input[i] == "leftmousedown"  ? 1 :
             state.input[i] == "rightmouseup"   ? 1 :
             state.input[i] == "rightmousedown" ? 1 :
-            state.input[i] == "mousewheelup"   ? zoomOut()        :
-            state.input[i] == "mousewheeldown" ? zoomIn()         :
+            state.input[i] == "mousewheelup"   ? 1 /*zoomOut()*/        :
+            state.input[i] == "mousewheeldown" ? 1 /*zoomIn()*/         :
             state.input[i] == "leftdown"       ? 1 :
             state.input[i] == "leftup"         ? 1 :
             state.input[i] == "rightdown"      ? 1 :
