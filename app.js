@@ -572,10 +572,10 @@ function handleInput()
         map.draggedY = 0;
     }
 
-    if(state.controls.rightdown){ map.focusPoint.x -= map.moveSpeedX / map.scale; state.x++; }
-    if(state.controls.leftdown) { map.focusPoint.x += map.moveSpeedX / map.scale; state.x++; }
-    if(state.controls.updown)   { map.focusPoint.y += map.moveSpeedY / map.scale; state.x++; }
-    if(state.controls.downdown) { map.focusPoint.y -= map.moveSpeedY / map.scale; state.x++; }
+    if(state.controls.rightdown){ /*map.focusPoint.x -= map.moveSpeedX / map.scale; state.x++;*/ moveSquareRight(mySquare) }
+    if(state.controls.leftdown) { /*map.focusPoint.x += map.moveSpeedX / map.scale; state.x++;*/ moveSquareLeft(mySquare) }
+    if(state.controls.updown)   { /*map.focusPoint.y += map.moveSpeedY / map.scale; state.x++;*/ moveSquareUp(mySquare) }
+    if(state.controls.downdown) { /*map.focusPoint.y -= map.moveSpeedY / map.scale; state.x++;*/ moveSquareDown(mySquare) }
 
     if(state.x > 0) { state.inactive = 0; } else {state.inactive++;}
     state.input = [];
@@ -711,3 +711,32 @@ objects.push(newSquare(-20,  10, 10, 10));
 objects.push(newSquare( 10, -20, 10, 10));
 
 smartObjects.push(leftEdgeSquare);
+
+var mySquare = newSquare(10, 10, 20, 20);
+objects.push(mySquare);
+
+function moveMySquareY(y)
+{
+    mySquare.y += y;
+}
+
+function moveMySquareX(x)
+{
+    mySquare.x += x;
+}
+
+mySquare.speed = 20;
+
+function moveSquareLeft(object) {object.x -= object.speed; }
+function moveSquareRight(object) { object.x += object.speed}
+function moveSquareUp(object) { object.y -= object.speed; }
+function moveSquareDown(object) { object.y += object.speed; }
+
+function getMySquareMovement()
+{
+    var commandY = -prompt("How far up would you like to travel?");
+    var commandX = +prompt("How far right would you like to travel?");
+
+    moveMySquareY(commandY);
+    moveMySquareX(commandX);
+}

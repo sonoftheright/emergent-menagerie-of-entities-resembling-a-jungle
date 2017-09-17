@@ -1,0 +1,6 @@
+//entity.js
+
+const entity =
+{
+	
+};
