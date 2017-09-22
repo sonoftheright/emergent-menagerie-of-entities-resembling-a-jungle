@@ -390,10 +390,15 @@ function newSquare ( x, y, w, h)
         width: w,
         moved: true,
         collisions: [],
+        clicked: false,
         style: function()
         {
             ctx.beginPath();
-            if(this.collisions.length > 0)
+            if(this.clicked)
+            {
+                ctx.strokeStyle = 'blue';
+            }
+            else if(this.collisions.length > 0)
             {
                 ctx.strokeStyle = 'red';
             }
@@ -494,8 +499,18 @@ function updateGraphics()
 
 function mouseUp()
 {
+    for(var x = 0; x < objects.length; x++)
+    {
+        objects[x].clicked = false;
+    }
     //do something here when we have object tracking data structure set up
     return 1;
+}
+
+function mouseDown()
+{
+    var clicked = detectObjectClicked();
+    if(clicked !== 0) { clicked.clicked = true;}
 }
 
 function handleInput()
@@ -508,7 +523,7 @@ function handleInput()
         state.x +=
             state.input[i] == "resize"         ? fitElementSize() :
             state.input[i] == "leftmouseup"    ? mouseUp()        :
-            state.input[i] == "leftmousedown"  ? 1 :
+            state.input[i] == "leftmousedown"  ? mouseDown() :
             state.input[i] == "rightmouseup"   ? 1 :
             state.input[i] == "rightmousedown" ? 1 :
             state.input[i] == "mousewheelup"   ? 1 /*zoomOut() */  :
@@ -653,7 +668,7 @@ function initializeHashTable()
     engine.ht = {};
     let ht = engine.ht;
     ht.cellsize = 20;
-    ht.contents = {};
+    ht.contents = [];
     updateTable();
 }
 
@@ -673,7 +688,7 @@ function updateTable()
 
 function addObjectToTable(hash, object)
 {
-    if(engine.ht.contents[hash] == undefined)
+    if(engine.ht.contents[hash] === undefined)
     {
         engine.ht.contents[hash] = [];
         engine.ht.contents[hash].push(object);
@@ -694,10 +709,43 @@ function getTable()
     return engine.ht.contents;
 }
 
+function detectCollision(object1, object2)
+{
+    return (object1.x <= object2.x + object2.width && 
+            object1.x + object1.width >= object2.x &&     //minX coord is in range
+            object1.y <= object2.y + object2.height && 
+            object1.y + object1.height >= object2.y);        //minY coord is in range
+}
+
+function detectObjectClicked()
+{
+    var h = hash(getEngCoordsX(state.controls.mouse.x), getEngCoordsY(state.controls.mouse.y));
+    if(engine.ht.contents[h] === undefined) 
+    {
+        console.log(h + " doesn't exist in hashtable.");
+        return 0;
+    }  
+
+    var potentials = engine.ht.contents[h];
+    var result;
+    for(var x = 0; x < potentials.length; x++)
+    {
+        if( getEngCoordsX(state.controls.mouse.x) >= potentials[x].x && 
+            getEngCoordsX(state.controls.mouse.x) <= potentials[x].x + potentials[x].width &&
+            getEngCoordsY(state.controls.mouse.y) >= potentials[x].y &&
+            getEngCoordsY(state.controls.mouse.y) <= potentials[x].y + potentials[x].height)
+        {
+            result = potentials[x];
+        }
+    }
+    if(result === undefined){ return 0; }
+    else { return result; }
+}
+
 //TESTING PURPOSES
 function testCollision(object)
 {
-    if(object.neighbors == undefined) {object.neighbors = []; object.collisions = [];}
+    if(object.neighbors === undefined) {object.neighbors = []; object.collisions = [];}
     if(!object.moved) { return 0; }
     for(var width = 0; width < object.width; width++)
     {
@@ -723,16 +771,7 @@ function testCollision(object)
         var rect = object.neighbors[x];
         if(object.collisions.indexOf(rect) < 0)
         {
-            if
-            (
-                object.x <= rect.x + rect.width && 
-                object.x + object.width >= rect.x &&     //minX coord is in range
-                object.y <= rect.y + rect.height && 
-                object.y + object.height >= rect.y        //minY coord is in range
-            )
-            {
-                object.collisions.push(rect);
-            }
+            if (detectCollision(object, rect)) { object.collisions.push(rect); }
         }
     }
     object.moved = false;
