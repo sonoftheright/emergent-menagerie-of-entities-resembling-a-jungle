@@ -233,6 +233,7 @@ function findPos(obj)
 
 function fitElementSize()
 {
+    console.log("~change window size~");
     el.offset = 10;
     el.width = window.innerWidth - el.offset;
     el.height = window.innerHeight - el.offset;
@@ -252,7 +253,6 @@ hud.enable =  function(){ hud.enabled = true; }
 
 function refreshHUD()
 {
-    fitElementSize();
     hud.statMaxFontSize = 16;
     hud.statFont = 10;
     //positioning relative to el
@@ -297,6 +297,9 @@ function refreshHUD()
 
 function drawBorders()
 {
+    ctx.beginPath();
+    ctx.lineWidth = 1.0;
+    ctx.strokeStyle = 'black';
     //draw borders
     // left border
     ctx.moveTo(hud.leftBorderX1,    hud.leftBorderY1);
@@ -310,6 +313,7 @@ function drawBorders()
     // top border
     ctx.moveTo(hud.topBorderX1,     hud.topBorderY1);
     ctx.lineTo(hud.topBorderX2,     hud.topBorderY2);
+    ctx.stroke();
 }
 
 function drawStatistics()
@@ -384,9 +388,23 @@ function newSquare ( x, y, w, h)
         x: x,
         y: y,
         height: h,
-        width: w
+        width: w,
+        moved: true,
+        collisions: [],
+        style: function()
+        {
+            ctx.beginPath();
+            if(this.collisions.length > 0)
+            {
+                ctx.strokeStyle = 'red';
+            }
+            else
+            {
+                ctx.strokeStyle = 'green';
+            }
+        }
     };
-    addStatToHud({"text": "square" + number + " graphics coords: ", "value": function() { return "x: " + getGfxCoordsX(square.x) + " y: " + getGfxCoordsX(square.y); }, style: "item"});
+    //addStatToHud({"text": "square" + number + " graphics coords: ", "value": function() { return "x: " + getGfxCoordsX(square.x) + " y: " + getGfxCoordsX(square.y); }, style: "item"});
     return square;
 }
 
@@ -402,21 +420,24 @@ function newSmartSquare( x, y, w, h, d, f)
     };
 }
 
-
 function drawObjects(obs)
 {
-    ctx.strokeStyle="black";
+    ctx.strokeStyle='black';
     //if(!)
     //don't multiply the el width by map scale too, unless you want things to shift to the upper left/lower right
     for(var x = 0; x < objects.length; x++)
     {
+        testCollision(objects[x]);
+        ctx.lineWidth = map.scale;
+        objects[x].style();
         ctx.rect
         (
             getGfxCoordsX(objects[x].x),    // convert engine coords to graphics context
             getGfxCoordsY(objects[x].y),
-            objects[x].width  * map.scale,  // scale the object's subjective size
-            objects[x].height * map.scale
+            Math.floor(objects[x].width  * map.scale),  // scale the object's subjective size
+            Math.floor(objects[x].height * map.scale)
         );
+        ctx.stroke();
     }
     for(var x = 0; x < smartObjects.length; x++)
     {
@@ -427,8 +448,8 @@ function drawObjects(obs)
             (
                     getGfxCoordsX(smartObjects[x].x),
                     getGfxCoordsY(smartObjects[x].y),
-                    smartObjects[x].width * map.scale,
-                    smartObjects[x].height * map.scale
+                    Math.floor(smartObjects[x].width * map.scale),
+                    Math.floor(smartObjects[x].height * map.scale)
             );
         }
         else
@@ -454,19 +475,8 @@ function updateGraphics()
     ctx.beginPath();
     ctx.rect(hud.leftBorderX1, hud.leftBorderY1, el.width - hud.buffer*2, el.height - hud.buffer*2);
     ctx.clip();
-    //draw the objects first so other things overlap them
-    ctx.beginPath();
-
     drawBorders();
-    //stroke all line based hud els
-    ctx.stroke();
-    // ctx.globalCompositeOperation = "destination-in";
     drawObjects(); // squares
-    // ctx.stroke();
-    //begin path for all hud
-    // ctx.beginPath();
-    ctx.stroke();
-    //ctx.clearRect(0, 0, el.width, el.height);
 
     if(hud.enabled){drawStatistics();};
 }
@@ -475,47 +485,18 @@ function updateGraphics()
 /*#################*/
 /*   E N G I N E   */
 /*#################*/
-
+/*
+    -input
+    -HUD variables
+    -spatial hash table
+    -loop
+*/
 /* I N P U T */
 
 function mouseUp()
 {
     //do something here when we have object tracking data structure set up
     return 1;
-}
-
-function zoomIn()
-{
-    if(map.scale < 30)
-    {
-        var engineX1 = getEngCoordsX(state.controls.mouse.x);
-        var engineY1 = getEngCoordsY(state.controls.mouse.y);
-        map.scale += 1;
-        var engineX2 = getEngCoordsX(state.controls.mouse.x);
-        var engineY2 = getEngCoordsY(state.controls.mouse.y);
-        map.scaleDifferenceX = engineX1 - engineX2;
-        map.scaleDifferenceY = engineY1 - engineX2;
-
-        map.focusPoint.x += (engineX1 - engineX2) / map.scale;
-        map.focusPoint.y += (engineX1 - engineX2) / map.scale;
-    }
-}
-
-function zoomOut()
-{
-    if(map.scale > 1)
-    {
-        var engineX1 = getEngCoordsX(state.controls.mouse.x);
-        var engineY1 = getEngCoordsY(state.controls.mouse.y);
-        map.scale -= 1;
-        var engineX2 = getEngCoordsX(state.controls.mouse.x);
-        var engineY2 = getEngCoordsY(state.controls.mouse.y);
-        map.scaleDifferenceX = (engineX1 - engineX2);
-        map.scaleDifferenceY = (engineY1 - engineX2);
-
-        map.focusPoint.x += (engineX1 - engineX2) / map.scale;
-        map.focusPoint.y += (engineX1 - engineX2) / map.scale;
-    }
 }
 
 function handleInput()
@@ -531,8 +512,13 @@ function handleInput()
             state.input[i] == "leftmousedown"  ? 1 :
             state.input[i] == "rightmouseup"   ? 1 :
             state.input[i] == "rightmousedown" ? 1 :
+<<<<<<< HEAD
+            state.input[i] == "mousewheelup"   ? 1 /*zoomOut() */  :
+            state.input[i] == "mousewheeldown" ? 1 /*zoomIn()*/    :
+=======
             state.input[i] == "mousewheelup"   ? 1 /*zoomOut()*/        :
             state.input[i] == "mousewheeldown" ? 1 /*zoomIn()*/         :
+>>>>>>> 88036f72b23d38b2a3b76570aafa6b2293545761
             state.input[i] == "leftdown"       ? 1 :
             state.input[i] == "leftup"         ? 1 :
             state.input[i] == "rightdown"      ? 1 :
@@ -558,9 +544,9 @@ function handleInput()
 
     else if (state.controls.mouse.leftmousedown)
     {
-        map.focusPoint.x   -= (map.draggedX - state.controls.mouse.x);
+        map.focusPoint.x   -= Math.floor(map.draggedX - state.controls.mouse.x);
         map.draggedX        = state.controls.mouse.x;
-        map.focusPoint.y   -= (map.draggedY - state.controls.mouse.y);
+        map.focusPoint.y   -= Math.floor(map.draggedY - state.controls.mouse.y);
         map.draggedY        = state.controls.mouse.y;
 
         state.x++;
@@ -572,10 +558,17 @@ function handleInput()
         map.draggedY = 0;
     }
 
+<<<<<<< HEAD
+    if(state.controls.rightdown){ map.focusPoint.x -= Math.floor(map.moveSpeedX / map.scale); state.x++; }
+    if(state.controls.leftdown) { map.focusPoint.x += Math.floor(map.moveSpeedX / map.scale); state.x++; }
+    if(state.controls.updown)   { map.focusPoint.y += Math.floor(map.moveSpeedY / map.scale); state.x++; }
+    if(state.controls.downdown) { map.focusPoint.y -= Math.floor(map.moveSpeedY / map.scale); state.x++; }
+=======
     if(state.controls.rightdown){ /*map.focusPoint.x -= map.moveSpeedX / map.scale; state.x++;*/ moveSquareRight(mySquare) }
     if(state.controls.leftdown) { /*map.focusPoint.x += map.moveSpeedX / map.scale; state.x++;*/ moveSquareLeft(mySquare) }
     if(state.controls.updown)   { /*map.focusPoint.y += map.moveSpeedY / map.scale; state.x++;*/ moveSquareUp(mySquare) }
     if(state.controls.downdown) { /*map.focusPoint.y -= map.moveSpeedY / map.scale; state.x++;*/ moveSquareDown(mySquare) }
+>>>>>>> 88036f72b23d38b2a3b76570aafa6b2293545761
 
     if(state.x > 0) { state.inactive = 0; } else {state.inactive++;}
     state.input = [];
@@ -609,7 +602,7 @@ function calculateFrameRate()
     //  console.log("Engine is running at " + engine.framerate + " frames per second.");
     // }
 }
-
+/* H U D */
 function initializeHUD()
 {
     hud.statLabels = [];
@@ -635,6 +628,7 @@ function initializeHUD()
     hud.statTextAlign = "left";
     hud.statTextBaseline = "top";
 
+    fitElementSize();
     refreshHUD();
 
     //set labels
@@ -659,10 +653,108 @@ function initializeHUD()
     addStatToHud({"text": "differenceYAfterZoom: ", "value": function() {return map.scaleDifferenceY;}, style: "item" });
 }
 
+/* S P A T I A L  H A S H  T A B L E */
+
+function initializeHashTable()
+{
+    engine.ht = {};
+    let ht = engine.ht;
+    ht.cellsize = 20;
+    ht.contents = {};
+    updateTable();
+}
+
+function hash(x, y){
+    return Math.round(x/engine.ht.cellsize) + "," + Math.round(y/engine.ht.cellsize);
+
+//take coords, make a hash, and put them in some sort of bucket algorithmically
+// return created hash
+}
+
+function updateTable()
+{
+    //for all tracked objects, check to see if they've moved
+
+    //if they have, reassign hash values and reinsert into hashtable
+}
+
+function addObjectToTable(hash, object)
+{
+    if(engine.ht.contents[hash] == undefined)
+    {
+        engine.ht.contents[hash] = [];
+        engine.ht.contents[hash].push(object);
+    }
+    else if(engine.ht.contents[hash])
+    {
+        //if the bucket already contains the object reference, don't add a duplicate
+        for (x in engine.ht.contents[hash])
+        {
+            if( engine.ht.contents[hash][x] === object) { return 0; }
+        }
+        engine.ht.contents[hash].push(object);
+    }
+}
+
+function getTable()
+{
+    return engine.ht.contents;
+}
+
+//TESTING PURPOSES
+function testCollision(object)
+{
+    if(!object.moved) { return 0; }
+    var bucketFriends = [];
+    var collisionBuddies = [];
+    var checked = [];
+    for(var width = 0; width < object.width; width++)
+    {
+        for(var height = 0; height < object.height; height++)
+        {
+            var h = hash(object.x + width, object.y + height);
+            for(var i = 0; i < engine.ht.contents[h].length; i++)
+            {
+                var test = engine.ht.contents[h][i];
+                if(test !== object)
+                {
+                    if(bucketFriends.indexOf(test) < 0)
+                    {
+                        bucketFriends.push(test);
+                    }
+                }
+            }
+        }    
+    }
+    for(var x = 0; x < bucketFriends.length; x++)
+    {
+        var rect = bucketFriends[x];
+        if(collisionBuddies.indexOf(rect) < 0)
+        {
+            if
+            (
+                object.x <= rect.x + rect.width && 
+                object.x + object.width >= rect.x &&     //minX coord is in range
+                object.y <= rect.y + rect.height && 
+                object.y + object.height >= rect.y        //minY coord is in range
+            )
+            {
+                collisionBuddies.push(rect);
+            }
+        }
+    }
+    object.collisions = collisionBuddies;
+    object.neighbors = bucketFriends;
+    object.moved = false;
+}
+
+/* L O O P */
+
 function initializeEngine()
 {
     initializeMap();
     initializeHUD();
+    initializeHashTable();
     refreshEngineVariables();
     createEventListeners();
     engine.frameLengthPreferred = 20;
@@ -675,6 +767,7 @@ function loop()
     engine.beginning = new Date().getTime();
     handleInput();
     updateMap();
+    updateTable();
     updateGraphics();
     if(engine.running)
     {
@@ -688,6 +781,19 @@ function loop()
 initializeEngine();
 resetMap();
 
+<<<<<<< HEAD
+for(let x = 0; x < 50; x++)
+{
+    let nS = newSquare(Math.random()*800 - map.focusPoint.x, Math.random()*800 - map.focusPoint.y, (Math.random()*100)+5, (Math.random()*100)+5);
+    objects.push(nS);
+    for(var y = 0; y <= nS.width; y++)
+    {
+        for(var z = 0; z <= nS.height; z++)
+        {
+            addObjectToTable(hash(nS.x+y, nS.y+z), nS);
+        }
+    }
+=======
 var leftEdgeSquare =
     newSmartSquare((map.focusPoint.x - hud.buffer),
                     el.middleY,
@@ -739,4 +845,5 @@ function getMySquareMovement()
 
     moveMySquareY(commandY);
     moveMySquareX(commandX);
+>>>>>>> 88036f72b23d38b2a3b76570aafa6b2293545761
 }

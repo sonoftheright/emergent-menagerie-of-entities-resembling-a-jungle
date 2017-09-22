@@ -171,6 +171,11 @@
 			"file": "app.js",
 			"settings":
 			{
+<<<<<<< HEAD
+				"buffer_size": 23895,
+				"encoding": "UTF-8",
+				"line_ending": "Windows"
+=======
 				"buffer_size": 23904,
 				"encoding": "UTF-8",
 				"line_ending": "Windows"
@@ -201,6 +206,7 @@
 			{
 				"buffer_size": 0,
 				"line_ending": "Windows"
+>>>>>>> 88036f72b23d38b2a3b76570aafa6b2293545761
 			}
 		}
 	],
@@ -266,7 +272,11 @@
 	},
 	"expanded_folders":
 	[
+<<<<<<< HEAD
+		"/C/Users/admin/Dropbox/emergent-menagerie-of-entities-resembling-a-jungle"
+=======
 		"/C/Users/Bookstore.RECEIVINGROOM/Downloads/Other/Prog/emergent-menagerie-of-entities-resembling-a-jungle"
+>>>>>>> 88036f72b23d38b2a3b76570aafa6b2293545761
 	],
 	"file_history":
 	[
@@ -416,13 +426,43 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+<<<<<<< HEAD
+			"scale",
+			"smartobjects",
+			"objects.push",
+			"zoom",
+			"map.focus",
+			"moveFocusPointInEngine",
+			"moveFocusPointInGraphics",
+			"stroke",
+			"refreshhud",
+			"drawhud",
+			"ctx.",
+			"width",
+			"stroke",
+			"strokestyle",
+			"initiali",
+			"resize",
+			"initialize",
+			"refreshhud",
+			"fitelementsize",
+			"mousedown",
+			"zoomIn",
+			"zoomout",
+			";\n",
+			"state.x",
+			"engineY",
+=======
 			"scroll",
 			"gfx",
 			"engine",
 			"getengcoords",
 			"update",
 			"getGfx",
+>>>>>>> 88036f72b23d38b2a3b76570aafa6b2293545761
 			"getengcoords",
+			"enginemousex",
+			"getgfx",
 			"getEngCoordsY",
 			"getGraphicsCoordinates",
 			"updateMap",
@@ -522,6 +562,9 @@
 			"path.join",
 			"path + \"\\\\\" + files[f]",
 			"stat",
+<<<<<<< HEAD
+			");\n"
+=======
 			");\n",
 			"vertexPos",
 			"vertexPos ",
@@ -544,6 +587,7 @@
 			"worldfocuscoord",
 			"runningtest",
 			"cameraSpeed"
+>>>>>>> 88036f72b23d38b2a3b76570aafa6b2293545761
 		],
 		"highlight": true,
 		"in_selection": false,
@@ -571,19 +615,43 @@
 					"semi_transient": false,
 					"settings":
 					{
+<<<<<<< HEAD
+						"buffer_size": 23895,
+=======
 						"buffer_size": 23904,
+>>>>>>> 88036f72b23d38b2a3b76570aafa6b2293545761
 						"regions":
 						{
+							"mark":
+							{
+								"flags": 144,
+								"icon": "dot",
+								"regions":
+								[
+									[
+										2195,
+										2195
+									]
+								],
+								"scope": "mark"
+							}
 						},
 						"selection":
 						[
 							[
+<<<<<<< HEAD
+								6164,
+								6164
+=======
 								16787,
 								16787
+>>>>>>> 88036f72b23d38b2a3b76570aafa6b2293545761
 							]
 						],
 						"settings":
 						{
+<<<<<<< HEAD
+=======
 							"bracket_highlighter.busy": false,
 							"bracket_highlighter.locations":
 							{
@@ -673,6 +741,7 @@
 								"bh_angle_close",
 								"bh_angle_content"
 							],
+>>>>>>> 88036f72b23d38b2a3b76570aafa6b2293545761
 							"c_time":
 							[
 								128,
@@ -720,12 +789,14 @@
 								3,
 								46
 							],
-							"color_scheme": "Packages/User/Color Highlighter/themes/Monokai.tmTheme",
 							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax",
 							"tab_size": 4,
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
+<<<<<<< HEAD
+						"translation.y": 2160.0,
+=======
 						"translation.y": 7866.0,
 						"zoom_level": 1.0
 					},
@@ -993,6 +1064,7 @@
 						},
 						"translation.x": 0.0,
 						"translation.y": 0.0,
+>>>>>>> 88036f72b23d38b2a3b76570aafa6b2293545761
 						"zoom_level": 1.0
 					},
 					"stack_index": 0,
@@ -1032,7 +1104,11 @@
 	],
 	"incremental_find":
 	{
+<<<<<<< HEAD
+		"height": 22.0
+=======
 		"height": 23.0
+>>>>>>> 88036f72b23d38b2a3b76570aafa6b2293545761
 	},
 	"input":
 	{
@@ -1073,7 +1149,11 @@
 	"project": "blending-bedlam.sublime-project",
 	"replace":
 	{
+<<<<<<< HEAD
+		"height": 40.0
+=======
 		"height": 42.0
+>>>>>>> 88036f72b23d38b2a3b76570aafa6b2293545761
 	},
 	"save_all_on_build": true,
 	"select_file":
@@ -1110,8 +1190,8 @@
 	"show_minimap": true,
 	"show_open_files": false,
 	"show_tabs": true,
-	"side_bar_visible": true,
-	"side_bar_width": 159.0,
+	"side_bar_visible": false,
+	"side_bar_width": 140.0,
 	"status_bar_visible": true,
 	"template_settings":
 	{
