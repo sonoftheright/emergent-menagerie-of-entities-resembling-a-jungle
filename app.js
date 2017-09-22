@@ -838,5 +838,4 @@ function getMySquareMovement()
 
     moveMySquareY(commandY);
     moveMySquareX(commandX);
->>>>>>> 88036f72b23d38b2a3b76570aafa6b2293545761
 }
