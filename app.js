@@ -69,7 +69,7 @@ function createEventListeners()
             state.controls.mouse.wheel.delta = event.deltaX;
             state.input.push("mousewheeldown");
         }
-    });
+    }, {passive: true});
     //more widely supported event listener linked to canvas rather than window
     //TODO: (Ben) Figure out how to establish right-click functionality
     el.addEventListener('mousedown', function (event)
@@ -643,8 +643,8 @@ function initializeHUD()
     addStatToHud({"text": "engineMouseX: ", "value": function() {return getEngCoordsX(state.controls.mouse.x);}, style: "item" });
     addStatToHud({"text": "mouse.y: ", "value": function() {return state.controls.mouse.y;}, style: "item" });
     addStatToHud({"text": "engineMouseY: ", "value": function() {return getEngCoordsY(state.controls.mouse.y);}, style: "item" });
-    addStatToHud({"text": "differenceXAfterZoom: ", "value": function() {return map.scaleDifferenceX;}, style: "item" });
-    addStatToHud({"text": "differenceYAfterZoom: ", "value": function() {return map.scaleDifferenceY;}, style: "item" });
+    //addStatToHud({"text": "differenceXAfterZoom: ", "value": function() {return map.scaleDifferenceX;}, style: "item" });
+    //addStatToHud({"text": "differenceYAfterZoom: ", "value": function() {return map.scaleDifferenceY;}, style: "item" });
 }
 
 /* S P A T I A L  H A S H  T A B L E */
@@ -698,13 +698,11 @@ function getTable()
 //TESTING PURPOSES
 function testCollision(object)
 {
+    if(object.neighbors == undefined) {object.neighbors = []; object.collisions = [];}
     if(!object.moved) { return 0; }
-    var bucketFriends = [];
-    var collisionBuddies = [];
-    var checked = [];
-    for(var width = 0; width < object.width; width++)
+    for(var width = 0; width < (object.width / engine.ht.cellsize); width += engine.ht.cellsize )
     {
-        for(var height = 0; height < object.height; height++)
+        for(var height = 0; height < (object.height / engine.ht.cellsize); height += engine.ht.cellsize)
         {
             var h = hash(object.x + width, object.y + height);
             for(var i = 0; i < engine.ht.contents[h].length; i++)
@@ -712,18 +710,19 @@ function testCollision(object)
                 var test = engine.ht.contents[h][i];
                 if(test !== object)
                 {
-                    if(bucketFriends.indexOf(test) < 0)
+                    if(object.neighbors.indexOf(test) < 0)
                     {
-                        bucketFriends.push(test);
+                        object.neighbors.push(test);
                     }
                 }
             }
         }    
     }
-    for(var x = 0; x < bucketFriends.length; x++)
+    
+    for(var x = 0; x < object.neighbors.length; x++)
     {
-        var rect = bucketFriends[x];
-        if(collisionBuddies.indexOf(rect) < 0)
+        var rect = object.neighbors[x];
+        if(object.collisions.indexOf(rect) < 0)
         {
             if
             (
@@ -733,12 +732,10 @@ function testCollision(object)
                 object.y + object.height >= rect.y        //minY coord is in range
             )
             {
-                collisionBuddies.push(rect);
+                object.collisions.push(rect);
             }
         }
     }
-    object.collisions = collisionBuddies;
-    object.neighbors = bucketFriends;
     object.moved = false;
 }
 
@@ -777,66 +774,13 @@ resetMap();
 
 for(let x = 0; x < 50; x++)
 {
-    let nS = newSquare(Math.random()*800 - map.focusPoint.x, Math.random()*800 - map.focusPoint.y, (Math.random()*100)+5, (Math.random()*100)+5);
+    var nS = newSquare(Math.random()*800 - map.focusPoint.x, Math.random()*800 - map.focusPoint.y, (Math.random()*100)+5, (Math.random()*100)+5);
     objects.push(nS);
     for(var y = 0; y <= nS.width; y++)
     {
         for(var z = 0; z <= nS.height; z++)
         {
-            addObjectToTable(hash(nS.x+y, nS.y+z), nS);
+            addObjectToTable(hash(nS.x + y, nS.y + z), nS);
         }
     }
-}
-
-var leftEdgeSquare =
-    newSmartSquare((map.focusPoint.x - hud.buffer),
-                    el.middleY,
-                    10,
-                    10,
-                    "gfx",
-                    function()
-                    {
-                        this.x = hud.buffer + (this.width / 2);
-                       // this.y = el.middleY;
-                    }
-);
-
-objects.push(newSquare(-20, -20, 10, 10));
-objects.push(newSquare(-10, -10, 10, 10));
-objects.push(newSquare(  0,   0, 10, 10));
-objects.push(newSquare(  0, -10, 10, 10));
-objects.push(newSquare(-10,   0, 10, 10));
-objects.push(newSquare( 10,  10, 10, 10));
-objects.push(newSquare(-20,  10, 10, 10));
-objects.push(newSquare( 10, -20, 10, 10));
-
-smartObjects.push(leftEdgeSquare);
-
-var mySquare = newSquare(10, 10, 20, 20);
-objects.push(mySquare);
-
-function moveMySquareY(y)
-{
-    mySquare.y += y;
-}
-
-function moveMySquareX(x)
-{
-    mySquare.x += x;
-}
-
-mySquare.speed = 20;
-
-function moveSquareLeft(object) {object.x -= object.speed; }
-function moveSquareRight(object) { object.x += object.speed}
-function moveSquareUp(object) { object.y -= object.speed; }
-function moveSquareDown(object) { object.y += object.speed; }
-
-function getMySquareMovement()
-{
-    var commandY = -prompt("How far up would you like to travel?");
-    var commandX = +prompt("How far right would you like to travel?");
-
-    moveMySquareY(commandY);
-    moveMySquareX(commandX);
 }
