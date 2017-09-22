@@ -786,6 +786,7 @@ for(let x = 0; x < 50; x++)
             addObjectToTable(hash(nS.x+y, nS.y+z), nS);
         }
     }
+}
 
 var leftEdgeSquare =
     newSmartSquare((map.focusPoint.x - hud.buffer),
