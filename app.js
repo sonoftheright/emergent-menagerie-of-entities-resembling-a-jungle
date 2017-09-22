@@ -233,7 +233,6 @@ function findPos(obj)
 
 function fitElementSize()
 {
-    console.log("~change window size~");
     el.offset = 10;
     el.width = window.innerWidth - el.offset;
     el.height = window.innerHeight - el.offset;
@@ -710,15 +709,15 @@ function testCollision(object)
                 var test = engine.ht.contents[h][i];
                 if(test !== object)
                 {
-                    if(object.neighbors.indexOf(test) < 0)
-                    {
+                    if(object.neighbors.indexOf(test) < 0
+)                    {
                         object.neighbors.push(test);
                     }
                 }
             }
         }    
     }
-    
+
     for(var x = 0; x < object.neighbors.length; x++)
     {
         var rect = object.neighbors[x];
