@@ -699,9 +699,9 @@ function testCollision(object)
 {
     if(object.neighbors == undefined) {object.neighbors = []; object.collisions = [];}
     if(!object.moved) { return 0; }
-    for(var width = 0; width < (object.width / engine.ht.cellsize); width += engine.ht.cellsize )
+    for(var width = 0; width < object.width; width++)
     {
-        for(var height = 0; height < (object.height / engine.ht.cellsize); height += engine.ht.cellsize)
+        for(var height = 0; height < object.height; height++)
         {
             var h = hash(object.x + width, object.y + height);
             for(var i = 0; i < engine.ht.contents[h].length; i++)
