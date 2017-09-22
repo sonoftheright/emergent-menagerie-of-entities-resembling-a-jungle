@@ -512,13 +512,10 @@ function handleInput()
             state.input[i] == "leftmousedown"  ? 1 :
             state.input[i] == "rightmouseup"   ? 1 :
             state.input[i] == "rightmousedown" ? 1 :
-<<<<<<< HEAD
             state.input[i] == "mousewheelup"   ? 1 /*zoomOut() */  :
             state.input[i] == "mousewheeldown" ? 1 /*zoomIn()*/    :
-=======
             state.input[i] == "mousewheelup"   ? 1 /*zoomOut()*/        :
             state.input[i] == "mousewheeldown" ? 1 /*zoomIn()*/         :
->>>>>>> 88036f72b23d38b2a3b76570aafa6b2293545761
             state.input[i] == "leftdown"       ? 1 :
             state.input[i] == "leftup"         ? 1 :
             state.input[i] == "rightdown"      ? 1 :
@@ -558,17 +555,14 @@ function handleInput()
         map.draggedY = 0;
     }
 
-<<<<<<< HEAD
     if(state.controls.rightdown){ map.focusPoint.x -= Math.floor(map.moveSpeedX / map.scale); state.x++; }
     if(state.controls.leftdown) { map.focusPoint.x += Math.floor(map.moveSpeedX / map.scale); state.x++; }
     if(state.controls.updown)   { map.focusPoint.y += Math.floor(map.moveSpeedY / map.scale); state.x++; }
     if(state.controls.downdown) { map.focusPoint.y -= Math.floor(map.moveSpeedY / map.scale); state.x++; }
-=======
     if(state.controls.rightdown){ /*map.focusPoint.x -= map.moveSpeedX / map.scale; state.x++;*/ moveSquareRight(mySquare) }
     if(state.controls.leftdown) { /*map.focusPoint.x += map.moveSpeedX / map.scale; state.x++;*/ moveSquareLeft(mySquare) }
     if(state.controls.updown)   { /*map.focusPoint.y += map.moveSpeedY / map.scale; state.x++;*/ moveSquareUp(mySquare) }
     if(state.controls.downdown) { /*map.focusPoint.y -= map.moveSpeedY / map.scale; state.x++;*/ moveSquareDown(mySquare) }
->>>>>>> 88036f72b23d38b2a3b76570aafa6b2293545761
 
     if(state.x > 0) { state.inactive = 0; } else {state.inactive++;}
     state.input = [];
@@ -781,7 +775,6 @@ function loop()
 initializeEngine();
 resetMap();
 
-<<<<<<< HEAD
 for(let x = 0; x < 50; x++)
 {
     let nS = newSquare(Math.random()*800 - map.focusPoint.x, Math.random()*800 - map.focusPoint.y, (Math.random()*100)+5, (Math.random()*100)+5);
@@ -793,7 +786,7 @@ for(let x = 0; x < 50; x++)
             addObjectToTable(hash(nS.x+y, nS.y+z), nS);
         }
     }
-=======
+
 var leftEdgeSquare =
     newSmartSquare((map.focusPoint.x - hud.buffer),
                     el.middleY,
