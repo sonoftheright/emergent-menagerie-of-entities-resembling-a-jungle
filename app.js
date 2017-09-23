@@ -74,16 +74,16 @@ function createEventListeners()
     {
         var keyPressed = event.which;
         //NOTE: event.keyCode for left mouse button is 1, middle 2, right 3
-        if (keyPressed === 1)
-        {
-            //TODO: (Ben) Do something real here.
-            state.input.push("leftmousedown");
-            state.controls.mouse.leftmousedown = true;
-        }
         if (keyPressed === 3)
         {
             state.input.push("rightmousedown");
             state.controls.mouse.rightmousedown = true;
+        }
+        else
+        {
+            //TODO: (Ben) Do something real here.
+            state.input.push("leftmousedown");
+            state.controls.mouse.leftmousedown = true;
         }
     });
     window.addEventListener('mouseup', function (event)
@@ -470,7 +470,7 @@ function drawObjects(obs)
             (
                     smartObjects[x].x,                  // draw in coordinates already adjusted to context
                     smartObjects[x].y,
-                    smartObjects[x].width * map.scale,  // .. but still scale it. 
+                    smartObjects[x].width * map.scale,  // .. but still scale it.
                     smartObjects[x].height * map.scale
             );
         }
@@ -522,12 +522,10 @@ function mouseUp()
         state.controls.mouse.clicked.draggedY = 0;
         state.controls.mouse.clicked.clicked = false;
         switchWithLastIndex(objects, state.controls.mouse.clicked.index)
-        state.controls.mouse.clicked.moved = true;
-        removeObjectFromTable(objects[objects.length - 1]);
-        addObjectToTable(objects[objects.length - 1]);
+        updateObjectInTable(state.controls.mouse.clicked);
         state.controls.mouse.clicked = 0;
     }
-    
+
     //do something here when we have object tracking data structure set up
     return 1;
 }
@@ -538,9 +536,9 @@ function mouseDown()
     {
         state.controls.mouse.clicked = detectObjectClicked();
     }
-    if(state.controls.mouse.clicked !== 0) 
-    { 
-        state.controls.mouse.clicked.clicked = true; 
+    if(state.controls.mouse.clicked !== 0)
+    {
+        state.controls.mouse.clicked.clicked = true;
     }
 }
 
@@ -722,6 +720,12 @@ function initializeHashTable()
 
 function hash(x, y){ return Math.round(x/engine.ht.cellsize) + "," + Math.round(y/engine.ht.cellsize); }
 
+function updateObjectInTable(object)
+{
+    object.moved = true;
+    var oldData = removeObjectFromTable(objects[object.index]);
+    var newData = addObjectToTable(objects[object.index]);
+}
 function updateTable()
 {
     //for all tracked objects, check to see if they've moved
@@ -773,9 +777,11 @@ function removeObjectFromTable(object)
             }
         }
     }
+    var oldBuckets = object.buckets;
+    var oldCollisions = object.collisions;
     object.buckets = [];
     object.collisions = [];
-    return engine.ht.contents;
+    return {'buckets': oldBuckets, 'collisions': oldCollisions};
 }
 
 function getTable()
@@ -785,9 +791,9 @@ function getTable()
 
 function detectCollision(object1, object2)
 {
-    return (object1.x <= object2.x + object2.width && 
+    return (object1.x <= object2.x + object2.width &&
             object1.x + object1.width >= object2.x &&     //minX coord is in range
-            object1.y <= object2.y + object2.height && 
+            object1.y <= object2.y + object2.height &&
             object1.y + object1.height >= object2.y);        //minY coord is in range
 }
 
@@ -806,13 +812,13 @@ function hasCollision(object, a)
 function detectObjectClicked()
 {
     let h = hash(getEngCoordsX(state.controls.mouse.x), getEngCoordsY(state.controls.mouse.y));
-    if(engine.ht.contents[h] === undefined) { return 0; }  
+    if(engine.ht.contents[h] === undefined) { return 0; }
 
     let potentials = engine.ht.contents[h];
     let result;
     for(let x = 0; x < potentials.length; x++)
     {
-        if( getEngCoordsX(state.controls.mouse.x) >= potentials[x].x && 
+        if( getEngCoordsX(state.controls.mouse.x) >= potentials[x].x &&
             getEngCoordsX(state.controls.mouse.x) <= potentials[x].x + potentials[x].width &&
             getEngCoordsY(state.controls.mouse.y) >= potentials[x].y &&
             getEngCoordsY(state.controls.mouse.y) <= potentials[x].y + potentials[x].height)
@@ -848,12 +854,12 @@ function testCollision(object)
         rect.moved = true;
         var hit = {'collisionIndex': rect.index, 'collisionBuckets': rect.buckets};
         var myhit = {'collisionIndex': object.index, 'collisionBuckets': object.buckets};
-        if (detectCollision(object, rect)) 
+        if (detectCollision(object, rect))
         {
             currentlyColliding = true;
             if(!hasCollision(object, hit))
-            { 
-                object.collisions.push(hit); 
+            {
+                object.collisions.push(hit);
                 collisions.push(rect);
                 if(!hasCollision(rect, myhit))
                 {
@@ -902,12 +908,12 @@ initializeEngine();
 resetMap();
 for(let x = 0; x < 50; x++)
 {
-    var nS = newSquare( Math.random()*800 - map.focusPoint.x, 
-                        Math.random()*800 - map.focusPoint.y, 
-                        Math.floor(Math.random()*100)+5, 
+    var nS = newSquare( Math.random()*800 - map.focusPoint.x,
+                        Math.random()*800 - map.focusPoint.y,
+                        Math.floor(Math.random()*100)+5,
                         Math.floor(Math.random()*100)+5);
     nS.maxX = nS.x + nS.width,
-    nS.maxY = nS.y + nS.height, 
+    nS.maxY = nS.y + nS.height,
     objects.push(nS);
     addObjectToTable(nS);
 }
