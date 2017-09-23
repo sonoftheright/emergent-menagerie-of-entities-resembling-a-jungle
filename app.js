@@ -31,7 +31,8 @@ var state =
             wheel:
             {
                 delta: 0
-            }
+            },
+            clicked: 0
         }
     },
     inactive: 0
@@ -52,13 +53,10 @@ function createEventListeners()
         var pos = findPos(el);
         state.controls.mouse.x = event.pageX - pos.x;
         state.controls.mouse.y = event.pageY - pos.y;
-        // console.log("mouse.x: " + state.controls.mouse.x);
-        // console.log("mouse.y: " + state.controls.mouse.y);
     });
     /*TODO: (Ben) Set up a zoom function with graphics scale to match.*/
     window.addEventListener('wheel', function (event)
     {
-        //console.log(event.deltaY);
         if(event.deltaY > 0)
         {
             state.controls.mouse.wheel.delta = event.deltaY;
@@ -384,6 +382,7 @@ function newSquare ( x, y, w, h)
 {
     var number = objects.length;
     var square = {
+        index: number,
         x: x,
         y: y,
         height: h,
@@ -391,6 +390,9 @@ function newSquare ( x, y, w, h)
         moved: true,
         collisions: [],
         clicked: false,
+        draggedX: 0,
+        draggedY: 0,
+        buckets: [],
         style: function()
         {
             ctx.beginPath();
@@ -408,7 +410,6 @@ function newSquare ( x, y, w, h)
             }
         }
     };
-    //addStatToHud({"text": "square" + number + " graphics coords: ", "value": function() { return "x: " + getGfxCoordsX(square.x) + " y: " + getGfxCoordsX(square.y); }, style: "item"});
     return square;
 }
 
@@ -427,16 +428,23 @@ function newSmartSquare( x, y, w, h, d, f)
 function drawObjects(obs)
 {
     ctx.strokeStyle='black';
-    //if(!)
     //don't multiply the el width by map scale too, unless you want things to shift to the upper left/lower right
     for(var x = 0; x < objects.length; x++)
     {
-        testCollision(objects[x]);
+        //debugger;
+        if(objects[x].moved) { testCollision(objects[x]); }
         ctx.lineWidth = map.scale;
         objects[x].style();
         ctx.rect
         (
             getGfxCoordsX(objects[x].x),    // convert engine coords to graphics context
+            getGfxCoordsY(objects[x].y),
+            Math.floor(objects[x].width  * map.scale),  // scale the object's subjective size
+            Math.floor(objects[x].height * map.scale)
+        );
+        ctx.clearRect
+        (
+            getGfxCoordsX(objects[x].x),
             getGfxCoordsY(objects[x].y),
             Math.floor(objects[x].width  * map.scale),  // scale the object's subjective size
             Math.floor(objects[x].height * map.scale)
@@ -472,7 +480,7 @@ function drawObjects(obs)
 function updateGraphics()
 {
     ctx.clearRect(0, 0, el.width, el.height);
-        //initialize HUD variables
+    //initialize HUD variables
     refreshHUD();
     //save context now
     ctx.save();
@@ -497,20 +505,48 @@ function updateGraphics()
 */
 /* I N P U T */
 
+function switchWithLastIndex(array, index)
+{
+    if(index < array.length - 1){ array.push(array.splice(index, 1)[0]); }
+    for(var x = index; x < objects.length; x++)
+    {
+        objects[x].index = x;
+    }
+}
+
 function mouseUp()
 {
-    for(var x = 0; x < objects.length; x++)
+    if(state.controls.mouse.clicked !== 0)
     {
-        objects[x].clicked = false;
+        state.controls.mouse.clicked.draggedX = 0;
+        state.controls.mouse.clicked.draggedY = 0;
+        state.controls.mouse.clicked.clicked = false;
+        switchWithLastIndex(objects, state.controls.mouse.clicked.index)
+        state.controls.mouse.clicked.moved = true;
+        removeObjectFromTable(objects[objects.length - 1]);
+        addObjectToTable(objects[objects.length - 1]);
+        state.controls.mouse.clicked = 0;
     }
+    
     //do something here when we have object tracking data structure set up
     return 1;
 }
 
 function mouseDown()
 {
-    var clicked = detectObjectClicked();
-    if(clicked !== 0) { clicked.clicked = true;}
+    if(state.controls.mouse.clicked == 0)
+    {
+        state.controls.mouse.clicked = detectObjectClicked();
+    }
+    if(state.controls.mouse.clicked !== 0) 
+    { 
+        state.controls.mouse.clicked.clicked = true; 
+    }
+}
+
+function rightMouseDown()
+{
+    console.log(JSON.stringify(detectObjectClicked()));
 }
 
 function handleInput()
@@ -525,7 +561,7 @@ function handleInput()
             state.input[i] == "leftmouseup"    ? mouseUp()        :
             state.input[i] == "leftmousedown"  ? mouseDown() :
             state.input[i] == "rightmouseup"   ? 1 :
-            state.input[i] == "rightmousedown" ? 1 :
+            state.input[i] == "rightmousedown" ? rightMouseDown() :
             state.input[i] == "mousewheelup"   ? 1 /*zoomOut() */  :
             state.input[i] == "mousewheeldown" ? 1 /*zoomIn()*/    :
             state.input[i] == "mousewheelup"   ? 1 /*zoomOut()*/        :
@@ -546,20 +582,38 @@ function handleInput()
             state.input[i] == "shiftdown"      ? 1 : 0;
     }
 
+
     if(state.input.includes("leftmousedown") && state.controls.mouse.leftmousedown)
     {
-        map.draggedX = state.controls.mouse.x;
-        map.draggedY = state.controls.mouse.y;
-        state.x++;
+        if(state.controls.mouse.clicked)
+        {
+            state.controls.mouse.clicked.draggedX = getEngCoordsX(state.controls.mouse.x);
+            state.controls.mouse.clicked.draggedY = getEngCoordsY(state.controls.mouse.y);
+        }
+        else
+        {
+            map.draggedX = state.controls.mouse.x;
+            map.draggedY = state.controls.mouse.y;
+            state.x++;
+        }
     }
 
     else if (state.controls.mouse.leftmousedown)
     {
-        map.focusPoint.x   -= Math.floor(map.draggedX - state.controls.mouse.x);
-        map.draggedX        = state.controls.mouse.x;
-        map.focusPoint.y   -= Math.floor(map.draggedY - state.controls.mouse.y);
-        map.draggedY        = state.controls.mouse.y;
-
+        if(state.controls.mouse.clicked)
+        {
+            state.controls.mouse.clicked.x -= Math.floor(state.controls.mouse.clicked.draggedX - getEngCoordsX(state.controls.mouse.x));
+            state.controls.mouse.clicked.draggedX = getEngCoordsX(state.controls.mouse.x);
+            state.controls.mouse.clicked.y -= Math.floor(state.controls.mouse.clicked.draggedY - getEngCoordsY(state.controls.mouse.y));
+            state.controls.mouse.clicked.draggedY = getEngCoordsY(state.controls.mouse.y);
+        }
+        else
+        {
+            map.focusPoint.x   -= Math.floor(map.draggedX - state.controls.mouse.x);
+            map.draggedX        = state.controls.mouse.x;
+            map.focusPoint.y   -= Math.floor(map.draggedY - state.controls.mouse.y);
+            map.draggedY        = state.controls.mouse.y;
+        }
         state.x++;
     }
 
@@ -573,10 +627,10 @@ function handleInput()
     if(state.controls.leftdown) { map.focusPoint.x += Math.floor(map.moveSpeedX / map.scale); state.x++; }
     if(state.controls.updown)   { map.focusPoint.y += Math.floor(map.moveSpeedY / map.scale); state.x++; }
     if(state.controls.downdown) { map.focusPoint.y -= Math.floor(map.moveSpeedY / map.scale); state.x++; }
-    if(state.controls.rightdown){ /*map.focusPoint.x -= map.moveSpeedX / map.scale; state.x++;*/ moveSquareRight(mySquare) }
-    if(state.controls.leftdown) { /*map.focusPoint.x += map.moveSpeedX / map.scale; state.x++;*/ moveSquareLeft(mySquare) }
-    if(state.controls.updown)   { /*map.focusPoint.y += map.moveSpeedY / map.scale; state.x++;*/ moveSquareUp(mySquare) }
-    if(state.controls.downdown) { /*map.focusPoint.y -= map.moveSpeedY / map.scale; state.x++;*/ moveSquareDown(mySquare) }
+    if(state.controls.rightdown){ moveSquareRight(mySquare) }
+    if(state.controls.leftdown) { moveSquareLeft(mySquare) }
+    if(state.controls.updown)   { moveSquareUp(mySquare) }
+    if(state.controls.downdown) { moveSquareDown(mySquare) }
 
     if(state.x > 0) { state.inactive = 0; } else {state.inactive++;}
     state.input = [];
@@ -605,10 +659,6 @@ function calculateFrameRate()
     {
         engine.framepoll += engine.frameLength;
     }
-    // if(engine.frame % 100 == 0 && engine.frameratereporting)
-    // {
-    //  console.log("Engine is running at " + engine.framerate + " frames per second.");
-    // }
 }
 /* H U D */
 function initializeHUD()
@@ -657,8 +707,6 @@ function initializeHUD()
     addStatToHud({"text": "engineMouseX: ", "value": function() {return getEngCoordsX(state.controls.mouse.x);}, style: "item" });
     addStatToHud({"text": "mouse.y: ", "value": function() {return state.controls.mouse.y;}, style: "item" });
     addStatToHud({"text": "engineMouseY: ", "value": function() {return getEngCoordsY(state.controls.mouse.y);}, style: "item" });
-    //addStatToHud({"text": "differenceXAfterZoom: ", "value": function() {return map.scaleDifferenceX;}, style: "item" });
-    //addStatToHud({"text": "differenceYAfterZoom: ", "value": function() {return map.scaleDifferenceY;}, style: "item" });
 }
 
 /* S P A T I A L  H A S H  T A B L E */
@@ -667,17 +715,12 @@ function initializeHashTable()
 {
     engine.ht = {};
     let ht = engine.ht;
-    ht.cellsize = 20;
+    ht.cellsize = 50;
     ht.contents = [];
     updateTable();
 }
 
-function hash(x, y){
-    return Math.round(x/engine.ht.cellsize) + "," + Math.round(y/engine.ht.cellsize);
-
-//take coords, make a hash, and put them in some sort of bucket algorithmically
-// return created hash
-}
+function hash(x, y){ return Math.round(x/engine.ht.cellsize) + "," + Math.round(y/engine.ht.cellsize); }
 
 function updateTable()
 {
@@ -686,22 +729,53 @@ function updateTable()
     //if they have, reassign hash values and reinsert into hashtable
 }
 
-function addObjectToTable(hash, object)
+function addObjectToTable(object)
 {
-    if(engine.ht.contents[hash] === undefined)
+    for(var y = 0; y < object.width; y++)
     {
-        engine.ht.contents[hash] = [];
-        engine.ht.contents[hash].push(object);
-    }
-    else if(engine.ht.contents[hash])
-    {
-        //if the bucket already contains the object reference, don't add a duplicate
-        for (x in engine.ht.contents[hash])
+        for(var z = 0; z < object.height; z++)
         {
-            if( engine.ht.contents[hash][x] === object) { return 0; }
+            var h = hash(object.x + y, object.y + z);
+            if(engine.ht.contents[h] === undefined)
+            {
+                engine.ht.contents[h] = [];
+                engine.ht.contents[h].push(object);
+                object.buckets.push(h);
+            }
+            else if(engine.ht.contents[h])
+            {
+                //if the bucket already contains the object reference, don't add a duplicate
+                var duplicate = false;
+                for (var x = 0; x < engine.ht.contents[h].length; x++)
+                {
+                    if( engine.ht.contents[h][x] === object) {duplicate = true; break; }
+                }
+                if(!duplicate)
+                {
+                    engine.ht.contents[h].push(object);
+                    object.buckets.push(h);
+                }
+            }
         }
-        engine.ht.contents[hash].push(object);
     }
+}
+
+function removeObjectFromTable(object)
+{
+    for(var x = 0; x < object.buckets.length; x++)
+    {
+        let len = engine.ht.contents[object.buckets[x]].length;
+        for(var y = 0; y < len; y++)
+        {
+            if(engine.ht.contents[object.buckets[x]][y] === object)
+            {
+                engine.ht.contents[object.buckets[x]].splice(y, 1);
+            }
+        }
+    }
+    object.buckets = [];
+    object.collisions = [];
+    return engine.ht.contents;
 }
 
 function getTable()
@@ -717,18 +791,26 @@ function detectCollision(object1, object2)
             object1.y + object1.height >= object2.y);        //minY coord is in range
 }
 
+function hasCollision(object, a)
+{
+    for(var x = 0; x < object.collisions.length; x++)
+    {
+        if(object.collisions[x][0] == a[0] && object.collisions[x][1] == a[1])
+        {
+            return true;
+        }
+    }
+    return false;
+}
+
 function detectObjectClicked()
 {
-    var h = hash(getEngCoordsX(state.controls.mouse.x), getEngCoordsY(state.controls.mouse.y));
-    if(engine.ht.contents[h] === undefined) 
-    {
-        console.log(h + " doesn't exist in hashtable.");
-        return 0;
-    }  
+    let h = hash(getEngCoordsX(state.controls.mouse.x), getEngCoordsY(state.controls.mouse.y));
+    if(engine.ht.contents[h] === undefined) { return 0; }  
 
-    var potentials = engine.ht.contents[h];
-    var result;
-    for(var x = 0; x < potentials.length; x++)
+    let potentials = engine.ht.contents[h];
+    let result;
+    for(let x = 0; x < potentials.length; x++)
     {
         if( getEngCoordsX(state.controls.mouse.x) >= potentials[x].x && 
             getEngCoordsX(state.controls.mouse.x) <= potentials[x].x + potentials[x].width &&
@@ -745,36 +827,44 @@ function detectObjectClicked()
 //TESTING PURPOSES
 function testCollision(object)
 {
-    if(object.neighbors === undefined) {object.neighbors = []; object.collisions = [];}
-    if(!object.moved) { return 0; }
-    for(var width = 0; width < object.width; width++)
+    var neighbors = [];
+    var collisions = [];
+    var currentlyColliding = false;
+    for(var bucket = 0; bucket < object.buckets.length; bucket++)
     {
-        for(var height = 0; height < object.height; height++)
+        let bucketNeighbors = engine.ht.contents[object.buckets[bucket]];
+        for(var friend = 0; friend < bucketNeighbors.length; friend++)
         {
-            var h = hash(object.x + width, object.y + height);
-            for(var i = 0; i < engine.ht.contents[h].length; i++)
+            if(bucketNeighbors[friend] !== object && neighbors.indexOf(bucketNeighbors[friend]) < 0)
             {
-                var test = engine.ht.contents[h][i];
-                if(test !== object)
-                {
-                    if(object.neighbors.indexOf(test) < 0
-)                    {
-                        object.neighbors.push(test);
-                    }
-                }
+                neighbors.push(bucketNeighbors[friend]);
             }
-        }    
-    }
-
-    for(var x = 0; x < object.neighbors.length; x++)
-    {
-        var rect = object.neighbors[x];
-        if(object.collisions.indexOf(rect) < 0)
-        {
-            if (detectCollision(object, rect)) { object.collisions.push(rect); }
         }
     }
+
+    for(var x = 0; x < neighbors.length; x++)
+    {
+        var rect = neighbors[x];
+        rect.moved = true;
+        var hit = {'collisionIndex': rect.index, 'collisionBuckets': rect.buckets};
+        var myhit = {'collisionIndex': object.index, 'collisionBuckets': object.buckets};
+        if (detectCollision(object, rect)) 
+        {
+            currentlyColliding = true;
+            if(!hasCollision(object, hit))
+            { 
+                object.collisions.push(hit); 
+                collisions.push(rect);
+                if(!hasCollision(rect, myhit))
+                {
+                    rect.collisions.push(myhit);
+                }
+            }
+        }
+    }
+    if(!currentlyColliding) { object.collisions = [];}
     object.moved = false;
+    return collisions;
 }
 
 /* L O O P */
@@ -807,18 +897,22 @@ function loop()
     }
 };
 
+
 initializeEngine();
 resetMap();
-
 for(let x = 0; x < 50; x++)
 {
-    var nS = newSquare(Math.random()*800 - map.focusPoint.x, Math.random()*800 - map.focusPoint.y, (Math.random()*100)+5, (Math.random()*100)+5);
+    var nS = newSquare( Math.random()*800 - map.focusPoint.x, 
+                        Math.random()*800 - map.focusPoint.y, 
+                        Math.floor(Math.random()*100)+5, 
+                        Math.floor(Math.random()*100)+5);
+    nS.maxX = nS.x + nS.width,
+    nS.maxY = nS.y + nS.height, 
     objects.push(nS);
-    for(var y = 0; y <= nS.width; y++)
-    {
-        for(var z = 0; z <= nS.height; z++)
-        {
-            addObjectToTable(hash(nS.x + y, nS.y + z), nS);
-        }
-    }
+    addObjectToTable(nS);
+}
+
+for(let y = 0; y < objects.length; y++)
+{
+    testCollision(objects[y]);
 }
