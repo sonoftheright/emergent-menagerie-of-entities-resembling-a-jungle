@@ -4,42 +4,6 @@
 		"selected_items":
 		[
 			[
-				"getGraphics",
-				"getGraphicsCoordinatesX"
-			],
-			[
-				"add",
-				"addStatToHud"
-			],
-			[
-				"permu",
-				"PERMUTATION_LENGTH"
-			],
-			[
-				"MAP",
-				"MAP_BUFFER_WIDTH"
-			],
-			[
-				"sizeChunk",
-				"sizeChunkY"
-			],
-			[
-				"chunk",
-				"CHUNK_SIDE_SIZE"
-			],
-			[
-				"CHUNK",
-				"CHUNK_SIDE_SIZE"
-			],
-			[
-				"xf",
-				"xfade"
-			],
-			[
-				"OBJE",
-				"OBJECT_FLAGS"
-			],
-			[
 				"init",
 				"initViewport"
 			],
@@ -82,6 +46,10 @@
 			[
 				"neighborMa",
 				"neighborMaxZ"
+			],
+			[
+				"MAP",
+				"MAP_HEIGHT"
 			],
 			[
 				"DEF",
@@ -171,42 +139,8 @@
 			"file": "app.js",
 			"settings":
 			{
-<<<<<<< HEAD
-				"buffer_size": 23895,
-				"encoding": "UTF-8",
+				"buffer_size": 29738,
 				"line_ending": "Windows"
-=======
-				"buffer_size": 23904,
-				"encoding": "UTF-8",
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"contents": "//entity.js\n\nconst entity =\n{\n//attributes\n\tshape: \"square\",\n\twidth: 20,\n\tneeds:\n\t{\n\t\thunger: \t10.0,\n\t\thealth: \t10.0,\n\t\tenergy: \t10.0,\n\t\tbathroom: \t10.0\n\t},\n\tdecayRate:\n\t{\n\t}\n};",
-			"file": "entity.js",
-			"file_size": 39,
-			"file_write_time": 131501416297253570,
-			"settings":
-			{
-				"buffer_size": 177,
-				"encoding": "UTF-8",
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"contents": "const variable = input(\"enter input\")\n",
-			"settings":
-			{
-				"buffer_size": 38,
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"settings":
-			{
-				"buffer_size": 0,
-				"line_ending": "Windows"
->>>>>>> 88036f72b23d38b2a3b76570aafa6b2293545761
 			}
 		}
 	],
@@ -233,7 +167,7 @@
 	"build_varint": "",
 	"command_palette":
 	{
-		"height": 392.0,
+		"height": 104.0,
 		"last_filter": "install",
 		"selected_items":
 		[
@@ -250,7 +184,7 @@
 				"Preferences: Browse Packages"
 			]
 		],
-		"width": 467.0
+		"width": 464.0
 	},
 	"console":
 	{
@@ -270,34 +204,30 @@
 		"side_bar_visible": false,
 		"status_bar_visible": false
 	},
-	"expanded_folders":
-	[
-<<<<<<< HEAD
-		"/C/Users/admin/Dropbox/emergent-menagerie-of-entities-resembling-a-jungle"
-=======
-		"/C/Users/Bookstore.RECEIVINGROOM/Downloads/Other/Prog/emergent-menagerie-of-entities-resembling-a-jungle"
->>>>>>> 88036f72b23d38b2a3b76570aafa6b2293545761
-	],
 	"file_history":
 	[
-		"/Users/Benjamin/Dropbox/emergent-menagerie-of-entities-resembling-a-jungle/app.js",
-		"/Users/Benjamin/Dropbox/emergent-menagerie-of-entities-resembling-a-jungle/perlin.js",
-		"/Users/Benjamin/Dropbox/emergent-menagerie-of-entities-resembling-a-jungle/bedlam.html",
-		"/C/Users/Bookstore.RECEIVINGROOM/Downloads/Other/Prog/Practice/blending-bedlam/perlin.js",
-		"/C/Users/Bookstore.RECEIVINGROOM/Downloads/Other/Journal.hjt",
-		"/C/Users/Bookstore.RECEIVINGROOM/Downloads/Other/Prog/Frenetic Etchings App/app.js",
-		"/C/Users/Bookstore.RECEIVINGROOM/Downloads/Other/Prog/Server/Server/server.js",
-		"/C/Users/Bookstore.RECEIVINGROOM/Downloads/Other/Prog/mainserver.js",
-		"/C/Users/Bookstore.RECEIVINGROOM/Downloads/Other/Prog/T1OmniCrack.js",
-		"/C/Users/Bookstore.RECEIVINGROOM/Downloads/Other/Prog/Practice/game0/perlin.cpp",
-		"/C/Users/Bookstore.RECEIVINGROOM/Downloads/Other/Prog/Practice/game0/build-systemstest.bat",
-		"/C/Users/Bookstore.RECEIVINGROOM/AppData/Roaming/Sublime Text 3/Packages/User/build-systemstest.sublime-build",
-		"/C/Users/Bookstore.RECEIVINGROOM/Downloads/Other/Prog/Jygdaal's Keep/main.cpp",
-		"/C/Users/Bookstore.RECEIVINGROOM/Downloads/Other/Prog/Practice/game0/systemstestio.h",
-		"/C/Users/Bookstore.RECEIVINGROOM/Downloads/Other/Prog/Practice/game0/systemstestio.cpp",
-		"/C/Users/Bookstore.RECEIVINGROOM/Downloads/Other/Prog/Practice/game0/architecturalbrainstorm.md",
-		"/C/Users/Bookstore.RECEIVINGROOM/AppData/Roaming/Sublime Text 3/Packages/FileHeader/FileHeader.sublime-settings",
-		"/C/Users/Bookstore.RECEIVINGROOM/Downloads/Other/Prog/Practice/game0/systemstest.h",
+		"/B/Dropbox/BenjaminMarquardt.com/js.js",
+		"/C/Users/Benjamin/Desktop/problem.c",
+		"/K/Program Files/Steam/steamapps/common/GarrysMod/garrysmod/gamemodes/experiment/experiment.txt",
+		"/K/Program Files/Steam/steamapps/common/GarrysMod/garrysmod/gamemodes/experiment/gamemode/shared.lua",
+		"/K/Program Files/Steam/steamapps/common/GarrysMod/garrysmod/gamemodes/experiment/gamemode/cl_init.lua",
+		"/K/Program Files/Steam/steamapps/common/GarrysMod/garrysmod/gamemodes/experiment/gamemode/init.lua",
+		"/B/Dropbox/emergent-menagerie-of-entities-resembling-a-jungle/app.js",
+		"/H/Program Files/SteamLibrary/SteamApps/common/Counter-Strike Global Offensive/csgo/cfg/deaglepractice.cfg",
+		"/C/Users/Benjamin/Desktop/diamondtest.html",
+		"/C/Users/Benjamin/Desktop/test.c",
+		"/B/Dropbox/emergent-menagerie-of-entities-resembling-a-jungle/index.html",
+		"/B/Dropbox/Jygdaal's Keep/build.bat",
+		"/K/Program Files/Steam/steamapps/common/GarrysMod/garrysmod/lua/sayhello.lua",
+		"/B/Dropbox/hackmud/T1OmniCrack.js",
+		"/B/Dropbox/game0/systemstest.h",
+		"/H/Program Files/SteamLibrary/SteamApps/common/Counter-Strike Global Offensive/csgo/cfg/nadepractice.cfg",
+		"/B/Dropbox/game0/systemstest.cpp",
+		"/C/Users/Benjamin/Desktop/musicbot.bat",
+		"/B/Dropbox/game0/architecturalbrainstorm.md",
+		"/B/Dropbox/game0/todo.md",
+		"/B/Dropbox/Jygdaal's Keep/main.h",
+		"/B/Dropbox/Jygdaal's Keep/main.c",
 		"/C/Users/admin/Dropbox/Programming/Tutorials/Handmade Hero/handmade_hero_251_source/handmade_hero_day_251_source/code/handmade.cpp",
 		"/C/Users/admin/AppData/Roaming/Sublime Text 3/Packages/User/FileHeader.sublime-settings",
 		"/C/Users/admin/Dropbox/game0/systemstest.h",
@@ -403,22 +333,17 @@
 		"/C/Users/admin/Dropbox/ProjectAlf/Serious Code/Jygdaal's Keep/datautil.cpp",
 		"/C/Users/admin/Dropbox/ProjectAlf/Serious Code/Jygdaal's Keep/flowlogic.h",
 		"/C/Users/admin/Dropbox/ProjectAlf/Serious Code/Jygdaal's Keep/flowlogic.cpp",
-		"/C/Users/admin/Dropbox/ProjectAlf/Serious Code/Jygdaal's Keep/gamemap.h",
-		"/C/Users/admin/Dropbox/ProjectAlf/Serious Code/Jygdaal's Keep/gamemap.cpp",
-		"/C/Users/admin/Dropbox/ProjectAlf/Serious Code/Jygdaal's Keep/mapconstants.h",
-		"/C/Users/admin/Dropbox/ProjectAlf/Serious Code/Jygdaal's Keep/build.bat",
-		"/C/Users/admin/Dropbox/ProjectAlf/Serious Code/build.bat"
+		"/C/Users/admin/Dropbox/ProjectAlf/Serious Code/Jygdaal's Keep/gamemap.h"
 	],
 	"find":
 	{
-		"height": 40.0
+		"height": 26.0
 	},
 	"find_in_files":
 	{
 		"height": 90.0,
 		"where_history":
 		[
-			""
 		]
 	},
 	"find_state":
@@ -426,168 +351,6 @@
 		"case_sensitive": false,
 		"find_history":
 		[
-<<<<<<< HEAD
-			"scale",
-			"smartobjects",
-			"objects.push",
-			"zoom",
-			"map.focus",
-			"moveFocusPointInEngine",
-			"moveFocusPointInGraphics",
-			"stroke",
-			"refreshhud",
-			"drawhud",
-			"ctx.",
-			"width",
-			"stroke",
-			"strokestyle",
-			"initiali",
-			"resize",
-			"initialize",
-			"refreshhud",
-			"fitelementsize",
-			"mousedown",
-			"zoomIn",
-			"zoomout",
-			";\n",
-			"state.x",
-			"engineY",
-=======
-			"scroll",
-			"gfx",
-			"engine",
-			"getengcoords",
-			"update",
-			"getGfx",
->>>>>>> 88036f72b23d38b2a3b76570aafa6b2293545761
-			"getengcoords",
-			"enginemousex",
-			"getgfx",
-			"getEngCoordsY",
-			"getGraphicsCoordinates",
-			"updateMap",
-			"initializemap",
-			"relative",
-			"updatemap",
-			"relative",
-			"getrelative",
-			"state.controls.mouse.rx",
-			"focuspoint.x",
-			"map.focusPoint.x",
-			"updatemap",
-			"refreshhud",
-			"newSmartSquare",
-			"update",
-			"refreshMap",
-			"initializeMap",
-			"initialize",
-			"map.right",
-			"map.top",
-			"el =",
-			"el.",
-			"newSquare",
-			"map.scale",
-			"map.",
-			"))*/;",
-			"hud.buffer",
-			"mouse.x",
-			"middleX",
-			"leftdown",
-			"element.width",
-			"\t\n",
-			"state",
-			"state.inactive",
-			"initializeEngine",
-			"state.inactive",
-			"state.input",
-			"console.log(\"Mouse",
-			"state.inactive",
-			"engine.inactive",
-			"state.inactive",
-			"console.log",
-			";\n",
-			"statFont",
-			"statfont",
-			"font",
-			"drawborders",
-			"printmap",
-			"d",
-			";\n",
-			"}\n",
-			"zi",
-			"yi",
-			"xi",
-			"inc(xi)",
-			"1 ",
-			"1  ",
-			"0 ",
-			"enum NUMBERS",
-			"Entityflag_simming",
-			"extern",
-			"mainwindo",
-			"Running",
-			"\t\t",
-			"Running",
-			"tree ",
-			"tree",
-			"person",
-			"render",
-			"getlisten",
-			"getlistener",
-			"printmapstats",
-			"getMapStats",
-			"gridpoint",
-			"setTileType",
-			"Tiletype",
-			"setTilety",
-			"puts(rand()",
-			"settiletype",
-			"system",
-			"rand",
-			"printenvironm",
-			"long",
-			"getgridpointposition",
-			"strncpy",
-			"validateString",
-			"5726",
-			"1024",
-			"2048",
-			"rotationaxis",
-			"getcontext",
-			"shaderProjectionMatrixUniform",
-			"projectionMatrix",
-			"findprey",
-			"makeeater",
-			"beginpath",
-			"path.join",
-			"path + \"\\\\\" + files[f]",
-			"stat",
-<<<<<<< HEAD
-			");\n"
-=======
-			");\n",
-			"vertexPos",
-			"vertexPos ",
-			"vertexPos",
-			");\n",
-			"rendero",
-			"render()",
-			"render(",
-			"render()",
-			"renderObject",
-			"render",
-			"draw",
-			"slowspeed",
-			"cameraspeed",
-			"camera",
-			"cameraspeed",
-			"cameraSpeed",
-			"$.graphics.world.cameraSpeed",
-			"cameraspeed",
-			"worldfocuscoord",
-			"runningtest",
-			"cameraSpeed"
->>>>>>> 88036f72b23d38b2a3b76570aafa6b2293545761
 		],
 		"highlight": true,
 		"in_selection": false,
@@ -595,7 +358,6 @@
 		"regex": false,
 		"replace_history":
 		[
-			"bool32 "
 		],
 		"reverse": false,
 		"show_context": true,
@@ -606,7 +368,7 @@
 	"groups":
 	[
 		{
-			"selected": 2,
+			"selected": 0,
 			"sheets":
 			[
 				{
@@ -615,69 +377,30 @@
 					"semi_transient": false,
 					"settings":
 					{
-<<<<<<< HEAD
-						"buffer_size": 23895,
-=======
-						"buffer_size": 23904,
->>>>>>> 88036f72b23d38b2a3b76570aafa6b2293545761
+						"buffer_size": 29738,
 						"regions":
 						{
-							"mark":
-							{
-								"flags": 144,
-								"icon": "dot",
-								"regions":
-								[
-									[
-										2195,
-										2195
-									]
-								],
-								"scope": "mark"
-							}
 						},
 						"selection":
 						[
 							[
-<<<<<<< HEAD
-								6164,
-								6164
-=======
-								16787,
-								16787
->>>>>>> 88036f72b23d38b2a3b76570aafa6b2293545761
+								120,
+								120
 							]
 						],
 						"settings":
 						{
-<<<<<<< HEAD
-=======
 							"bracket_highlighter.busy": false,
 							"bracket_highlighter.locations":
 							{
 								"close":
 								{
-									"1":
-									[
-										17633,
-										17634
-									]
 								},
 								"icon":
 								{
-									"1":
-									[
-										"Packages/BracketHighlighter/icons/curly_bracket.png",
-										"brackethighlighter.default"
-									]
 								},
 								"open":
 								{
-									"1":
-									[
-										16279,
-										16280
-									]
 								},
 								"unmatched":
 								{
@@ -685,36 +408,36 @@
 							},
 							"bracket_highlighter.regions":
 							[
-								"bh_tag",
-								"bh_tag_center",
-								"bh_tag_open",
-								"bh_tag_close",
-								"bh_tag_content",
-								"bh_double_quote",
-								"bh_double_quote_center",
-								"bh_double_quote_open",
-								"bh_double_quote_close",
-								"bh_double_quote_content",
-								"bh_single_quote",
-								"bh_single_quote_center",
-								"bh_single_quote_open",
-								"bh_single_quote_close",
-								"bh_single_quote_content",
 								"bh_curly",
 								"bh_curly_center",
 								"bh_curly_open",
 								"bh_curly_close",
 								"bh_curly_content",
-								"bh_c_define",
-								"bh_c_define_center",
-								"bh_c_define_open",
-								"bh_c_define_close",
-								"bh_c_define_content",
 								"bh_regex",
 								"bh_regex_center",
 								"bh_regex_open",
 								"bh_regex_close",
 								"bh_regex_content",
+								"bh_square",
+								"bh_square_center",
+								"bh_square_open",
+								"bh_square_close",
+								"bh_square_content",
+								"bh_single_quote",
+								"bh_single_quote_center",
+								"bh_single_quote_open",
+								"bh_single_quote_close",
+								"bh_single_quote_content",
+								"bh_angle",
+								"bh_angle_center",
+								"bh_angle_open",
+								"bh_angle_close",
+								"bh_angle_content",
+								"bh_unmatched",
+								"bh_unmatched_center",
+								"bh_unmatched_open",
+								"bh_unmatched_close",
+								"bh_unmatched_content",
 								"bh_round",
 								"bh_round_center",
 								"bh_round_open",
@@ -725,23 +448,22 @@
 								"bh_default_open",
 								"bh_default_close",
 								"bh_default_content",
-								"bh_unmatched",
-								"bh_unmatched_center",
-								"bh_unmatched_open",
-								"bh_unmatched_close",
-								"bh_unmatched_content",
-								"bh_square",
-								"bh_square_center",
-								"bh_square_open",
-								"bh_square_close",
-								"bh_square_content",
-								"bh_angle",
-								"bh_angle_center",
-								"bh_angle_open",
-								"bh_angle_close",
-								"bh_angle_content"
+								"bh_c_define",
+								"bh_c_define_center",
+								"bh_c_define_open",
+								"bh_c_define_close",
+								"bh_c_define_content",
+								"bh_tag",
+								"bh_tag_center",
+								"bh_tag_open",
+								"bh_tag_close",
+								"bh_tag_content",
+								"bh_double_quote",
+								"bh_double_quote_center",
+								"bh_double_quote_open",
+								"bh_double_quote_close",
+								"bh_double_quote_content"
 							],
->>>>>>> 88036f72b23d38b2a3b76570aafa6b2293545761
 							"c_time":
 							[
 								128,
@@ -771,14 +493,14 @@
 								10,
 								7,
 								225,
-								4,
-								10,
-								11,
-								12,
-								29,
-								10,
-								71,
-								218,
+								9,
+								22,
+								17,
+								32,
+								14,
+								13,
+								25,
+								67,
 								113,
 								1,
 								133,
@@ -789,314 +511,16 @@
 								3,
 								46
 							],
+							"color_scheme": "Packages/User/Color Highlighter/themes/Monokai.tmTheme",
 							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax",
 							"tab_size": 4,
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-<<<<<<< HEAD
-						"translation.y": 2160.0,
-=======
-						"translation.y": 7866.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 3,
-					"type": "text"
-				},
-				{
-					"buffer": 1,
-					"file": "entity.js",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 177,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								168,
-								168
-							]
-						],
-						"settings":
-						{
-							"bracket_highlighter.busy": false,
-							"bracket_highlighter.locations":
-							{
-								"close":
-								{
-									"1":
-									[
-										175,
-										176
-									]
-								},
-								"icon":
-								{
-									"1":
-									[
-										"Packages/BracketHighlighter/icons/curly_bracket.png",
-										"brackethighlighter.default"
-									]
-								},
-								"open":
-								{
-									"1":
-									[
-										28,
-										29
-									]
-								},
-								"unmatched":
-								{
-								}
-							},
-							"bracket_highlighter.regions":
-							[
-								"bh_tag",
-								"bh_tag_center",
-								"bh_tag_open",
-								"bh_tag_close",
-								"bh_tag_content",
-								"bh_double_quote",
-								"bh_double_quote_center",
-								"bh_double_quote_open",
-								"bh_double_quote_close",
-								"bh_double_quote_content",
-								"bh_single_quote",
-								"bh_single_quote_center",
-								"bh_single_quote_open",
-								"bh_single_quote_close",
-								"bh_single_quote_content",
-								"bh_curly",
-								"bh_curly_center",
-								"bh_curly_open",
-								"bh_curly_close",
-								"bh_curly_content",
-								"bh_c_define",
-								"bh_c_define_center",
-								"bh_c_define_open",
-								"bh_c_define_close",
-								"bh_c_define_content",
-								"bh_regex",
-								"bh_regex_center",
-								"bh_regex_open",
-								"bh_regex_close",
-								"bh_regex_content",
-								"bh_round",
-								"bh_round_center",
-								"bh_round_open",
-								"bh_round_close",
-								"bh_round_content",
-								"bh_default",
-								"bh_default_center",
-								"bh_default_open",
-								"bh_default_close",
-								"bh_default_content",
-								"bh_unmatched",
-								"bh_unmatched_center",
-								"bh_unmatched_open",
-								"bh_unmatched_close",
-								"bh_unmatched_content",
-								"bh_square",
-								"bh_square_center",
-								"bh_square_open",
-								"bh_square_close",
-								"bh_square_content",
-								"bh_angle",
-								"bh_angle_center",
-								"bh_angle_open",
-								"bh_angle_close",
-								"bh_angle_content"
-							],
-							"c_time":
-							[
-								128,
-								3,
-								99,
-								100,
-								97,
-								116,
-								101,
-								116,
-								105,
-								109,
-								101,
-								10,
-								100,
-								97,
-								116,
-								101,
-								116,
-								105,
-								109,
-								101,
-								10,
-								113,
-								0,
-								67,
-								10,
-								7,
-								225,
-								9,
-								17,
-								13,
-								7,
-								9,
-								10,
-								195,
-								77,
-								113,
-								1,
-								133,
-								113,
-								2,
-								82,
-								113,
-								3,
-								46
-							],
-							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax"
-						},
-						"translation.x": 0.0,
 						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 1,
-					"type": "text"
-				},
-				{
-					"buffer": 2,
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 38,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								38,
-								38
-							]
-						],
-						"settings":
-						{
-							"bracket_highlighter.busy": false,
-							"bracket_highlighter.locations":
-							{
-								"close":
-								{
-								},
-								"icon":
-								{
-								},
-								"open":
-								{
-								},
-								"unmatched":
-								{
-								}
-							},
-							"bracket_highlighter.regions":
-							[
-								"bh_tag",
-								"bh_tag_center",
-								"bh_tag_open",
-								"bh_tag_close",
-								"bh_tag_content",
-								"bh_double_quote",
-								"bh_double_quote_center",
-								"bh_double_quote_open",
-								"bh_double_quote_close",
-								"bh_double_quote_content",
-								"bh_single_quote",
-								"bh_single_quote_center",
-								"bh_single_quote_open",
-								"bh_single_quote_close",
-								"bh_single_quote_content",
-								"bh_curly",
-								"bh_curly_center",
-								"bh_curly_open",
-								"bh_curly_close",
-								"bh_curly_content",
-								"bh_c_define",
-								"bh_c_define_center",
-								"bh_c_define_open",
-								"bh_c_define_close",
-								"bh_c_define_content",
-								"bh_regex",
-								"bh_regex_center",
-								"bh_regex_open",
-								"bh_regex_close",
-								"bh_regex_content",
-								"bh_round",
-								"bh_round_center",
-								"bh_round_open",
-								"bh_round_close",
-								"bh_round_content",
-								"bh_default",
-								"bh_default_center",
-								"bh_default_open",
-								"bh_default_close",
-								"bh_default_content",
-								"bh_unmatched",
-								"bh_unmatched_center",
-								"bh_unmatched_open",
-								"bh_unmatched_close",
-								"bh_unmatched_content",
-								"bh_square",
-								"bh_square_center",
-								"bh_square_open",
-								"bh_square_close",
-								"bh_square_content",
-								"bh_angle",
-								"bh_angle_center",
-								"bh_angle_open",
-								"bh_angle_close",
-								"bh_angle_content"
-							],
-							"default_dir": "C:\\Users\\Bookstore.RECEIVINGROOM\\Downloads\\Other\\Prog\\emergent-menagerie-of-entities-resembling-a-jungle",
-							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax"
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
->>>>>>> 88036f72b23d38b2a3b76570aafa6b2293545761
 						"zoom_level": 1.0
 					},
 					"stack_index": 0,
-					"type": "text"
-				},
-				{
-					"buffer": 3,
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 0,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								0,
-								0
-							]
-						],
-						"settings":
-						{
-							"bracket_highlighter.busy": false,
-							"default_dir": "C:\\Users\\Bookstore.RECEIVINGROOM\\Downloads\\Other\\Prog\\emergent-menagerie-of-entities-resembling-a-jungle",
-							"syntax": "Packages/Text/Plain text.tmLanguage"
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 2,
 					"type": "text"
 				}
 			]
@@ -1104,11 +528,7 @@
 	],
 	"incremental_find":
 	{
-<<<<<<< HEAD
-		"height": 22.0
-=======
-		"height": 23.0
->>>>>>> 88036f72b23d38b2a3b76570aafa6b2293545761
+		"height": 26.0
 	},
 	"input":
 	{
@@ -1137,6 +557,14 @@
 		]
 	},
 	"menu_visible": true,
+	"output.CppYCM.2":
+	{
+		"height": 0.0
+	},
+	"output.CppYCM.3":
+	{
+		"height": 0.0
+	},
 	"output.exec":
 	{
 		"height": 238.0
@@ -1145,15 +573,11 @@
 	{
 		"height": 0.0
 	},
-	"pinned_build_system": "Packages/User/build-systemstest.sublime-build",
+	"pinned_build_system": "Packages/User/my build system.sublime-build",
 	"project": "blending-bedlam.sublime-project",
 	"replace":
 	{
-<<<<<<< HEAD
-		"height": 40.0
-=======
-		"height": 42.0
->>>>>>> 88036f72b23d38b2a3b76570aafa6b2293545761
+		"height": 48.0
 	},
 	"save_all_on_build": true,
 	"select_file":
@@ -1190,8 +614,8 @@
 	"show_minimap": true,
 	"show_open_files": false,
 	"show_tabs": true,
-	"side_bar_visible": false,
-	"side_bar_width": 140.0,
+	"side_bar_visible": true,
+	"side_bar_width": 133.0,
 	"status_bar_visible": true,
 	"template_settings":
 	{
