@@ -86,7 +86,7 @@ function createEventListeners()
             state.controls.mouse.leftmousedown = true;
         }
     });
-    window.addEventListener('mouseup', function (event)
+    el.addEventListener('mouseup', function (event)
     {
         var keyPressed = event.which;
         if (keyPressed === 1)
