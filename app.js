@@ -773,7 +773,6 @@ function hash(x, y){ return Math.round(x/engine.ht.cellsize) + "," + Math.round(
 
 function updateObjectInTable(object)
 {
-    console.log("UPDATING " + object.index);
     var oldData = removeObjectFromTable(objects[object.index]);
     var newData = addObjectToTable(objects[object.index]);
     if(!objectsIdentical(oldData, newData))
@@ -898,7 +897,6 @@ function detectObjectClicked()
 
 function flagBucketForUpdate(hash)
 {
-    console.log("Updating bucket " + hash);
     var toUpdate = engine.ht.contents[hash];
     if(toUpdate !== undefined)
     {
