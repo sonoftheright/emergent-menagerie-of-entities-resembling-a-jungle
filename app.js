@@ -999,12 +999,12 @@ function loop()
 
 initializeEngine();
 resetMap();
-for(let x = 0; x < 300; x++)
+for(let x = 0; x < 50; x++)
 {
-    var nS = newSquare( Math.random()*el.width - map.focusPoint.x,
-                        Math.random()*el.height - map.focusPoint.y,
-                        Math.floor(Math.random()*50)+5,
-                        Math.floor(Math.random()*50)+5);
+    var nS = newSquare( Math.random()*(el.width-100) - map.focusPoint.x,
+                        Math.random()*(el.height-100) - map.focusPoint.y,
+                        Math.floor(Math.random()*100)+5,
+                        Math.floor(Math.random()*100)+5);
     nS.maxX = nS.x + nS.width;
     nS.maxY = nS.y + nS.height;
     objects.push(nS);
