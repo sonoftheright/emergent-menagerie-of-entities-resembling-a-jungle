@@ -88,16 +88,20 @@ function createEventListeners()
     }, false);
     el.addEventListener('touchstart', function (event)
     {
-        state.input.push("touchdown");
+        var pos = findPos(el);
+        state.input.push('leftmousedown');
         state.controls.mouse.leftmousedown = true;
+        state.controls.mouse.x = event.changedTouches[0].pageX - pos.x;
+        state.controls.mouse.y = event.changedTouches[0].pageY - pos.y;
     }, false);
     el.addEventListener('touchmove', function (event)
     {
-        state.input.push("touchdown");
         var pos = findPos(el);
-        state.controls.mouse.x = event.changedTouches[event.changedTouches.length -1].pageX - pos.x;
-        state.controls.mouse.y = event.changedTouches[event.changedTouches.length -1].pageY - pos.y;
-        state.controls.mouse.leftmousedown = true;
+        for(var x = 0; x < event.changedTouches.length; x++)
+        {
+            state.controls.mouse.x = event.changedTouches[x].pageX - pos.x;
+            state.controls.mouse.y = event.changedTouches[x].pageY - pos.y;
+        }
     }, false);
     el.addEventListener('mouseup', function (event)
     {
@@ -116,8 +120,12 @@ function createEventListeners()
     }, false);
     el.addEventListener('touchend', function (event)
     {
-        state.input.push("touchup");
+        var pos = findPos(el);
+        state.input.push("leftmouseup");
         state.controls.mouse.leftmousedown = false;
+        state.controls.mouse.x = event.changedTouches[event.changedTouches.length - 1].pageX - pos.x;
+        state.controls.mouse.y = event.changedTouches[event.changedTouches.length - 1].pageY - pos.y;
+        console.log("x: " + state.controls.mouse.x);
     }, false);
     /* keyboard listener */
     window.addEventListener('keydown', function (event)
@@ -621,11 +629,11 @@ function handleInput()
             state.input[i] == "spaceup"        ? 1 :
             state.input[i] == "escup"          ? 1 :
             state.input[i] == "escdown"        ? 1 :
+            state.input[i] == "touchdown"      ? mouseDown() :
+            state.input[i] == "touchup"        ? mouseUp() :
             state.input[i] == "shiftup"        ? 1 :
             state.input[i] == "shiftdown"      ? 1 : 0;
     }
-
-
     if(state.input.includes("leftmousedown") && state.controls.mouse.leftmousedown)
     {
         if(state.controls.mouse.clicked)
@@ -671,10 +679,10 @@ function handleInput()
     if(state.controls.leftdown) { map.focusPoint.x += Math.floor(map.moveSpeedX / map.scale); state.x++; }
     if(state.controls.updown)   { map.focusPoint.y += Math.floor(map.moveSpeedY / map.scale); state.x++; }
     if(state.controls.downdown) { map.focusPoint.y -= Math.floor(map.moveSpeedY / map.scale); state.x++; }
-    if(state.controls.rightdown){ moveSquareRight(mySquare) }
-    if(state.controls.leftdown) { moveSquareLeft(mySquare) }
-    if(state.controls.updown)   { moveSquareUp(mySquare) }
-    if(state.controls.downdown) { moveSquareDown(mySquare) }
+    if(state.controls.rightdown){}
+    if(state.controls.leftdown) {}
+    if(state.controls.updown)   {}
+    if(state.controls.downdown) {}
 
     if(state.x > 0) { state.inactive = 0; } else {state.inactive++;}
     state.input = [];
