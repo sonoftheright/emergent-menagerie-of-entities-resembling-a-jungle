@@ -91,6 +91,14 @@ function createEventListeners()
         state.input.push("touchdown");
         state.controls.mouse.leftmousedown = true;
     }, false);
+    el.addEventListener('touchmove', function (event)
+    {
+        state.input.push("touchdown");
+        var pos = findPos(el);
+        state.controls.mouse.x = event.changedTouches[event.changedTouches.length -1].pageX - pos.x;
+        state.controls.mouse.y = event.changedTouches[event.changedTouches.length -1].pageY - pos.y;
+        state.controls.mouse.leftmousedown = true;
+    }, false);
     el.addEventListener('mouseup', function (event)
     {
         var keyPressed = event.which;
@@ -981,17 +989,16 @@ function loop()
     }
 };
 
-
 initializeEngine();
 resetMap();
-for(let x = 0; x < 100; x++)
+for(let x = 0; x < 300; x++)
 {
-    var nS = newSquare( Math.random()*800 - map.focusPoint.x,
-                        Math.random()*800 - map.focusPoint.y,
-                        Math.floor(Math.random()*100)+5,
-                        Math.floor(Math.random()*100)+5);
-    nS.maxX = nS.x + nS.width,
-    nS.maxY = nS.y + nS.height,
+    var nS = newSquare( Math.random()*el.width - map.focusPoint.x,
+                        Math.random()*el.height - map.focusPoint.y,
+                        Math.floor(Math.random()*50)+5,
+                        Math.floor(Math.random()*50)+5);
+    nS.maxX = nS.x + nS.width;
+    nS.maxY = nS.y + nS.height;
     objects.push(nS);
     addObjectToTable(nS);
 }
