@@ -555,7 +555,6 @@ function mouseUp()
         state.controls.mouse.clicked.draggedX = 0;
         state.controls.mouse.clicked.draggedY = 0;
         state.controls.mouse.clicked.clicked = false;
-        switchWithLastIndex(objects, state.controls.mouse.clicked.index)
         updateObjectInTable(state.controls.mouse.clicked);
         state.controls.mouse.clicked = 0;
     }
@@ -569,6 +568,7 @@ function mouseDown()
     if(state.controls.mouse.clicked == 0)
     {
         state.controls.mouse.clicked = detectObjectClicked();
+        switchWithLastIndex(objects, state.controls.mouse.clicked.index);
     }
     if(state.controls.mouse.clicked !== 0)
     {
@@ -641,6 +641,7 @@ function handleInput()
             state.controls.mouse.clicked.draggedX = getEngCoordsX(state.controls.mouse.x);
             state.controls.mouse.clicked.y -= Math.floor(state.controls.mouse.clicked.draggedY - getEngCoordsY(state.controls.mouse.y));
             state.controls.mouse.clicked.draggedY = getEngCoordsY(state.controls.mouse.y);
+            //updateObjectInTable(state.controls.mouse.clicked);
         }
         else
         {
@@ -752,7 +753,7 @@ function updateCollisionObjects()
     var updated = [];
     for(var x = 0; x < collisionObjectsToUpdate.length; x++)
     {
-        testCollision(collisionObjectsToUpdate[x]);
+        collisionObjectsToUpdate[x].collisions = getCollisions(collisionObjectsToUpdate[x]);
         updated.push(collisionObjectsToUpdate[x].index);
     }
     collisionObjectsToUpdate = [];
@@ -772,6 +773,7 @@ function hash(x, y){ return Math.round(x/engine.ht.cellsize) + "," + Math.round(
 
 function updateObjectInTable(object)
 {
+    console.log("UPDATING " + object.index);
     var oldData = removeObjectFromTable(objects[object.index]);
     var newData = addObjectToTable(objects[object.index]);
     if(!objectsIdentical(oldData, newData))
@@ -896,6 +898,7 @@ function detectObjectClicked()
 
 function flagBucketForUpdate(hash)
 {
+    console.log("Updating bucket " + hash);
     var toUpdate = engine.ht.contents[hash];
     if(toUpdate !== undefined)
     {
@@ -912,7 +915,7 @@ function flagBucketForUpdate(hash)
 }
 
 //TESTING PURPOSES
-function testCollision(object)
+function getCollisions(object)
 {
     var neighbors = [];
     var collisions = [];
@@ -932,19 +935,19 @@ function testCollision(object)
     for(var x = 0; x < neighbors.length; x++)
     {
         var rect = neighbors[x];
-        var hit = {'buckets': rect.buckets};
-        var myhit = {'buckets': object.buckets};
+        var hit = rect.index;
         if (detectCollision(object, rect))
         {
             currentlyColliding = true;
-            if(!hasCollision(object, hit))
+            if(object.collisions.indexOf(hit) < 0)
             {
                 object.collisions.push(hit);
                 collisions.push(rect);
             }
         }
     }
-    if(!currentlyColliding) { object.collisions = [];}
+
+    if(!currentlyColliding) { object.collisions = []; }
     object.moved = false;
     return collisions;
 }
