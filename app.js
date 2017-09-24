@@ -641,7 +641,7 @@ function handleInput()
             state.controls.mouse.clicked.draggedX = getEngCoordsX(state.controls.mouse.x);
             state.controls.mouse.clicked.y -= Math.floor(state.controls.mouse.clicked.draggedY - getEngCoordsY(state.controls.mouse.y));
             state.controls.mouse.clicked.draggedY = getEngCoordsY(state.controls.mouse.y);
-            //updateObjectInTable(state.controls.mouse.clicked);
+            updateObjectInTable(state.controls.mouse.clicked);
         }
         else
         {
