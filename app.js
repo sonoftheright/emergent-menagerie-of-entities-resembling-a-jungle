@@ -46,14 +46,14 @@ function createEventListeners()
     window.addEventListener('resize', function (event)
     {
     	state.input.push("resize");
-    });
+    }, false);
     /* mouse movement listeners */
     window.addEventListener('mousemove', function (event)
     {
         var pos = findPos(el);
         state.controls.mouse.x = event.pageX - pos.x;
         state.controls.mouse.y = event.pageY - pos.y;
-    });
+    }, false);
     /*TODO: (Ben) Set up a zoom function with graphics scale to match.*/
     window.addEventListener('wheel', function (event)
     {
@@ -85,7 +85,12 @@ function createEventListeners()
             state.input.push("leftmousedown");
             state.controls.mouse.leftmousedown = true;
         }
-    });
+    }, false);
+    el.addEventListener('touchstart', function (event)
+    {
+        state.input.push("touchdown");
+        state.controls.mouse.leftmousedown = true;
+    }, false);
     el.addEventListener('mouseup', function (event)
     {
         var keyPressed = event.which;
@@ -100,7 +105,12 @@ function createEventListeners()
             state.input.push("rightmouseup");
             state.controls.mouse.rightmousedown = false;
         }
-    });
+    }, false);
+    el.addEventListener('touchend', function (event)
+    {
+        state.input.push("touchup");
+        state.controls.mouse.leftmousedown = false;
+    }, false);
     /* keyboard listener */
     window.addEventListener('keydown', function (event)
     {
@@ -123,7 +133,7 @@ function createEventListeners()
             {state.input.push("shiftdown"); state.controls.shiftdown = true;} //shift down
         if (keyPressed === 27)
             {state.input.push("escapedown");} //escape down
-    });
+    }, false);
     window.addEventListener('keyup', function (event)
     {
         var keyPressed = event.keyCode;
@@ -141,7 +151,7 @@ function createEventListeners()
             {state.input.push("shiftup"); state.controls.shiftdown = false;} //shift up
         if (keyPressed === 27)
             {state.input.push("escapeup");} //escape up
-    });
+    }, false);
 }
 
 /*###########*/
@@ -387,7 +397,7 @@ function newSquare ( x, y, w, h)
         y: y,
         height: h,
         width: w,
-        moved: true,
+        moved: false,
         collisions: [],
         clicked: false,
         draggedX: 0,
@@ -399,14 +409,21 @@ function newSquare ( x, y, w, h)
             if(this.clicked)
             {
                 ctx.strokeStyle = 'blue';
+                ctx.lineWidth = 2.0;
             }
             else if(this.collisions.length > 0)
             {
                 ctx.strokeStyle = 'red';
+                ctx.lineWidth = 2.0;
             }
             else
             {
                 ctx.strokeStyle = 'green';
+                ctx.lineWidth = 2.0;
+            }
+            if(this.moved)
+            {
+                ctx.lineWidth = 20.0;
             }
         }
     };
@@ -431,8 +448,6 @@ function drawObjects(obs)
     //don't multiply the el width by map scale too, unless you want things to shift to the upper left/lower right
     for(var x = 0; x < objects.length; x++)
     {
-        //debugger;
-        if(objects[x].moved) { testCollision(objects[x]); }
         ctx.lineWidth = map.scale;
         objects[x].style();
         ctx.rect
@@ -505,6 +520,24 @@ function updateGraphics()
 */
 /* I N P U T */
 
+function objectsIdentical(object1, object2)
+{
+    var keys1 = Object.keys(object1);
+    var keys2 = Object.keys(object2);
+    if(keys1.length !== keys2.length) { return false; }
+    for(var x = 0; x < keys1.length; x++)
+    {
+        for(var y = 0; y < keys2.length; y++)
+        {
+            if(object1[keys1[x]] !== object2[keys2[y]])
+            {
+                return false;
+            }
+        }
+    }
+    return true;
+}
+
 function switchWithLastIndex(array, index)
 {
     if(index < array.length - 1){ array.push(array.splice(index, 1)[0]); }
@@ -518,6 +551,7 @@ function mouseUp()
 {
     if(state.controls.mouse.clicked !== 0)
     {
+        state.controls.mouse.moved = true;
         state.controls.mouse.clicked.draggedX = 0;
         state.controls.mouse.clicked.draggedY = 0;
         state.controls.mouse.clicked.clicked = false;
@@ -544,7 +578,10 @@ function mouseDown()
 
 function rightMouseDown()
 {
-    console.log(JSON.stringify(detectObjectClicked()));
+    // console.log(JSON.stringify(detectObjectClicked()));
+    var monkey = detectObjectClicked();
+    var print = monkey !== 0 ? "object#" + monkey.index : "nothing."
+    console.log("Clicked: " + print);
 }
 
 function handleInput()
@@ -708,6 +745,19 @@ function initializeHUD()
 }
 
 /* S P A T I A L  H A S H  T A B L E */
+var collisionObjectsToUpdate = [];
+
+function updateCollisionObjects()
+{
+    var updated = [];
+    for(var x = 0; x < collisionObjectsToUpdate.length; x++)
+    {
+        testCollision(collisionObjectsToUpdate[x]);
+        updated.push(collisionObjectsToUpdate[x].index);
+    }
+    collisionObjectsToUpdate = [];
+    return updated;
+}
 
 function initializeHashTable()
 {
@@ -722,10 +772,28 @@ function hash(x, y){ return Math.round(x/engine.ht.cellsize) + "," + Math.round(
 
 function updateObjectInTable(object)
 {
-    object.moved = true;
     var oldData = removeObjectFromTable(objects[object.index]);
     var newData = addObjectToTable(objects[object.index]);
+    if(!objectsIdentical(oldData, newData))
+    {
+        //update all the objects in old buckets
+        var bucketsToUpdate = oldData["buckets"];
+        bucketsToUpdate = bucketsToUpdate.concat(newData["buckets"].filter( x => oldData["buckets"].indexOf(x) == -1 ));
+        for(var x = 0; x < bucketsToUpdate.length; x++)
+        {
+            flagBucketForUpdate(bucketsToUpdate[x]);
+        }
+        //update all the new buckets - i.e., all those in new that aren't in old
+        // for(var nD = 0; nD < newData["buckets"].length; nD++)
+        // {
+        //     if(oldData["buckets"][newData["buckets"][nD]] !== undefined)
+        //     {
+        //         flagBucketForUpdate(newData["buckets"][nD]);
+        //     }
+        // }
+    }
 }
+
 function updateTable()
 {
     //for all tracked objects, check to see if they've moved
@@ -762,6 +830,7 @@ function addObjectToTable(object)
             }
         }
     }
+    return { "buckets": object.buckets, "collisions": object.collisions };
 }
 
 function removeObjectFromTable(object)
@@ -777,16 +846,11 @@ function removeObjectFromTable(object)
             }
         }
     }
-    var oldBuckets = object.buckets;
-    var oldCollisions = object.collisions;
+    var oldBuckets = object.buckets.slice();
+    var oldCollisions = object.collisions.slice();
     object.buckets = [];
     object.collisions = [];
     return {'buckets': oldBuckets, 'collisions': oldCollisions};
-}
-
-function getTable()
-{
-    return engine.ht.contents;
 }
 
 function detectCollision(object1, object2)
@@ -801,7 +865,7 @@ function hasCollision(object, a)
 {
     for(var x = 0; x < object.collisions.length; x++)
     {
-        if(object.collisions[x][0] == a[0] && object.collisions[x][1] == a[1])
+        if(object.collisions[x][0] === a[0] && object.collisions[x][1] === a[1])
         {
             return true;
         }
@@ -830,13 +894,30 @@ function detectObjectClicked()
     else { return result; }
 }
 
+function flagBucketForUpdate(hash)
+{
+    var toUpdate = engine.ht.contents[hash];
+    if(toUpdate !== undefined)
+    {
+        for(var x = 0; x < toUpdate.length; x++)
+        {
+            if(collisionObjectsToUpdate.indexOf(toUpdate[x]) < 0)
+            {
+                collisionObjectsToUpdate.push(toUpdate[x]);
+            }
+        }
+    }
+    else { return false; }
+    return true;
+}
+
 //TESTING PURPOSES
 function testCollision(object)
 {
     var neighbors = [];
     var collisions = [];
     var currentlyColliding = false;
-    for(var bucket = 0; bucket < object.buckets.length; bucket++)
+    for(var bucket = 0; bucket < object["buckets"].length; bucket++)
     {
         let bucketNeighbors = engine.ht.contents[object.buckets[bucket]];
         for(var friend = 0; friend < bucketNeighbors.length; friend++)
@@ -851,9 +932,8 @@ function testCollision(object)
     for(var x = 0; x < neighbors.length; x++)
     {
         var rect = neighbors[x];
-        rect.moved = true;
-        var hit = {'collisionIndex': rect.index, 'collisionBuckets': rect.buckets};
-        var myhit = {'collisionIndex': object.index, 'collisionBuckets': object.buckets};
+        var hit = {'buckets': rect.buckets};
+        var myhit = {'buckets': object.buckets};
         if (detectCollision(object, rect))
         {
             currentlyColliding = true;
@@ -861,10 +941,6 @@ function testCollision(object)
             {
                 object.collisions.push(hit);
                 collisions.push(rect);
-                if(!hasCollision(rect, myhit))
-                {
-                    rect.collisions.push(myhit);
-                }
             }
         }
     }
@@ -893,6 +969,7 @@ function loop()
     handleInput();
     updateMap();
     updateTable();
+    updateCollisionObjects();
     updateGraphics();
     if(engine.running)
     {
@@ -906,7 +983,7 @@ function loop()
 
 initializeEngine();
 resetMap();
-for(let x = 0; x < 50; x++)
+for(let x = 0; x < 100; x++)
 {
     var nS = newSquare( Math.random()*800 - map.focusPoint.x,
                         Math.random()*800 - map.focusPoint.y,
@@ -920,5 +997,5 @@ for(let x = 0; x < 50; x++)
 
 for(let y = 0; y < objects.length; y++)
 {
-    testCollision(objects[y]);
+    collisionObjectsToUpdate.push(objects[y]);
 }
