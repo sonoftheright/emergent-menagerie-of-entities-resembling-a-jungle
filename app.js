@@ -539,19 +539,17 @@ function updateGraphics()
 function objectsIdentical(object1, object2)
 {
     var keys1 = Object.keys(object1);
-    var keys2 = Object.keys(object2);
-    if(keys1.length !== keys2.length) { return false; }
     for(var x = 0; x < keys1.length; x++)
     {
-        for(var y = 0; y < keys2.length; y++)
+        if(object1[keys1[x]] === object2[keys1[x]])
         {
-            if(object1[keys1[x]] !== object2[keys2[y]])
-            {
-                return false;
-            }
+            continue;
+        }
+        else
+        {
+            return false;
         }
     }
-    return true;
 }
 
 function switchWithLastIndex(array, index)
@@ -789,26 +787,16 @@ function hash(x, y){ return Math.round(x/engine.ht.cellsize) + "," + Math.round(
 
 function updateObjectInTable(object)
 {
-    var oldData = removeObjectFromTable(objects[object.index]);
-    var newData = addObjectToTable(objects[object.index]);
-    if(!objectsIdentical(oldData, newData))
+    var oldArray = object.buckets,
+        newArray = getObjectBuckets(object);
+    if(!arraysIdentical(oldArray, newArray))
     {
-        //update all the objects in old buckets
-        var bucketsToUpdate = oldData["buckets"];
-        bucketsToUpdate = bucketsToUpdate.concat(newData["buckets"].filter( x => oldData["buckets"].indexOf(x) == -1 ));
-        for(var x = 0; x < bucketsToUpdate.length; x++)
-        {
-            flagBucketForUpdate(bucketsToUpdate[x]);
-        }
-        //update all the new buckets - i.e., all those in new that aren't in old
-        // for(var nD = 0; nD < newData["buckets"].length; nD++)
-        // {
-        //     if(oldData["buckets"][newData["buckets"][nD]] !== undefined)
-        //     {
-        //         flagBucketForUpdate(newData["buckets"][nD]);
-        //     }
-        // }
+        removeObjectFromTable(object);
+        addObjectToTable(object);
     }
+    var bucketsToUpdate = oldArray;
+    bucketsToUpdate = bucketsToUpdate.concat(newArray.filter( x => oldArray.indexOf(x) == -1 ));
+    for(var x = 0; x < bucketsToUpdate.length; x++) { flagBucketForUpdate(bucketsToUpdate[x]); }
 }
 
 function updateTable()
@@ -818,36 +806,96 @@ function updateTable()
     //if they have, reassign hash values and reinsert into hashtable
 }
 
-function addObjectToTable(object)
+function getObjectBuckets(object)
 {
-    for(var y = 0; y < object.width; y++)
+    var minX = object.x,
+        minY = object.y,
+        maxX = object.x + object.width,
+        maxY = object.y + object.height,
+        buckets = [];
+    for(; minX <= maxX; minX += engine.ht.cellsize)
     {
-        for(var z = 0; z < object.height; z++)
+        for(var y = minY; y <= maxY; y += engine.ht.cellsize)
         {
-            var h = hash(object.x + y, object.y + z);
-            if(engine.ht.contents[h] === undefined)
+            var h = hash(minX, y);
+            if(buckets.indexOf(h) < 0)
             {
-                engine.ht.contents[h] = [];
-                engine.ht.contents[h].push(object);
-                object.buckets.push(h);
+                buckets.push(h);
             }
-            else if(engine.ht.contents[h])
+        }
+        var h = hash(minX, maxY);
+        if(buckets.indexOf(h) < 0)
+        {
+            buckets.push(h);
+        }
+    }
+    for(; minY < maxY; minY += engine.ht.cellsize)
+    {
+        var h = hash(maxX, minY);
+        if(buckets.indexOf(h) < 0)
+        {
+            buckets.push(h);
+        }
+    }
+    var h = hash(maxX, maxY);
+    if(buckets.indexOf(h) < 0)
+    {
+        buckets.push(h);
+    }
+    return buckets;
+}
+
+function arraysIdentical(array1, array2)
+{
+    if(array1.length === array2.length)
+    {
+        for(var x = 0; x < array1.length; x++)
+        {
+            if(array1[x] !== array2[x])
             {
-                //if the bucket already contains the object reference, don't add a duplicate
-                var duplicate = false;
-                for (var x = 0; x < engine.ht.contents[h].length; x++)
-                {
-                    if( engine.ht.contents[h][x] === object) {duplicate = true; break; }
-                }
-                if(!duplicate)
-                {
-                    engine.ht.contents[h].push(object);
-                    object.buckets.push(h);
-                }
+                return false;
             }
         }
     }
-    return { "buckets": object.buckets, "collisions": object.collisions };
+    else
+    {
+        return false;
+    }
+    return true;
+}
+
+function addObjectToTable(object)
+{
+    //NOTE: A LOT of expensive work here for no reason.
+    //What does this really need to do?
+    //a) get minX and minY
+    //b) get maxX and maxY
+    //c) divide each by hashtable cellsize and round
+    //d) for each possible bucket between min and max, insert the hash
+    var buckets = getObjectBuckets(object);
+    for(var z = 0; z < buckets.length; z++)
+    {
+        if(engine.ht.contents[buckets[z]] === undefined)
+        {
+            engine.ht.contents[buckets[z]] = [];
+            engine.ht.contents[buckets[z]].push(object);
+        }
+        else if(engine.ht.contents[buckets[z]])
+        {
+            //if the bucket already contains the object reference, don't add a duplicate
+            var duplicate = false;
+            for (var x = 0; x < engine.ht.contents[buckets[z]].length; x++)
+            {
+                if( engine.ht.contents[buckets[z]][x] === object) {duplicate = true; break; }
+            }
+            if(!duplicate)
+            {
+                engine.ht.contents[buckets[z]].push(object);
+            }
+        }
+    }
+    object.buckets = buckets;
+    return { "buckets": object.buckets };
 }
 
 function removeObjectFromTable(object)
@@ -867,7 +915,7 @@ function removeObjectFromTable(object)
     var oldCollisions = object.collisions.slice();
     object.buckets = [];
     object.collisions = [];
-    return {'buckets': oldBuckets, 'collisions': oldCollisions};
+    return {'buckets': oldBuckets };
 }
 
 function detectCollision(object1, object2)
@@ -999,7 +1047,7 @@ function loop()
 
 initializeEngine();
 resetMap();
-for(let x = 0; x < 50; x++)
+for(let x = 0; x < 500; x++)
 {
     var nS = newSquare( Math.random()*(el.width-100) - map.focusPoint.x,
                         Math.random()*(el.height-100) - map.focusPoint.y,
