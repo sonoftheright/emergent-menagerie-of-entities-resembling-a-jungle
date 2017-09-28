@@ -760,6 +760,13 @@ function initializeHUD()
 }
 
 /* S P A T I A L  H A S H  T A B L E */
+
+/*
+    - REQUIRED OBJECTS AND PROPERTIES -
+
+
+
+*/
 var collisionObjectsToUpdate = [];
 
 function updateCollisionObjects()
@@ -808,36 +815,36 @@ function updateTable()
 
 function getObjectBuckets(object)
 {
-    var minX = object.x,
-        minY = object.y,
-        maxX = object.x + object.width,
-        maxY = object.y + object.height,
+    object.minX = object.x,
+    object.minY = object.y,
+    object.maxX = object.x + object.width,
+    object.maxY = object.y + object.height,
         buckets = [];
-    for(; minX <= maxX; minX += engine.ht.cellsize)
+    for(; object.minX <= object.maxX; object.minX += engine.ht.cellsize)
     {
-        for(var y = minY; y <= maxY; y += engine.ht.cellsize)
+        for(var y = object.minY; y <= object.maxY; y += engine.ht.cellsize)
         {
-            var h = hash(minX, y);
+            var h = hash(object.minX, y);
             if(buckets.indexOf(h) < 0)
             {
                 buckets.push(h);
             }
         }
-        var h = hash(minX, maxY);
+        var h = hash(object.minX, object.maxY);
         if(buckets.indexOf(h) < 0)
         {
             buckets.push(h);
         }
     }
-    for(; minY < maxY; minY += engine.ht.cellsize)
+    for(; object.minY < object.maxY; object.minY += engine.ht.cellsize)
     {
-        var h = hash(maxX, minY);
+        var h = hash(object.maxX, object.minY);
         if(buckets.indexOf(h) < 0)
         {
             buckets.push(h);
         }
     }
-    var h = hash(maxX, maxY);
+    var h = hash(object.maxX, object.maxY);
     if(buckets.indexOf(h) < 0)
     {
         buckets.push(h);
@@ -1051,8 +1058,7 @@ for(let x = 0; x < 500; x++)
 {
     var nS = newSquare( Math.random()*(el.width-100) - map.focusPoint.x,
                         Math.random()*(el.height-100) - map.focusPoint.y,
-                        Math.floor(Math.random()*100)+5,
-                        Math.floor(Math.random()*100)+5);
+                        50,50);
     nS.maxX = nS.x + nS.width;
     nS.maxY = nS.y + nS.height;
     objects.push(nS);
