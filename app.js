@@ -215,11 +215,11 @@ function resetMap()
     map.scale = 1.0;
 }
 
-function getGfxCoordsX(engineX) { return map.focusPoint.x + (engineX * map.scale); }
-function getGfxCoordsY(engineY) { return map.focusPoint.y + (engineY * map.scale); }
+function getGfxCoordsX(engineX) { return Math.round(map.focusPoint.x + (engineX * map.scale)); }
+function getGfxCoordsY(engineY) { return Math.round(map.focusPoint.y + (engineY * map.scale)); }
 
-function getEngCoordsX(gfxX) { return ((gfxX - map.focusPoint.x) / map.scale); }
-function getEngCoordsY(gfxY) { return ((gfxY - map.focusPoint.y) / map.scale); }
+function getEngCoordsX(gfxX) { return Math.round((gfxX - map.focusPoint.x) / map.scale); }
+function getEngCoordsY(gfxY) { return Math.round((gfxY - map.focusPoint.y) / map.scale); }
 
 function updateMap()
 {
@@ -438,6 +438,8 @@ function drawHUD()
 
 /*   D R A W I N G   */
 
+var canvasCache = {};
+
 function makeCachedImage(width, height, renderFunction )
 {
     var c = document.createElement('canvas');
@@ -446,35 +448,6 @@ function makeCachedImage(width, height, renderFunction )
     //document.body.appendChild(c);
     return c;
 }
-
-var blueSquare = function(context, width, height)
-{
-    context.beginPath();
-    context.lineWidth = 2.0;
-    context.strokeStyle = 'blue';
-    context.rect(0, 0, width, height);
-    context.stroke();
-}
-
-var greenSquare = function(context, width, height)
-{
-    context.beginPath();
-    context.lineWidth = 2.0;
-    context.strokeStyle = 'green';
-    context.rect(0, 0, width, height);
-    context.stroke();
-}
-
-var redSquare = function(context, width, height)
-{
-    context.beginPath();
-    context.lineWidth = 2.0;
-    context.strokeStyle = 'red';
-    context.rect(0, 0, width, height);
-    context.stroke();
-}
-
-var canvasCache = {};
 
 function newSquareEntity ( x, y, w, h )
 {
@@ -533,21 +506,12 @@ function drawObjects(obs)
     //don't multiply the el width by map scale too, unless you want things to shift to the upper left/lower right
     for(var x = 0; x < objects.length; x++)
     {
-        //ctx.lineWidth = map.scale;
         objects[x].style();
         ctx.drawImage(canvasCache[objects[x].cachedCanvas], 0, 0, objects[x].width, objects[x].height, 
                         getGfxCoordsX(objects[x].x),    // convert
                         getGfxCoordsY(objects[x].y),
                         Math.floor(objects[x].width  * map.scale),
                         Math.floor(objects[x].height * map.scale));
-        // ctx.rect
-        // (
-        //     getGfxCoordsX(objects[x].x),    // convert engine coords to graphics context
-        //     getGfxCoordsY(objects[x].y),
-        //     Math.floor(objects[x].width  * map.scale),  // scale the object's subjective size
-        //     Math.floor(objects[x].height * map.scale)
-        // );
-        //ctx.stroke();
         ctx.clearRect
         (
             getGfxCoordsX(objects[x].x+1),
@@ -1041,11 +1005,10 @@ function hasCollision(object, a)
 
 function detectObjectClicked()
 {
-    let h = hash(getEngCoordsX(state.controls.mouse.x), getEngCoordsY(state.controls.mouse.y));
-    if(engine.ht.contents[h] === undefined) { return 0; }
+    var h = hash(getEngCoordsX(state.controls.mouse.x), getEngCoordsY(state.controls.mouse.y));
 
-    let result;
-    let potentials = hud.menu.items;
+    var result;
+    var potentials = hud.menu.items;
     for(let x = 0; x < hud.menu.items.length; x++)
     {
         if(
@@ -1057,14 +1020,10 @@ function detectObjectClicked()
         {
             result = potentials[x];
             console.log("Button clicked!");
-        }   
+        } 
     }
 
-    if(result !== undefined)
-    {
-        console.log("Detection found a menu item! Stopping the search.");
-        return result;
-    }
+    if(engine.ht.contents[h] === undefined) { return 0; }
     potentials = engine.ht.contents[h];
 
     for(let x = 0; x < potentials.length; x++)
@@ -1169,23 +1128,3 @@ function loop()
 
 initializeEngine();
 resetMap();
-for(let x = 0; x < 350; x++)
-{
-    var nS = newSquareEntity( Math.floor(Math.random()*(el.width-100)) - map.focusPoint.x,
-                        Math.floor(Math.random()*(el.height-100)) - map.focusPoint.y,
-                        50,50);
-    nS.maxX = nS.x + nS.width;
-    nS.maxY = nS.y + nS.height;
-    nS.type = "square";
-    objects.push(nS);
-    addObjectToTable(nS);
-}
-
-for(let y = 0; y < objects.length; y++)
-{
-    collisionObjectsToUpdate.push(objects[y]);
-}
-
-canvasCache['bluesquare'] = makeCachedImage(objects[0].width, objects[0].height, blueSquare);
-canvasCache['redsquare'] = makeCachedImage(objects[0].width, objects[0].height, redSquare);
-canvasCache['greensquare'] = makeCachedImage(objects[0].width, objects[0].height, greenSquare);
