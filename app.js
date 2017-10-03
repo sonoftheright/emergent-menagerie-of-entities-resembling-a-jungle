@@ -93,7 +93,7 @@ function createEventListeners()
         state.controls.mouse.leftmousedown = true;
         state.controls.mouse.x = event.changedTouches[0].pageX - pos.x;
         state.controls.mouse.y = event.changedTouches[0].pageY - pos.y;
-    }, false);
+    }, {passive: true});
     el.addEventListener('touchmove', function (event)
     {
         var pos = findPos(el);
@@ -102,7 +102,7 @@ function createEventListeners()
             state.controls.mouse.x = event.changedTouches[x].pageX - pos.x;
             state.controls.mouse.y = event.changedTouches[x].pageY - pos.y;
         }
-    }, false);
+    },  {passive: true});
     el.addEventListener('mouseup', function (event)
     {
         var keyPressed = event.which;
@@ -402,9 +402,52 @@ function addStatToHud( stat )
     }
 }
 
+function drawHUD()
+{
+    if(hud.menu.open === true)
+    {
+
+    }
+    hud.menu.button.lineWidth = 2;
+    hud.menu.button.buffer = hud.menu.button.lineWidth + Math.floor(hud.menu.button.height * 0.5);
+    hud.menu.button.x = hud.menu.button.buffer;
+    hud.menu.button.y = el.height - hud.menu.button.buffer - hud.menu.button.height;
+    ctx.beginPath();
+    ctx.strokeStyle = "black";
+    ctx.lineWidth = hud.menu.button.lineWidth;
+    ctx.rect(
+        hud.menu.button.x,    // convert engine coords to graphics context
+        hud.menu.button.y,
+        hud.menu.button.width,  // scale the object's subjective size
+        hud.menu.button.height
+    );
+    //item font settings
+    hud.menu.fontSize = 14;
+    hud.menu.fontStyle = "sans-serif ";
+    ctx.font = "Bold " + hud.menu.fontSize + "px " + hud.menu.fontStyle;
+    ctx.textAlign = "center";
+    ctx.fillText(
+        "Menu",              //text
+        hud.menu.button.x + (hud.menu.button.width / 2),   //x position
+        hud.menu.button.y,   //y position
+        4 * hud.menu.fontSize//max column width
+    );
+
+    ctx.stroke();
+}
+
 /*   D R A W I N G   */
 
-function newSquare ( x, y, w, h)
+function makeCachedImage(width, height, renderFunction )
+{
+    var c = document.createElement('canvas');
+    var canv = c.getContext('2d');
+    renderFunction(canv, width, height);
+    //document.body.appendChild(c);
+    return c;
+}
+
+function newSquare ( x, y, w, h )
 {
     var number = objects.length;
     var square = {
@@ -419,28 +462,12 @@ function newSquare ( x, y, w, h)
         draggedX: 0,
         draggedY: 0,
         buckets: [],
+        cachedCanvas: 0,
         style: function()
         {
-            ctx.beginPath();
-            if(this.clicked)
-            {
-                ctx.strokeStyle = 'blue';
-                ctx.lineWidth = 2.0;
-            }
-            else if(this.collisions.length > 0)
-            {
-                ctx.strokeStyle = 'red';
-                ctx.lineWidth = 2.0;
-            }
-            else
-            {
-                ctx.strokeStyle = 'green';
-                ctx.lineWidth = 2.0;
-            }
-            if(this.moved)
-            {
-                ctx.lineWidth = 20.0;
-            }
+            if(this.clicked) { this.cachedCanvas = "bluesquare"; }
+            else if(this.collisions.length > 0) { this.cachedCanvas = "redsquare"; }
+            else { this.cachedCanvas = "greensquare"; }
         }
     };
     return square;
@@ -460,27 +487,45 @@ function newSmartSquare( x, y, w, h, d, f)
 
 function drawObjects(obs)
 {
+
+    /*
+    cached image render code:
+
+    var c = document.createElement('canvas');
+    var canv = c.getContext('2d');
+
+    ctx.drawImage((cached canvas ref), 
+                canvas start x, canvas start y, 
+                width on canvas, height on canvas, 
+                x position in this canvas, y position in this canvas, 
+                width drawn here, height drawn here);
+    */
     ctx.strokeStyle='black';
     //don't multiply the el width by map scale too, unless you want things to shift to the upper left/lower right
     for(var x = 0; x < objects.length; x++)
     {
-        ctx.lineWidth = map.scale;
+        //ctx.lineWidth = map.scale;
         objects[x].style();
-        ctx.rect
-        (
-            getGfxCoordsX(objects[x].x),    // convert engine coords to graphics context
-            getGfxCoordsY(objects[x].y),
-            Math.floor(objects[x].width  * map.scale),  // scale the object's subjective size
-            Math.floor(objects[x].height * map.scale)
-        );
+        ctx.drawImage(canvasCache[objects[x].cachedCanvas], 0, 0, objects[x].width, objects[x].height, 
+                        getGfxCoordsX(objects[x].x),    // convert
+                        getGfxCoordsY(objects[x].y),
+                        Math.floor(objects[x].width  * map.scale),
+                        Math.floor(objects[x].height * map.scale));
+        // ctx.rect
+        // (
+        //     getGfxCoordsX(objects[x].x),    // convert engine coords to graphics context
+        //     getGfxCoordsY(objects[x].y),
+        //     Math.floor(objects[x].width  * map.scale),  // scale the object's subjective size
+        //     Math.floor(objects[x].height * map.scale)
+        // );
+        //ctx.stroke();
         ctx.clearRect
         (
-            getGfxCoordsX(objects[x].x),
-            getGfxCoordsY(objects[x].y),
-            Math.floor(objects[x].width  * map.scale),  // scale the object's subjective size
-            Math.floor(objects[x].height * map.scale)
+            getGfxCoordsX(objects[x].x+1),
+            getGfxCoordsY(objects[x].y+1),
+            Math.floor(objects[x].width  * map.scale)-2,  // scale the object's subjective size
+            Math.floor(objects[x].height * map.scale)-2
         );
-        ctx.stroke();
     }
     for(var x = 0; x < smartObjects.length; x++)
     {
@@ -506,6 +551,7 @@ function drawObjects(obs)
             );
         }
     }
+    drawHUD();
 }
 
 function updateGraphics()
@@ -582,7 +628,10 @@ function mouseDown()
     if(state.controls.mouse.clicked == 0)
     {
         state.controls.mouse.clicked = detectObjectClicked();
-        switchWithLastIndex(objects, state.controls.mouse.clicked.index);
+        if(state.controls.mouse.clicked.type === "square")
+        {
+            switchWithLastIndex(objects, state.controls.mouse.clicked.index);
+        }
     }
     if(state.controls.mouse.clicked !== 0)
     {
@@ -632,14 +681,18 @@ function handleInput()
             state.input[i] == "shiftup"        ? 1 :
             state.input[i] == "shiftdown"      ? 1 : 0;
     }
+
+    state.objectClicked = state.controls.mouse.clicked && state.controls.mouse.clicked.type === "square" && state.controls.mouse.leftmousedown;
+    state.menuClicked = state.controls.mouse.clicked && state.controls.mouse.clicked.type === "button" && state.controls.mouse.leftmousedown;
+    state.mapClicked = state.controls.mouse.clicked === undefined || state.controls.mouse.clicked === 0 && state.controls.mouse.leftmousedown;
     if(state.input.includes("leftmousedown") && state.controls.mouse.leftmousedown)
     {
-        if(state.controls.mouse.clicked)
+        if(state.objectClicked)
         {
             state.controls.mouse.clicked.draggedX = getEngCoordsX(state.controls.mouse.x);
             state.controls.mouse.clicked.draggedY = getEngCoordsY(state.controls.mouse.y);
         }
-        else
+        else if(state.mapClicked)
         {
             map.draggedX = state.controls.mouse.x;
             map.draggedY = state.controls.mouse.y;
@@ -649,7 +702,7 @@ function handleInput()
 
     else if (state.controls.mouse.leftmousedown)
     {
-        if(state.controls.mouse.clicked)
+        if(state.objectClicked)
         {
             state.controls.mouse.clicked.x -= Math.floor(state.controls.mouse.clicked.draggedX - getEngCoordsX(state.controls.mouse.x));
             state.controls.mouse.clicked.draggedX = getEngCoordsX(state.controls.mouse.x);
@@ -657,7 +710,7 @@ function handleInput()
             state.controls.mouse.clicked.draggedY = getEngCoordsY(state.controls.mouse.y);
             updateObjectInTable(state.controls.mouse.clicked);
         }
-        else
+        else if(state.mapClicked)
         {
             map.focusPoint.x   -= Math.floor(map.draggedX - state.controls.mouse.x);
             map.draggedX        = state.controls.mouse.x;
@@ -671,6 +724,9 @@ function handleInput()
     {
         map.draggedX = 0;
         map.draggedY = 0;
+        state.objectClicked = false;
+        state.mapClicked = false;
+        state.menuClicked = false;
     }
 
     if(state.controls.rightdown){ map.focusPoint.x -= Math.floor(map.moveSpeedX / map.scale); state.x++; }
@@ -757,6 +813,14 @@ function initializeHUD()
     addStatToHud({"text": "engineMouseX: ", "value": function() {return getEngCoordsX(state.controls.mouse.x);}, style: "item" });
     addStatToHud({"text": "mouse.y: ", "value": function() {return state.controls.mouse.y;}, style: "item" });
     addStatToHud({"text": "engineMouseY: ", "value": function() {return getEngCoordsY(state.controls.mouse.y);}, style: "item" });
+    
+    hud.menu = {};
+    hud.menu.button = newSquare(0, 0, 100, 20);
+    hud.menu.open = false;
+    hud.menu.button.type = "button";
+
+    hud.menu.items = [];                    //for storing HUD button references to check clicks
+    hud.menu.items.push(hud.menu.button);
 }
 
 /* S P A T I A L  H A S H  T A B L E */
@@ -777,6 +841,7 @@ function updateCollisionObjects()
         collisionObjectsToUpdate[x].collisions = getCollisions(collisionObjectsToUpdate[x]);
         updated.push(collisionObjectsToUpdate[x].index);
     }
+
     collisionObjectsToUpdate = [];
     return updated;
 }
@@ -950,14 +1015,35 @@ function detectObjectClicked()
     let h = hash(getEngCoordsX(state.controls.mouse.x), getEngCoordsY(state.controls.mouse.y));
     if(engine.ht.contents[h] === undefined) { return 0; }
 
-    let potentials = engine.ht.contents[h];
     let result;
+    let potentials = hud.menu.items;
+    for(let x = 0; x < hud.menu.items.length; x++)
+    {
+        if(
+            state.controls.mouse.x >= potentials[x].x &&
+            state.controls.mouse.x <= potentials[x].x + potentials[x].width &&
+            state.controls.mouse.y >= potentials[x].y &&
+            state.controls.mouse.y <= potentials[x].y + potentials[x].height
+        )
+        {
+            result = potentials[x];
+            console.log("Button clicked!");
+        }   
+    }
+
+    if(result !== undefined)
+    {
+        console.log("Detection found a menu item! Stopping the search.");
+        return result;
+    }
+    potentials = engine.ht.contents[h];
+
     for(let x = 0; x < potentials.length; x++)
     {
         if( getEngCoordsX(state.controls.mouse.x) >= potentials[x].x &&
-            getEngCoordsX(state.controls.mouse.x) <= potentials[x].x + potentials[x].width &&
+            getEngCoordsX(state.controls.mouse.x) <= potentials[x].maxX &&
             getEngCoordsY(state.controls.mouse.y) >= potentials[x].y &&
-            getEngCoordsY(state.controls.mouse.y) <= potentials[x].y + potentials[x].height)
+            getEngCoordsY(state.controls.mouse.y) <= potentials[x].maxY)
         {
             result = potentials[x];
         }
@@ -1054,13 +1140,14 @@ function loop()
 
 initializeEngine();
 resetMap();
-for(let x = 0; x < 500; x++)
+for(let x = 0; x < 100; x++)
 {
-    var nS = newSquare( Math.random()*(el.width-100) - map.focusPoint.x,
-                        Math.random()*(el.height-100) - map.focusPoint.y,
+    var nS = newSquare( Math.floor(Math.random()*(el.width-100)) - map.focusPoint.x,
+                        Math.floor(Math.random()*(el.height-100)) - map.focusPoint.y,
                         50,50);
     nS.maxX = nS.x + nS.width;
     nS.maxY = nS.y + nS.height;
+    nS.type = "square";
     objects.push(nS);
     addObjectToTable(nS);
 }
@@ -1069,3 +1156,38 @@ for(let y = 0; y < objects.length; y++)
 {
     collisionObjectsToUpdate.push(objects[y]);
 }
+
+var blueSquare = function(context, width, height)
+{
+    context.beginPath();
+    context.lineWidth = 2.0;
+    context.strokeStyle = 'blue';
+    context.rect(0, 0, width, height);
+    context.stroke();
+}
+
+var greenSquare = function(context, width, height)
+{
+    context.beginPath();
+    context.lineWidth = 2.0;
+    context.strokeStyle = 'green';
+    context.rect(0, 0, width, height);
+    context.stroke();
+}
+
+var redSquare = function(context, width, height)
+{
+    context.beginPath();
+    context.lineWidth = 2.0;
+    context.strokeStyle = 'red';
+    context.rect(0, 0, width, height);
+    context.stroke();
+}
+
+var canvasCache = {};
+
+canvasCache['bluesquare'] = makeCachedImage(objects[0].width, objects[0].height, blueSquare);
+canvasCache['redsquare'] = makeCachedImage(objects[0].width, objects[0].height, redSquare);
+canvasCache['greensquare'] = makeCachedImage(objects[0].width, objects[0].height, greenSquare);
+
+/*function makeCachedImage(typeName, width, height, renderFunction )*/
