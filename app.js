@@ -447,7 +447,36 @@ function makeCachedImage(width, height, renderFunction )
     return c;
 }
 
-function newSquare ( x, y, w, h )
+var blueSquare = function(context, width, height)
+{
+    context.beginPath();
+    context.lineWidth = 2.0;
+    context.strokeStyle = 'blue';
+    context.rect(0, 0, width, height);
+    context.stroke();
+}
+
+var greenSquare = function(context, width, height)
+{
+    context.beginPath();
+    context.lineWidth = 2.0;
+    context.strokeStyle = 'green';
+    context.rect(0, 0, width, height);
+    context.stroke();
+}
+
+var redSquare = function(context, width, height)
+{
+    context.beginPath();
+    context.lineWidth = 2.0;
+    context.strokeStyle = 'red';
+    context.rect(0, 0, width, height);
+    context.stroke();
+}
+
+var canvasCache = {};
+
+function newSquareEntity ( x, y, w, h )
 {
     var number = objects.length;
     var square = {
@@ -815,7 +844,7 @@ function initializeHUD()
     addStatToHud({"text": "engineMouseY: ", "value": function() {return getEngCoordsY(state.controls.mouse.y);}, style: "item" });
     
     hud.menu = {};
-    hud.menu.button = newSquare(0, 0, 100, 20);
+    hud.menu.button = newSquareEntity(0, 0, 100, 20);
     hud.menu.open = false;
     hud.menu.button.type = "button";
 
@@ -1140,9 +1169,9 @@ function loop()
 
 initializeEngine();
 resetMap();
-for(let x = 0; x < 100; x++)
+for(let x = 0; x < 350; x++)
 {
-    var nS = newSquare( Math.floor(Math.random()*(el.width-100)) - map.focusPoint.x,
+    var nS = newSquareEntity( Math.floor(Math.random()*(el.width-100)) - map.focusPoint.x,
                         Math.floor(Math.random()*(el.height-100)) - map.focusPoint.y,
                         50,50);
     nS.maxX = nS.x + nS.width;
@@ -1157,37 +1186,6 @@ for(let y = 0; y < objects.length; y++)
     collisionObjectsToUpdate.push(objects[y]);
 }
 
-var blueSquare = function(context, width, height)
-{
-    context.beginPath();
-    context.lineWidth = 2.0;
-    context.strokeStyle = 'blue';
-    context.rect(0, 0, width, height);
-    context.stroke();
-}
-
-var greenSquare = function(context, width, height)
-{
-    context.beginPath();
-    context.lineWidth = 2.0;
-    context.strokeStyle = 'green';
-    context.rect(0, 0, width, height);
-    context.stroke();
-}
-
-var redSquare = function(context, width, height)
-{
-    context.beginPath();
-    context.lineWidth = 2.0;
-    context.strokeStyle = 'red';
-    context.rect(0, 0, width, height);
-    context.stroke();
-}
-
-var canvasCache = {};
-
 canvasCache['bluesquare'] = makeCachedImage(objects[0].width, objects[0].height, blueSquare);
 canvasCache['redsquare'] = makeCachedImage(objects[0].width, objects[0].height, redSquare);
 canvasCache['greensquare'] = makeCachedImage(objects[0].width, objects[0].height, greenSquare);
-
-/*function makeCachedImage(typeName, width, height, renderFunction )*/
