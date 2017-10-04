@@ -19,5 +19,5 @@ for(let y = 0; y < objects.length; y++)
 
 const entity =
 {
-	
+
 };

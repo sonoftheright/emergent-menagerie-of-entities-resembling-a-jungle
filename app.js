@@ -443,9 +443,10 @@ var canvasCache = {};
 function makeCachedImage(width, height, renderFunction )
 {
     var c = document.createElement('canvas');
+    c.width = width + 2;
+    c.height = height + 2;
     var canv = c.getContext('2d');
     renderFunction(canv, width, height);
-    //document.body.appendChild(c);
     return c;
 }
 
@@ -464,12 +465,14 @@ function newSquareEntity ( x, y, w, h )
         draggedX: 0,
         draggedY: 0,
         buckets: [],
-        cachedCanvas: 0,
-        style: function()
+        boundingBoxStyle: 'greensquare',
+        boundingBoxOn: true,
+        cachedImage: 'wokedavey',
+        drawBoundingBox: function()
         {
-            if(this.clicked) { this.cachedCanvas = "bluesquare"; }
-            else if(this.collisions.length > 0) { this.cachedCanvas = "redsquare"; }
-            else { this.cachedCanvas = "greensquare"; }
+            if(this.clicked) { this.boundingBoxStyle = "bluesquare"; }
+            else if(this.collisions.length > 0) { this.boundingBoxStyle = "redsquare"; }
+            else { this.boundingBoxStyle = "greensquare"; }
         }
     };
     return square;
@@ -489,36 +492,25 @@ function newSmartSquare( x, y, w, h, d, f)
 
 function drawObjects(obs)
 {
-
-    /*
-    cached image render code:
-
-    var c = document.createElement('canvas');
-    var canv = c.getContext('2d');
-
-    ctx.drawImage((cached canvas ref), 
-                canvas start x, canvas start y, 
-                width on canvas, height on canvas, 
-                x position in this canvas, y position in this canvas, 
-                width drawn here, height drawn here);
-    */
     ctx.strokeStyle='black';
     //don't multiply the el width by map scale too, unless you want things to shift to the upper left/lower right
     for(var x = 0; x < objects.length; x++)
     {
-        objects[x].style();
-        ctx.drawImage(canvasCache[objects[x].cachedCanvas], 0, 0, objects[x].width, objects[x].height, 
-                        getGfxCoordsX(objects[x].x),    // convert
-                        getGfxCoordsY(objects[x].y),
-                        Math.floor(objects[x].width  * map.scale),
-                        Math.floor(objects[x].height * map.scale));
-        ctx.clearRect
-        (
-            getGfxCoordsX(objects[x].x+1),
-            getGfxCoordsY(objects[x].y+1),
-            Math.floor(objects[x].width  * map.scale)-2,  // scale the object's subjective size
-            Math.floor(objects[x].height * map.scale)-2
-        );
+        if(objects[x].boundingBoxOn){
+            objects[x].drawBoundingBox();
+            ctx.drawImage(canvasCache[objects[x].boundingBoxStyle], 0, 0, objects[x].width, objects[x].height,
+                            getGfxCoordsX(objects[x].x),    // convert
+                            getGfxCoordsY(objects[x].y),
+                            Math.floor(objects[x].width  * map.scale),
+                            Math.floor(objects[x].height * map.scale));
+
+            ctx.stroke();
+        }
+        ctx.drawImage(canvasCache[objects[x].cachedImage], 0, 0, objects[x].width - 1, objects[x].height - 1,
+                                getGfxCoordsX(objects[x].x),    // convert
+                                getGfxCoordsY(objects[x].y),
+                                Math.floor(objects[x].width  * map.scale),
+                                Math.floor(objects[x].height * map.scale));
     }
     for(var x = 0; x < smartObjects.length; x++)
     {
@@ -806,7 +798,7 @@ function initializeHUD()
     addStatToHud({"text": "engineMouseX: ", "value": function() {return getEngCoordsX(state.controls.mouse.x);}, style: "item" });
     addStatToHud({"text": "mouse.y: ", "value": function() {return state.controls.mouse.y;}, style: "item" });
     addStatToHud({"text": "engineMouseY: ", "value": function() {return getEngCoordsY(state.controls.mouse.y);}, style: "item" });
-    
+
     hud.menu = {};
     hud.menu.button = newSquareEntity(0, 0, 100, 20);
     hud.menu.open = false;
@@ -1020,7 +1012,7 @@ function detectObjectClicked()
         {
             result = potentials[x];
             console.log("Button clicked!");
-        } 
+        }
     }
 
     if(engine.ht.contents[h] === undefined) { return 0; }
