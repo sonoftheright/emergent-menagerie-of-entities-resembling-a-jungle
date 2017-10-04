@@ -467,7 +467,7 @@ function newSquareEntity ( x, y, w, h )
         buckets: [],
         boundingBoxStyle: 'greensquare',
         boundingBoxOn: true,
-        cachedImage: 'wokedavey',
+        cachedImage: 0,
         drawBoundingBox: function()
         {
             if(this.clicked) { this.boundingBoxStyle = "bluesquare"; }
