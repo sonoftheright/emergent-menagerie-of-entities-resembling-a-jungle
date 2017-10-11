@@ -39,7 +39,7 @@ var wokeDavey = function(context, width, height)
     img.src = 'img/wokedavey.png';
 }
 
-var wokeJezebel = function(context, width, height)
+var wokeJane = function(context, width, height)
 {
     var img = new Image(width, height);
     img.onload = function()
@@ -79,6 +79,6 @@ canvasCache['bluesquare'] = makeCachedImage(50, 50, blueSquare);
 canvasCache['redsquare'] = makeCachedImage(50, 50, redSquare);
 canvasCache['greensquare'] = makeCachedImage(50, 50, greenSquare);
 canvasCache['wokedavey'] = makeCachedImage(50, 50, wokeDavey);
-canvasCache['wokejezebel'] = makeCachedImage(50, 50, wokeJezebel);
+canvasCache['wokejezebel'] = makeCachedImage(50, 50, wokeJane);
 canvasCache['wokebaby'] = makeCachedImage(50, 50, wokeBaby);
 canvasCache['apple'] = makeCachedImage(10, 10, apple);

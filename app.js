@@ -468,11 +468,28 @@ function newSquareEntity ( x, y, w, h )
         boundingBoxStyle: 'greensquare',
         boundingBoxOn: true,
         cachedImage: 0,
+        printableStatus: "idle",
         drawBoundingBox: function()
         {
             if(this.clicked) { this.boundingBoxStyle = "bluesquare"; }
             else if(this.collisions.length > 0) { this.boundingBoxStyle = "redsquare"; }
             else { this.boundingBoxStyle = "greensquare"; }
+        },
+        move: function(xDist, yDist)
+        {
+            this.x += xDist;
+            this.y += yDist;
+        },
+        drawStatus: function(object)
+        {
+            this.statusSize = ctx.measureText(this.printableStatus);
+            ctx.font = 8;
+            ctx.fillText(
+                object.printableStatus,                                               //text
+                getGfxCoordsX(object.x + (object.width / 2) - (this.statusSize.width / 2)),  //x position
+                getGfxCoordsY(object.y + object.height + 5),                                           //y position
+                object.printableStatus.length * 8                                              //max column width
+            );
         }
     };
     return square;
@@ -504,14 +521,16 @@ function drawObjects(obs)
                             Math.floor(objects[x].width  * map.scale),
                             Math.floor(objects[x].height * map.scale));
 
-            ctx.stroke();
         }
         ctx.drawImage(canvasCache[objects[x].cachedImage], 0, 0, objects[x].width - 1, objects[x].height - 1,
                                 getGfxCoordsX(objects[x].x),    // convert
                                 getGfxCoordsY(objects[x].y),
                                 Math.floor(objects[x].width  * map.scale),
                                 Math.floor(objects[x].height * map.scale));
+        ctx.beginPath();
+        objects[x].drawStatus(objects[x]);
     }
+    ctx.stroke();
     for(var x = 0; x < smartObjects.length; x++)
     {
         smartObjects[x].f();
@@ -628,7 +647,15 @@ function rightMouseDown()
 {
     // console.log(JSON.stringify(detectObjectClicked()));
     var monkey = detectObjectClicked();
-    var print = monkey !== 0 ? "object#" + monkey.index : "nothing."
+    if(monkey.entitified)
+    {
+        printEntityInfo(monkey);
+        print = "object#"+monkey.index
+    }
+    else
+    {
+        var print = monkey !== 0 ? "object#" + monkey.index : "nothing."
+    }
     console.log("Clicked: " + print);
 }
 
