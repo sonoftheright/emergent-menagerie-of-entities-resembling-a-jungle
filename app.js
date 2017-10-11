@@ -468,7 +468,7 @@ function newSquareEntity ( x, y, w, h )
         boundingBoxStyle: 'greensquare',
         boundingBoxOn: true,
         cachedImage: 0,
-        printableStatus: "idle",
+        printableStatus: null,
         drawBoundingBox: function()
         {
             if(this.clicked) { this.boundingBoxStyle = "bluesquare"; }
@@ -528,7 +528,10 @@ function drawObjects(obs)
                                 Math.floor(objects[x].width  * map.scale),
                                 Math.floor(objects[x].height * map.scale));
         ctx.beginPath();
-        objects[x].drawStatus(objects[x]);
+        if(objects[x].sentient)
+        {
+            objects[x].drawStatus(objects[x]);
+        }
     }
     ctx.stroke();
     for(var x = 0; x < smartObjects.length; x++)

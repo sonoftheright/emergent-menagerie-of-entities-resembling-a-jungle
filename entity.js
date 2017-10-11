@@ -49,6 +49,7 @@ function entitify(object)
     object.traits =
     {
         strength:           0,
+        endurance:          0,
         intelligence:       0,
         charisma:           0,
         memory:             0
@@ -60,9 +61,18 @@ function entitify(object)
     object.personality.extroversion      = Math.trunc(Math.random() * 100) / 100;
 
     object.traits.strength               = Math.trunc(Math.random() * 30);
+    object.traits.endurance              = Math.trunc(Math.random() * 50);
     object.traits.intelligence           = Math.floor(object.personality.openness * 100);
     object.traits.charisma               = Math.floor(((object.personality.extroversion + object.personality.openness) / 2) * 100);
     object.traits.memory                 = Math.floor(((object.personality.openness + object.personality.conscientiousness) / 2) * 100);
+
+    if(object.characterType === "davey" || 
+       object.characterType === "jane"  ||
+       object.characterType === "baby")
+    {
+        object.sentient = true;
+        object.printableStatus = "idle";
+    }
 
     object.traits.sex = object.characterType === "davey" ? "male" : object.characterType === "jane" ? "female" : getCoinFlip("male", "female");
     object.status.age = object.characterType === "davey" ? "adult" : object.characterType === "jane" ? "adult" : "infant";
