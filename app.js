@@ -14,7 +14,7 @@
 
 var el = document.getElementById("canvas");
 var ctx = el.getContext('2d');
-
+var debugging = false;
 /*###############*/
 /*   I N P U T   */
 /*###############*/
@@ -53,6 +53,7 @@ function createEventListeners()
         var pos = findPos(el);
         state.controls.mouse.x = event.pageX - pos.x;
         state.controls.mouse.y = event.pageY - pos.y;
+        state.controls.mouse.hash = hash(getEngCoordsX(state.controls.mouse.x), getEngCoordsY(state.controls.mouse.y));
     }, false);
     /*TODO: (Ben) Set up a zoom function with graphics scale to match.*/
     window.addEventListener('wheel', function (event)
@@ -239,8 +240,8 @@ function updateMap()
 /*   S E T U P   */
 
 var hud = {};
-var objects = []; //temporary - need more complex data structure later
-var smartObjects = [];
+var objects = [];
+var deadObjects = [];
 
 function findPos(obj)
 {
@@ -408,6 +409,7 @@ function drawHUD()
     {
 
     }
+
     hud.menu.button.lineWidth = 2;
     hud.menu.button.buffer = hud.menu.button.lineWidth + Math.floor(hud.menu.button.height * 0.5);
     hud.menu.button.x = hud.menu.button.buffer;
@@ -427,7 +429,7 @@ function drawHUD()
     ctx.font = "Bold " + hud.menu.fontSize + "px " + hud.menu.fontStyle;
     ctx.textAlign = "center";
     ctx.fillText(
-        "Menu",              //text
+        "Pause",              //text
         hud.menu.button.x + (hud.menu.button.width / 2),   //x position
         hud.menu.button.y,   //y position
         4 * hud.menu.fontSize//max column width
@@ -450,16 +452,16 @@ function makeCachedImage(width, height, renderFunction )
     return c;
 }
 
-function newSquareEntity ( x, y, w, h )
+function newEntity ( x, y, w, h )
 {
-    var number = objects.length;
     var square = {
-        index: number,
+        printableName: null,
+        index: undefined,
         x: x,
         y: y,
         height: h,
         width: w,
-        moved: false,
+        moving: false,
         collisions: [],
         clicked: false,
         draggedX: 0,
@@ -467,6 +469,7 @@ function newSquareEntity ( x, y, w, h )
         buckets: [],
         boundingBoxStyle: 'greensquare',
         boundingBoxOn: true,
+        bucketLabelOn: false,
         cachedImage: 0,
         printableStatus: null,
         drawBoundingBox: function()
@@ -490,74 +493,67 @@ function newSquareEntity ( x, y, w, h )
                 getGfxCoordsY(object.y + object.height + 5),                                           //y position
                 object.printableStatus.length * 8                                              //max column width
             );
+        },
+        drawName: function(object)
+        {
+            this.nameSize = ctx.measureText(this.printableName);
+            ctx.font = 8;
+            ctx.fillText(
+                this.printableName,                                               //text
+                getGfxCoordsX(object.x + (object.width / 2) - (object.nameSize.width / 2)),  //x position
+                getGfxCoordsY(object.y - 20),                                           //y position
+                object.printableName.length * 8                                              //max column width
+            );
+            if(this.bucketLabelOn)
+            {
+                this.bucketLabel = "buckets: " + this.buckets.toString();
+                this.bucketLabelSize = ctx.measureText(this.bucketLabel);
+                ctx.fillText(
+                    this.bucketLabel,                                               //text
+                    getGfxCoordsX(object.x + (object.width / 2) - (object.bucketLabelSize.width / 2)),  //x position
+                    getGfxCoordsY(object.y - 40),                                           //y position
+                    this.bucketLabel.length * 8                                              //max column width
+                );
+            }
+        },
+        performCurrentAction: function()
+        {
+
         }
     };
     return square;
-}
-
-function newSmartSquare( x, y, w, h, d, f)
-{
-    return {
-        x: x,
-        y: y,
-        height: h,
-        width: w,
-        coordType: d,
-        f: f
-    };
 }
 
 function drawObjects(obs)
 {
     ctx.strokeStyle='black';
     //don't multiply the el width by map scale too, unless you want things to shift to the upper left/lower right
-    for(var x = 0; x < objects.length; x++)
+    var objectsToDraw = objects;
+
+    for(var x = 0; x < objectsToDraw.length; x++)
     {
-        if(objects[x].boundingBoxOn){
-            objects[x].drawBoundingBox();
-            ctx.drawImage(canvasCache[objects[x].boundingBoxStyle], 0, 0, objects[x].width, objects[x].height,
-                            getGfxCoordsX(objects[x].x),    // convert
-                            getGfxCoordsY(objects[x].y),
-                            Math.floor(objects[x].width  * map.scale),
-                            Math.floor(objects[x].height * map.scale));
+        if(objectsToDraw[x].boundingBoxOn){
+            objectsToDraw[x].drawBoundingBox();
+            ctx.drawImage(canvasCache[objectsToDraw[x].boundingBoxStyle], 0, 0, objectsToDraw[x].width, objectsToDraw[x].height,
+                            getGfxCoordsX(objectsToDraw[x].x),    // convert
+                            getGfxCoordsY(objectsToDraw[x].y),
+                            Math.floor(objectsToDraw[x].width  * map.scale),
+                            Math.floor(objectsToDraw[x].height * map.scale));
 
         }
-        ctx.drawImage(canvasCache[objects[x].cachedImage], 0, 0, objects[x].width - 1, objects[x].height - 1,
-                                getGfxCoordsX(objects[x].x),    // convert
-                                getGfxCoordsY(objects[x].y),
-                                Math.floor(objects[x].width  * map.scale),
-                                Math.floor(objects[x].height * map.scale));
+        ctx.drawImage(canvasCache[objectsToDraw[x].cachedImage], 0, 0, objectsToDraw[x].width - 1, objectsToDraw[x].height - 1,
+                                getGfxCoordsX(objectsToDraw[x].x),    // convert
+                                getGfxCoordsY(objectsToDraw[x].y),
+                                Math.floor(objectsToDraw[x].width  * map.scale),
+                                Math.floor(objectsToDraw[x].height * map.scale));
         ctx.beginPath();
-        if(objects[x].sentient)
+        if(objectsToDraw[x].sentient)
         {
-            objects[x].drawStatus(objects[x]);
+            objectsToDraw[x].drawStatus(objectsToDraw[x]);
         }
+        objectsToDraw[x].drawName(objectsToDraw[x]);
     }
     ctx.stroke();
-    for(var x = 0; x < smartObjects.length; x++)
-    {
-        smartObjects[x].f();
-        if(smartObjects[x].coordType == "eng")
-        {
-            ctx.rect
-            (
-                    getGfxCoordsX(smartObjects[x].x),
-                    getGfxCoordsY(smartObjects[x].y),
-                    Math.floor(smartObjects[x].width * map.scale),
-                    Math.floor(smartObjects[x].height * map.scale)
-            );
-        }
-        else
-        {
-            ctx.rect
-            (
-                    smartObjects[x].x,                  // draw in coordinates already adjusted to context
-                    smartObjects[x].y,
-                    smartObjects[x].width * map.scale,  // .. but still scale it.
-                    smartObjects[x].height * map.scale
-            );
-        }
-    }
     drawHUD();
 }
 
@@ -608,9 +604,9 @@ function objectsIdentical(object1, object2)
 function switchWithLastIndex(array, index)
 {
     if(index < array.length - 1){ array.push(array.splice(index, 1)[0]); }
-    for(var x = index; x < objects.length; x++)
+    for(var x = index; x < array.length; x++)
     {
-        objects[x].index = x;
+        array[x].index = x;
     }
 }
 
@@ -618,10 +614,11 @@ function mouseUp()
 {
     if(state.controls.mouse.clicked !== 0)
     {
-        state.controls.mouse.moved = true;
         state.controls.mouse.clicked.draggedX = 0;
         state.controls.mouse.clicked.draggedY = 0;
-        state.controls.mouse.clicked.clicked = false;
+        state.controls.mouse.clicked.clicked  = false;
+        state.controls.mouse.clicked.moving   = false;
+        state.controls.mouse.clicked.moved    = false;
         updateObjectInTable(state.controls.mouse.clicked);
         state.controls.mouse.clicked = 0;
     }
@@ -633,17 +630,25 @@ function mouseUp()
 function mouseDown()
 {
     if(state.controls.mouse.clicked == 0)
-    {
+    {7
         state.controls.mouse.clicked = detectObjectClicked();
         if(state.controls.mouse.clicked.type === "square")
         {
-            switchWithLastIndex(objects, state.controls.mouse.clicked.index);
+            if(state.controls.mouse.clicked.characterType)
+            {
+                switchWithLastIndex(objects, state.controls.mouse.clicked.index);
+            }
+            else
+            {
+                switchWithLastIndex(objects.inanimate, state.controls.mouse.clicked.index);   
+            }
         }
     }
     if(state.controls.mouse.clicked !== 0)
     {
         state.controls.mouse.clicked.clicked = true;
     }
+    return 1;
 }
 
 function rightMouseDown()
@@ -653,13 +658,27 @@ function rightMouseDown()
     if(monkey.entitified)
     {
         printEntityInfo(monkey);
-        print = "object#"+monkey.index
+        print = "object#"+monkey.index;
     }
     else
     {
         var print = monkey !== 0 ? "object#" + monkey.index : "nothing."
     }
     console.log("Clicked: " + print);
+    return 1;
+}
+
+function spaceUp()
+{
+    togglePause();
+    return 1;
+}
+
+function escUp()
+{
+    printHTMembers();
+    printHTBuckets();
+    return 1;
 }
 
 function handleInput()
@@ -688,12 +707,12 @@ function handleInput()
             state.input[i] == "upup"           ? 1 :
             state.input[i] == "updown"         ? 1 :
             state.input[i] == "spacedown"      ? 1 :
-            state.input[i] == "spaceup"        ? 1 :
+            state.input[i] == "spaceup"        ? spaceUp() :
             state.input[i] == "escup"          ? 1 :
             state.input[i] == "escdown"        ? 1 :
             state.input[i] == "touchdown"      ? mouseDown() :
             state.input[i] == "touchup"        ? mouseUp() :
-            state.input[i] == "shiftup"        ? 1 :
+            state.input[i] == "shiftup"        ? escUp() :
             state.input[i] == "shiftdown"      ? 1 : 0;
     }
 
@@ -723,6 +742,8 @@ function handleInput()
             state.controls.mouse.clicked.draggedX = getEngCoordsX(state.controls.mouse.x);
             state.controls.mouse.clicked.y -= Math.floor(state.controls.mouse.clicked.draggedY - getEngCoordsY(state.controls.mouse.y));
             state.controls.mouse.clicked.draggedY = getEngCoordsY(state.controls.mouse.y);
+            state.controls.mouse.clicked.moving = true;
+            state.controls.mouse.clicked.moved  = true;
             updateObjectInTable(state.controls.mouse.clicked);
         }
         else if(state.mapClicked)
@@ -759,6 +780,19 @@ function handleInput()
 
 var engine = {};
 
+
+function togglePause()
+{
+    if(engine.paused)
+    {
+        engine.paused = false;
+    }
+    else
+    {
+        engine.paused = true;
+    }
+}
+
 function refreshEngineVariables()
 {
     engine.running = true;
@@ -767,6 +801,7 @@ function refreshEngineVariables()
     engine.framepoll = 0;
     engine.framepollperiod = 5;
     engine.frameratereporting = true;
+    engine.pause = false;
 }
 
 function calculateFrameRate()
@@ -828,9 +863,10 @@ function initializeHUD()
     addStatToHud({"text": "engineMouseX: ", "value": function() {return getEngCoordsX(state.controls.mouse.x);}, style: "item" });
     addStatToHud({"text": "mouse.y: ", "value": function() {return state.controls.mouse.y;}, style: "item" });
     addStatToHud({"text": "engineMouseY: ", "value": function() {return getEngCoordsY(state.controls.mouse.y);}, style: "item" });
+    addStatToHud({"text": "mouseHash: ", "value": function() {return state.controls.mouse.hash;}, style: "item" });
 
     hud.menu = {};
-    hud.menu.button = newSquareEntity(0, 0, 100, 20);
+    hud.menu.button = {x: 0, y: 0, width: 100, height: 20 };
     hud.menu.open = false;
     hud.menu.button.type = "button";
 
@@ -843,8 +879,6 @@ function initializeHUD()
 /*
     - REQUIRED OBJECTS AND PROPERTIES -
 
-
-
 */
 var collisionObjectsToUpdate = [];
 
@@ -854,6 +888,7 @@ function updateCollisionObjects()
     for(var x = 0; x < collisionObjectsToUpdate.length; x++)
     {
         collisionObjectsToUpdate[x].collisions = getCollisions(collisionObjectsToUpdate[x]);
+        updateObjectInTable(collisionObjectsToUpdate[x]);
         updated.push(collisionObjectsToUpdate[x].index);
     }
 
@@ -865,8 +900,9 @@ function initializeHashTable()
 {
     engine.ht = {};
     let ht = engine.ht;
-    ht.cellsize = 50;
-    ht.contents = [];
+    ht.cellsize = 100;
+    ht.buckets = [];
+    ht.members = [];
     updateTable();
 }
 
@@ -960,24 +996,25 @@ function addObjectToTable(object)
     //c) divide each by hashtable cellsize and round
     //d) for each possible bucket between min and max, insert the hash
     var buckets = getObjectBuckets(object);
+    if(engine.ht.members.indexOf(object) < 0) { engine.ht.members.push(object); }
     for(var z = 0; z < buckets.length; z++)
     {
-        if(engine.ht.contents[buckets[z]] === undefined)
+        if(engine.ht.buckets[buckets[z]] === undefined)
         {
-            engine.ht.contents[buckets[z]] = [];
-            engine.ht.contents[buckets[z]].push(object);
+            engine.ht.buckets[buckets[z]] = [];
+            engine.ht.buckets[buckets[z]].push(object);
         }
-        else if(engine.ht.contents[buckets[z]])
+        else if(engine.ht.buckets[buckets[z]])
         {
             //if the bucket already contains the object reference, don't add a duplicate
             var duplicate = false;
-            for (var x = 0; x < engine.ht.contents[buckets[z]].length; x++)
+            for (var x = 0; x < engine.ht.buckets[buckets[z]].length; x++)
             {
-                if( engine.ht.contents[buckets[z]][x] === object) {duplicate = true; break; }
+                if( engine.ht.buckets[buckets[z]][x] === object) {duplicate = true; break; }
             }
             if(!duplicate)
             {
-                engine.ht.contents[buckets[z]].push(object);
+                engine.ht.buckets[buckets[z]].push(object);
             }
         }
     }
@@ -985,19 +1022,24 @@ function addObjectToTable(object)
     return { "buckets": object.buckets };
 }
 
+function printHTMembers() { console.log(engine.ht.members); }
+function printHTBuckets() { console.log(engine.ht.buckets); }
+
 function removeObjectFromTable(object)
 {
+    engine.ht.members.splice(engine.ht.members.indexOf(object), 1);
     for(var x = 0; x < object.buckets.length; x++)
     {
-        let len = engine.ht.contents[object.buckets[x]].length;
+        let len = engine.ht.buckets[object.buckets[x]].length;
         for(var y = 0; y < len; y++)
         {
-            if(engine.ht.contents[object.buckets[x]][y] === object)
+            if(engine.ht.buckets[object.buckets[x]][y] === object)
             {
-                engine.ht.contents[object.buckets[x]].splice(y, 1);
+                engine.ht.buckets[object.buckets[x]].splice(y, 1);
             }
         }
     }
+
     var oldBuckets = object.buckets.slice();
     var oldCollisions = object.collisions.slice();
     object.buckets = [];
@@ -1027,7 +1069,7 @@ function hasCollision(object, a)
 
 function detectObjectClicked()
 {
-    var h = hash(getEngCoordsX(state.controls.mouse.x), getEngCoordsY(state.controls.mouse.y));
+    var h = state.controls.mouse.hash;
 
     var result;
     var potentials = hud.menu.items;
@@ -1041,12 +1083,12 @@ function detectObjectClicked()
         )
         {
             result = potentials[x];
-            console.log("Button clicked!");
+            togglePause();
         }
     }
 
-    if(engine.ht.contents[h] === undefined) { return 0; }
-    potentials = engine.ht.contents[h];
+    if(engine.ht.buckets[h] === undefined) { return 0; }
+    potentials = engine.ht.buckets[h];
 
     for(let x = 0; x < potentials.length; x++)
     {
@@ -1062,9 +1104,28 @@ function detectObjectClicked()
     else { return result; }
 }
 
+function checkArrayForMemberWithProperty(object, type, array)
+{
+    for(var x = 0; x < array.length; x++)
+    {
+      if(array[x][type])
+      {
+        return array[x];
+      }
+    }
+    return 0;
+}
+
+function resetArrayMemberIndexes(array) { for(x = 0; x < array.length; x++) { array[x].index = x; } }
+// function deleteArrayMemberByIndex(object, array) 
+// { 
+//     array.splice(object.index, 1); 
+//     resetArrayMemberIndexes(array);
+// }
+
 function flagBucketForUpdate(hash)
 {
-    var toUpdate = engine.ht.contents[hash];
+    var toUpdate = engine.ht.buckets[hash];
     if(toUpdate !== undefined)
     {
         for(var x = 0; x < toUpdate.length; x++)
@@ -1079,7 +1140,6 @@ function flagBucketForUpdate(hash)
     return true;
 }
 
-//TESTING PURPOSES
 function getCollisions(object)
 {
     var neighbors = [];
@@ -1087,7 +1147,7 @@ function getCollisions(object)
     var currentlyColliding = false;
     for(var bucket = 0; bucket < object["buckets"].length; bucket++)
     {
-        let bucketNeighbors = engine.ht.contents[object.buckets[bucket]];
+        let bucketNeighbors = engine.ht.buckets[object.buckets[bucket]];
         for(var friend = 0; friend < bucketNeighbors.length; friend++)
         {
             if(bucketNeighbors[friend] !== object && neighbors.indexOf(bucketNeighbors[friend]) < 0)
@@ -1113,9 +1173,11 @@ function getCollisions(object)
     }
 
     if(!currentlyColliding) { object.collisions = []; }
-    object.moved = false;
     return collisions;
 }
+
+//returns integer version of the bucket coords built into an object
+function getBucketCoords(/*string*/bucket) { return {x: bucket.split(",")[0] * 1, y: bucket.split(",")[1] * 1 }; }
 
 /* L O O P */
 
@@ -1130,14 +1192,85 @@ function initializeEngine()
     engine.timer = window.setTimeout(loop, engine.frameLength);
 }
 
+function letEntitiesThink(number)
+{
+    for (x = 0; x < objects.length; x++)
+    {
+        if(objects[x].sentient)
+        {
+            seeLocalObjects(objects[x], objects[x].viewDistance); 
+            if(engine.frame % 125 == 0) { deteriorateTraits(objects[x]); }
+        }
+    }
+}
+
+function letEntitiesAct(number)
+{
+    for(x = 0; x < objects.length; x++) 
+    { 
+        if(objects[x].sentient)
+        {
+            if(!act(objects[x])) 
+            { 
+                objects[x].printableStatus = "Idle"; 
+            }
+        }
+    }
+}
+
+function updateEntities(number)
+{
+    var flagForDeath = [];
+    for(x = 0; x < objects.length; x++)
+    {
+        if(objects[x].sentient && objects[x].status.hunger <= 1)
+        {
+            console.log(objects[x].printableName + " has died of starvation.");
+            flagForDeath.push(objects[x]);
+        }
+    }
+
+    for(var y = 0; y < flagForDeath.length; y++)
+    {
+        killEntity(flagForDeath[y]);
+    }
+}
+
+function spawnRandomApples()
+{
+    for(var num = Math.floor(Math.random() * 5); num > 0; num--)
+    {
+        makeApple();
+    }
+}
+
+function cleanHashTable()
+{
+    engine.ht.buckets = [];
+    for(var x = 0; x < engine.ht.members.length; x++)
+    {
+        engine.ht.members[x].buckets = [];
+        addObjectToTable(engine.ht.members[x]);
+    }
+}
+
 function loop()
 {
-    engine.frame++;
     engine.beginning = new Date().getTime();
     handleInput();
-    updateMap();
-    updateTable();
-    updateCollisionObjects();
+    if(!engine.paused)
+    {
+        engine.frame++;
+        updateEntities(10);
+        letEntitiesThink(10);
+        letEntitiesAct(10);
+        if(engine.frame % 500 === 0) { spawnRandomApples(); }
+        if(engine.from % 7 === 0) { cleanHashTable(); }
+    }
+    if(collisionObjectsToUpdate[0])
+    {
+        updateCollisionObjects();
+    }
     updateGraphics();
     if(engine.running)
     {

@@ -4,6 +4,14 @@
 		"selected_items":
 		[
 			[
+				"letEntities",
+				"letEntitiesAct"
+			],
+			[
+				"characte",
+				"characterType"
+			],
+			[
 				"bucket",
 				"bucketFriends"
 			],
@@ -179,9 +187,37 @@
 			"file": "app.js",
 			"settings":
 			{
-				"buffer_size": 36576,
+				"buffer_size": 39742,
 				"encoding": "UTF-8",
 				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "behaviors.js",
+			"settings":
+			{
+				"buffer_size": 3998,
+				"encoding": "UTF-8",
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "entity.js",
+			"settings":
+			{
+				"buffer_size": 6929,
+				"encoding": "UTF-8",
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "assets.js",
+			"settings":
+			{
+				"buffer_size": 2169,
+				"encoding": "UTF-8",
+				"line_ending": "Windows",
+				"name": "//assets.js"
 			}
 		},
 		{
@@ -191,34 +227,6 @@
 				"buffer_size": 295,
 				"encoding": "UTF-8",
 				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "entity.js",
-			"settings":
-			{
-				"buffer_size": 4616,
-				"encoding": "UTF-8",
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "behaviors.js",
-			"settings":
-			{
-				"buffer_size": 1148,
-				"encoding": "UTF-8",
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "assets.js",
-			"settings":
-			{
-				"buffer_size": 2163,
-				"encoding": "UTF-8",
-				"line_ending": "Windows",
-				"name": "//assets.js"
 			}
 		}
 	],
@@ -288,14 +296,23 @@
 	],
 	"file_history":
 	[
-		"/C/Users/admin/Documents/Training/Development/MineCraft-One-Week-Challenge-master/MineCraft-One-Week-Challenge-master/README.md",
+		"/C/Users/admin/Dropbox/jungle/entity.js",
+		"/C/Users/admin/Dropbox/jungle/app.js",
+		"/C/Users/admin/Dropbox/jungle/behaviors.js",
+		"/C/Users/admin/Dropbox/Empire/Empire-master/README.md",
 		"/C/Users/admin/Downloads/SFML-2.4.2-windows-vc14-64-bit/SFML-2.4.2/readme.txt",
+		"/C/Users/admin/Dropbox/Empire/Empire-master/CMakeLists.txt",
+		"/C/Users/admin/Dropbox/Empire/Empire-master/Instructions.txt",
+		"/C/Users/admin/Downloads/emsdk-portable-64bit/README.md",
+		"/C/Users/admin/Dropbox/jungle/SimpleHTTPServer.py",
+		"/C/Users/admin/Dropbox/jungle/startserver.bat",
+		"/C/Users/admin/Dropbox/Programming/Javascript/going-apey/js/Going Apey.js",
+		"/C/Users/admin/Documents/Training/Development/MineCraft-One-Week-Challenge-master/MineCraft-One-Week-Challenge-master/README.md",
 		"/C/Users/admin/Dropbox/Programming/Javascript/Farm/JS/graphics.js",
 		"/C/Users/admin/Dropbox/Programming/Javascript/Farm/JS/entities.js",
 		"/C/Users/admin/Dropbox/Programming/Javascript/Farm/JS/engine.js",
 		"/C/Users/admin/Dropbox/Programming/Javascript/Farm/JS/farmMain.js",
 		"/C/Users/admin/Dropbox/Programming/Web General/My Website/public_html/public_html/goingapey/js/Going Apey.js",
-		"/C/Users/admin/Dropbox/Programming/Javascript/going-apey/js/Going Apey.js",
 		"/C/Users/admin/Dropbox/blending-bedlam/app.js",
 		"/Users/Benjamin/Dropbox/emergent-menagerie-of-entities-resembling-a-jungle/app.js",
 		"/Users/Benjamin/Dropbox/emergent-menagerie-of-entities-resembling-a-jungle/perlin.js",
@@ -406,24 +423,15 @@
 		"/C/Users/admin/Dropbox/Jygdaal's Keep/string_utilities.cpp",
 		"/C/Users/admin/Dropbox/Jygdaal's Keep/input_output.cpp",
 		"/C/Users/admin/Dropbox/Jygdaal's Keep/game_map.cpp",
-		"/C/Users/admin/Dropbox/Jygdaal's Keep/main.cpp",
-		"/C/Users/admin/Dropbox/ProjectAlf/Serious Code/Jygdaal's Keep/main.cpp",
-		"/C/Users/admin/Dropbox/ProjectAlf/Serious Code/Jygdaal's Keep/string_utilities.h",
-		"/C/Users/admin/Dropbox/ProjectAlf/Serious Code/Jygdaal's Keep/input_output.h",
-		"/C/Users/admin/Dropbox/ProjectAlf/Serious Code/Jygdaal's Keep/input_output.cpp",
-		"/C/Users/admin/Dropbox/ProjectAlf/Serious Code/Jygdaal's Keep/game_map.h",
-		"/C/Users/admin/Dropbox/ProjectAlf/Serious Code/Jygdaal's Keep/game_map.cpp",
-		"/C/Users/admin/Dropbox/ProjectAlf/Serious Code/Jygdaal's Keep/main.h",
-		"/C/Users/admin/Dropbox/ProjectAlf/Serious Code/Jygdaal's Keep/string_utilities.cpp",
-		"/C/Users/admin/Dropbox/ProjectAlf/Serious Code/Jygdaal's Keep/datautil.h"
+		"/C/Users/admin/Dropbox/Jygdaal's Keep/main.cpp"
 	],
 	"find":
 	{
-		"height": 23.0
+		"height": 40.0
 	},
 	"find_in_files":
 	{
-		"height": 90.0,
+		"height": 104.0,
 		"where_history":
 		[
 			""
@@ -434,6 +442,103 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"update",
+			"remove",
+			"removeobject",
+			"objects.dead",
+			"hunger",
+			"deteriorate",
+			"collisionobjectstoupdate",
+			"collisionobjectstoupdate.push",
+			"collisionobjectstoupdate",
+			"deleteobject",
+			"charactertype",
+			"charactertype = \"",
+			"charactertype = \"apple",
+			"apple",
+			"move:",
+			"addobjecttotable",
+			"Updateobjectintable",
+			"updateObjectInTable",
+			"updateCollisionObjects.push",
+			"updateCollisionObjects",
+			"updateCollision",
+			"collisionObjectsToUpdate.push",
+			"updateObjectInTable",
+			"collisionObjectsToUpdate",
+			"objects.length",
+			"flagbucketforupdate",
+			"engine.ht.contents",
+			"objects",
+			"getcollision",
+			"getCollisions",
+			"updateCollisionObjects",
+			"collisionObjectsToUpdate.push",
+			"newEntity",
+			"index =",
+			"switchwithlastindex",
+			"clicked",
+			"smart",
+			"objects",
+			"objects.push",
+			"memory",
+			"hud.menu.items",
+			"newSquareEntity",
+			"newSquare",
+			"remove",
+			"printablestatus",
+			"printableStatus",
+			"drawobjects",
+			"debugging",
+			"addobjecttotable",
+			"getbucketcoords",
+			"updategraphics",
+			"idle",
+			"objectsseen",
+			"printentityinfo",
+			"moved",
+			"updategraphics",
+			"updateobject",
+			"updateobjects",
+			"moving",
+			"framerate",
+			"moving",
+			"moved",
+			"newsquareent",
+			"leftmousedown",
+			"leftmousedown(",
+			"leftmousedown",
+			"moved",
+			"moved =",
+			"moved = false",
+			"leftmouseup",
+			"mousedown(",
+			"handleinput",
+			"updatecollisionobjects",
+			"updatetable",
+			"updatemap",
+			"getCollisions",
+			"moved = true",
+			"moved",
+			"objectsseen",
+			"printentityinfo",
+			"rightmousedown",
+			"maxbuckets",
+			"engine.ht",
+			"bounceoffwalls",
+			"new",
+			"spatial hash",
+			"drawstatus",
+			"measure",
+			"statcolumnwidth",
+			"drawstatistics",
+			"text",
+			"newsquare",
+			"hud.statFont",
+			"ctx.font",
+			"drawStatistics",
+			"canvascache",
+			"cachedimage",
 			"elder",
 			"detectObjectClicked",
 			"detectCollision",
@@ -464,104 +569,7 @@
 			"greensquare",
 			"makeCachedImage",
 			"newSquare",
-			"makecanvascache",
-			"stroke(",
-			"drawrect",
-			"ctx.stroke",
-			"x =",
-			"strafingSquare",
-			"cache(",
-			"cache()",
-			"getCanvasCache",
-			"newsquare",
-			"update: ",
-			"update",
-			"render",
-			"render\n",
-			"graphics.getCanvasCache",
-			"graphics.render",
-			"graphics.render,",
-			"graphics.render()",
-			"graphics.render ",
-			"graphics.render",
-			"renderImage",
-			"getCanvasCache",
-			"create",
-			"canvas",
-			"canvase",
-			"canvas",
-			"cache",
-			"leftmousedown",
-			"detectobjectclicked",
-			"initializeHUD",
-			"InitializeHUD",
-			"initializehud",
-			"detectobjectclicked",
-			"textalign",
-			"statcolumnwidth",
-			"max column width",
-			"max column",
-			"statitemfont",
-			"statitemfontsize",
-			"drawhud",
-			"textalign",
-			"hud.statfont",
-			"hud.statlabels",
-			"addstattohud",
-			"addstattohude",
-			"beginpath",
-			"drawhud",
-			"newSquare",
-			"coordtype",
-			"newSmartSquare",
-			"initializeHUD",
-			"initializeEngine",
-			"initializeHUD",
-			"initialize",
-			"intitialize",
-			"draw",
-			"smartsquare",
-			"hud",
-			"detectobject",
-			"clicked:",
-			"engine.ht.contents",
-			"engine.ht.contents =",
-			"ht: ",
-			"undefined",
-			"indexof",
-			"clicked",
-			"style",
-			"mouse.x",
-			"<<<<",
-			"<<<<<,",
-			">>>>>",
-			"=====",
-			"collisions",
-			"draw",
-			"hud",
-			"focusPoint.",
-			"focusPoint",
-			"testcollision",
-			"drawObjects",
-			"testcollision",
-			"drawObjects",
-			"function style",
-			"style",
-			"drawBorders",
-			"hud",
-			"objects",
-			"objects.push",
-			"newSquare",
-			"\"black",
-			"newsquare",
-			"updatemap",
-			"objects",
-			"getGfxCoordsX",
-			"objects.",
-			"focuspoint",
-			"offset",
-			"newsquare",
-			"scale"
+			"makecanvascache"
 		],
 		"highlight": true,
 		"in_selection": false,
@@ -580,7 +588,7 @@
 	"groups":
 	[
 		{
-			"selected": 2,
+			"selected": 1,
 			"sheets":
 			[
 				{
@@ -589,15 +597,28 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 36576,
+						"buffer_size": 39742,
 						"regions":
 						{
+							"mark":
+							{
+								"flags": 144,
+								"icon": "Packages/Theme - Default/common/dot.png",
+								"regions":
+								[
+									[
+										2234,
+										2234
+									]
+								],
+								"scope": "mark"
+							}
 						},
 						"selection":
 						[
 							[
-								0,
-								0
+								39133,
+								39133
 							]
 						],
 						"settings":
@@ -631,14 +652,14 @@
 								10,
 								7,
 								225,
-								4,
-								10,
+								9,
+								22,
+								17,
+								31,
+								51,
+								8,
+								7,
 								11,
-								12,
-								29,
-								10,
-								71,
-								218,
 								113,
 								1,
 								133,
@@ -654,14 +675,285 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 14772.0,
+						"translation.y": 15241.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 1,
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "behaviors.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 3998,
+						"regions":
+						{
+							"mark":
+							{
+								"flags": 144,
+								"icon": "Packages/Theme - Default/common/dot.png",
+								"regions":
+								[
+									[
+										2296,
+										2296
+									]
+								],
+								"scope": "mark"
+							}
+						},
+						"selection":
+						[
+							[
+								628,
+								628
+							]
+						],
+						"settings":
+						{
+							"c_time":
+							[
+								128,
+								3,
+								99,
+								100,
+								97,
+								116,
+								101,
+								116,
+								105,
+								109,
+								101,
+								10,
+								100,
+								97,
+								116,
+								101,
+								116,
+								105,
+								109,
+								101,
+								10,
+								113,
+								0,
+								67,
+								10,
+								7,
+								225,
+								10,
+								9,
+								10,
+								24,
+								20,
+								13,
+								146,
+								88,
+								113,
+								1,
+								133,
+								113,
+								2,
+								82,
+								113,
+								3,
+								46
+							],
+							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 116.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 0,
+					"type": "text"
+				},
+				{
+					"buffer": 2,
+					"file": "entity.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 6929,
+						"regions":
+						{
+							"mark":
+							{
+								"flags": 144,
+								"icon": "Packages/Theme - Default/common/dot.png",
+								"regions":
+								[
+									[
+										2111,
+										2111
+									]
+								],
+								"scope": "mark"
+							}
+						},
+						"selection":
+						[
+							[
+								6115,
+								6115
+							]
+						],
+						"settings":
+						{
+							"c_time":
+							[
+								128,
+								3,
+								99,
+								100,
+								97,
+								116,
+								101,
+								116,
+								105,
+								109,
+								101,
+								10,
+								100,
+								97,
+								116,
+								101,
+								116,
+								105,
+								109,
+								101,
+								10,
+								113,
+								0,
+								67,
+								10,
+								7,
+								225,
+								9,
+								22,
+								17,
+								31,
+								51,
+								8,
+								81,
+								68,
+								113,
+								1,
+								133,
+								113,
+								2,
+								82,
+								113,
+								3,
+								46
+							],
+							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 2314.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 2,
 					"type": "text"
 				},
 				{
-					"buffer": 1,
+					"buffer": 3,
+					"file": "assets.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 2169,
+						"regions":
+						{
+							"mark":
+							{
+								"flags": 144,
+								"icon": "Packages/Theme - Default/common/dot.png",
+								"regions":
+								[
+									[
+										2212,
+										2212
+									]
+								],
+								"scope": "mark"
+							}
+						},
+						"selection":
+						[
+							[
+								1135,
+								1135
+							]
+						],
+						"settings":
+						{
+							"auto_name": "//assets.js",
+							"c_time":
+							[
+								128,
+								3,
+								99,
+								100,
+								97,
+								116,
+								101,
+								116,
+								105,
+								109,
+								101,
+								10,
+								100,
+								97,
+								116,
+								101,
+								116,
+								105,
+								109,
+								101,
+								10,
+								113,
+								0,
+								67,
+								10,
+								7,
+								225,
+								10,
+								3,
+								17,
+								44,
+								46,
+								11,
+								246,
+								213,
+								113,
+								1,
+								133,
+								113,
+								2,
+								82,
+								113,
+								3,
+								46
+							],
+							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 382.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 3,
+					"type": "text"
+				},
+				{
+					"buffer": 4,
 					"file": "index.html",
 					"semi_transient": false,
 					"settings":
@@ -669,6 +961,19 @@
 						"buffer_size": 295,
 						"regions":
 						{
+							"mark":
+							{
+								"flags": 144,
+								"icon": "Packages/Theme - Default/common/dot.png",
+								"regions":
+								[
+									[
+										2212,
+										2212
+									]
+								],
+								"scope": "mark"
+							}
 						},
 						"selection":
 						[
@@ -734,239 +1039,13 @@
 					},
 					"stack_index": 4,
 					"type": "text"
-				},
-				{
-					"buffer": 2,
-					"file": "entity.js",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 4616,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								84,
-								84
-							]
-						],
-						"settings":
-						{
-							"c_time":
-							[
-								128,
-								3,
-								99,
-								100,
-								97,
-								116,
-								101,
-								116,
-								105,
-								109,
-								101,
-								10,
-								100,
-								97,
-								116,
-								101,
-								116,
-								105,
-								109,
-								101,
-								10,
-								113,
-								0,
-								67,
-								10,
-								7,
-								225,
-								9,
-								22,
-								17,
-								31,
-								51,
-								8,
-								81,
-								68,
-								113,
-								1,
-								133,
-								113,
-								2,
-								82,
-								113,
-								3,
-								46
-							],
-							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax"
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 0,
-					"type": "text"
-				},
-				{
-					"buffer": 3,
-					"file": "behaviors.js",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 1148,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								494,
-								476
-							]
-						],
-						"settings":
-						{
-							"c_time":
-							[
-								128,
-								3,
-								99,
-								100,
-								97,
-								116,
-								101,
-								116,
-								105,
-								109,
-								101,
-								10,
-								100,
-								97,
-								116,
-								101,
-								116,
-								105,
-								109,
-								101,
-								10,
-								113,
-								0,
-								67,
-								10,
-								7,
-								225,
-								10,
-								9,
-								10,
-								24,
-								20,
-								13,
-								146,
-								88,
-								113,
-								1,
-								133,
-								113,
-								2,
-								82,
-								113,
-								3,
-								46
-							],
-							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax"
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 1,
-					"type": "text"
-				},
-				{
-					"buffer": 4,
-					"file": "assets.js",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 2163,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								0,
-								0
-							]
-						],
-						"settings":
-						{
-							"auto_name": "//assets.js",
-							"c_time":
-							[
-								128,
-								3,
-								99,
-								100,
-								97,
-								116,
-								101,
-								116,
-								105,
-								109,
-								101,
-								10,
-								100,
-								97,
-								116,
-								101,
-								116,
-								105,
-								109,
-								101,
-								10,
-								113,
-								0,
-								67,
-								10,
-								7,
-								225,
-								10,
-								3,
-								17,
-								44,
-								46,
-								11,
-								246,
-								213,
-								113,
-								1,
-								133,
-								113,
-								2,
-								82,
-								113,
-								3,
-								46
-							],
-							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax"
-						},
-						"translation.x": 0.0,
-						"translation.y": 84.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 3,
-					"type": "text"
 				}
 			]
 		}
 	],
 	"incremental_find":
 	{
-		"height": 22.0
+		"height": 21.0
 	},
 	"input":
 	{

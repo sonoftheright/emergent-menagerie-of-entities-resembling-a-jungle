@@ -2,6 +2,20 @@
 
 /* Entity Properties and Trait Generation */
 
+var numJanes =  2,
+    numBabies = 2,
+    numDavies = 2,
+    numApples = 30;
+
+var entities = 
+{
+    "davey":    0,
+    "jane":     0,
+    "baby":     0,
+    "apple":    0
+}
+
+
 function getCoinFlip(choice1, choice2)
 {
     var r = Math.round(Math.random());
@@ -27,76 +41,123 @@ Traits:
 
 function entitify(object)
 {
-    object.entitified = true;
-    object.personality =
+    object.entitified   = true;
+    object.sentient     = null;
+    object.age          = null;
+    if(object.isSentient)
     {
-        agreeableness:      0,
-        openness:           0,
-        conscientiousness:  0,
-        neuroticism:        0,
-        extroversion:       0
-    };
-    object.status =
-    {
-        health:             100,
-        hunger:             100,
-        thirst:             100,
-        energy:             100,
-        temperature:        100,
-        contentedness:      100,
-        fear:               0
-    };
-    object.traits =
-    {
-        strength:           0,
-        endurance:          0,
-        intelligence:       0,
-        charisma:           0,
-        memory:             0
-    };
-    object.personality.agreeableness     = Math.trunc(Math.random() * 100) / 100;
-    object.personality.openness          = Math.trunc(Math.random() * 100) / 100;
-    object.personality.conscientiousness = Math.trunc(Math.random() * 100) / 100;
-    object.personality.neuroticism       = Math.trunc(Math.random() * 100) / 100;
-    object.personality.extroversion      = Math.trunc(Math.random() * 100) / 100;
+        object.personality  =
+        {
+            agreeableness:      0,
+            openness:           0,
+            conscientiousness:  0,
+            neuroticism:        0,
+            extroversion:       0
+        };
+        object.status       =
+        {
+            health:             100,
+            hunger:             100,
+            thirst:             100,
+            energy:             100,
+            temperature:        100,
+            contentedness:      100,
+            fear:               0
+        };
+        object.traits       =
+        {
+            strength:           0,
+            endurance:          0,
+            speed:              0,
+            intelligence:       0,
+            charisma:           0,
+            memory:             0,
+            sex:                null      
+        };
 
-    object.traits.strength               = Math.trunc(Math.random() * 30);
-    object.traits.endurance              = Math.trunc(Math.random() * 50);
-    object.traits.intelligence           = Math.floor(object.personality.openness * 100);
-    object.traits.charisma               = Math.floor(((object.personality.extroversion + object.personality.openness) / 2) * 100);
-    object.traits.memory                 = Math.floor(((object.personality.openness + object.personality.conscientiousness) / 2) * 100);
+        object.personality.agreeableness     = Math.trunc(Math.random() * 100) / 100;
+        object.personality.openness          = Math.trunc(Math.random() * 100) / 100;
+        object.personality.conscientiousness = Math.trunc(Math.random() * 100) / 100;
+        object.personality.neuroticism       = Math.trunc(Math.random() * 100) / 100;
+        object.personality.extroversion      = Math.trunc(Math.random() * 100) / 100;
 
-    if(object.characterType === "davey" || 
-       object.characterType === "jane"  ||
-       object.characterType === "baby")
-    {
+        object.traits.strength               = Math.trunc(Math.random() * 30);
+        object.traits.endurance              = Math.trunc(Math.random() * 50);
+        object.traits.speed                  = Math.trunc(Math.random() * 5) + 2;
+        object.traits.intelligence           = Math.floor(object.personality.openness * 100);
+        object.traits.charisma               = Math.floor(((object.personality.extroversion + object.personality.openness) / 2) * 100);
+        object.traits.memory                 = Math.floor(((object.personality.openness + object.personality.conscientiousness) / 2) * 100);
+
         object.sentient = true;
         object.printableStatus = "idle";
-    }
+        object.traits.sex = object.characterType === "davey" ? "male" : object.characterType === "jane" ? "female" : getCoinFlip("male", "female");
+        object.status.age = object.characterType === "davey" ? "adult" : object.characterType === "jane" ? "adult" : "infant";
 
-    object.traits.sex = object.characterType === "davey" ? "male" : object.characterType === "jane" ? "female" : getCoinFlip("male", "female");
-    object.status.age = object.characterType === "davey" ? "adult" : object.characterType === "jane" ? "adult" : "infant";
+        object.inventory = [];
+        object.addToInventory = function (inv)
+        {
+            console.log(inv.printableName + " is being picked up by " + object.printableName);
+            object.inventory.push(objects.splice(objects.indexOf(inv), 1)[0]);
+        };
+        object.deleteFromInventory = function(inv)
+        {
+            removeObjectFromTable(inv);
+            object.inventory.splice(object.inventory.indexOf(inv), 1);
+        };
+
+        // for now, just remember the locations of people and edible things
+        object.memory    = 
+        {
+            edible: [],
+            sentient: []
+        };
+
+        object.viewDistance = 5;
+
+        object.thoughtProcess = function()
+        {
+            seeLocalObjects(this, 15);
+        }
+    }
+    else if(object.isInanimate)
+    {
+        if(object.characterType === "apple")
+        {
+            object.edible = true;
+            object.hungerSatiation = Math.round((Math.random() * 30) + 20);
+        }
+        else if(object.characterType === "steak")
+        {
+            object.edible = true;
+            object.hungerSatiation = Math.round((Math.random() * 50) + 50);
+        }
+    }
 }
 
 function printEntityInfo(object)
 {
-    console.log("================");
-    console.log(JSON.stringify(object.personality));
-    console.log(JSON.stringify(object.status));
-    console.log(JSON.stringify(object.traits));
-    console.log("================");
+    if(object.isSentient)
+    {
+        console.log("==========================");
+        console.log(JSON.stringify(object.personality));
+        console.log(JSON.stringify(object.status));
+        console.log(JSON.stringify(object.traits));
+        console.log("================");
+        console.log("Objects in view: ");
+        console.log(object.objectsSeen);
+        console.log("================");
+        console.log("Objects in inventory: ");
+        console.log(object.inventory);
+        console.log("=========================");
+    }
+    else if(object.edible)
+    {
+        console.log("++++++++++++++++++++++++");
+        console.log("buckets: " + object.buckets);
+        console.log("satiation: " + object.hungerSatiation );
+        console.log("=========================");
+    }
 }
-
-function foodify(object)
-{
-	if(!object.edible)
-	{
-	    object.edible = true;
-	    object.flavor = Math.random() * 100;
-	    object.substance = Math.random() * 100;
-	}
-}
-
 
 /* Spawn the Entities! */
 
@@ -106,80 +167,107 @@ var yHeight = el.height / 2;
 
 function makeDavey()
 {
-	var nS = newSquareEntity(
+    entities.davey++;
+	var nS = newEntity(
         Math.floor(0 - (Math.random() * xWidth)),
-        Math.floor(0 - (Math.random() * yHeight) + yHeight),
+        Math.floor(0 - (Math.random() * yHeight) + yHeight - 50),
         50,50);
     nS.maxX = nS.x + nS.width;
     nS.maxY = nS.y + nS.height;
     nS.type = "square";
     nS.cachedImage = "wokedavey";
     nS.characterType = "davey";
+    nS.isSentient = true;
     nS.width = canvasCache[nS.cachedImage].width;
     nS.height = canvasCache[nS.cachedImage].height;
     entitify(nS);
-    objects.push(nS);
+    addEntity(nS);
     addObjectToTable(nS);
+    collisionObjectsToUpdate.push(nS);
+    var appleNumber = makeApple() - 1;
+    nS.addToInventory(objects[appleNumber]);
 }
 function makeJane()
 {
 	//Spawn bottom right quadrant
-    var nS = newSquareEntity(
-        Math.floor(0 - (Math.random() * xWidth) + xWidth),
-        Math.floor(0 - (Math.random() * yHeight) + yHeight),
+    entities.jane++;
+    var nS = newEntity(
+        Math.floor(0 - (Math.random() * (xWidth - 50)) + xWidth),
+        Math.floor(0 - (Math.random() * yHeight) + yHeight - 50),
         50,50);
     nS.maxX = nS.x + nS.width;
     nS.maxY = nS.y + nS.height;
     nS.type = "square";
     nS.cachedImage = "wokejezebel";
     nS.characterType = "jane";
+    nS.isSentient = true;
     nS.width = canvasCache[nS.cachedImage].width;
     nS.height = canvasCache[nS.cachedImage].height;
     entitify(nS);
-    objects.push(nS);
+    addEntity(nS);
     addObjectToTable(nS);
+    collisionObjectsToUpdate.push(nS);
 }
 
 function makeBaby()
 {
 	//Spawn bottom right quadrant
-    var nS = newSquareEntity(
-        Math.floor(0 - (Math.random() * xWidth) + xWidth),
-        Math.floor(0 - (Math.random() * yHeight) + yHeight),
-        50,50);
+    entities.baby++;
+    var objectX = Math.floor(0 - (Math.random() * (xWidth - 50)) + xWidth);
+    var objectY = Math.floor(0 - (Math.random() * yHeight) + yHeight - 50);
+    var nS = newEntity( objectX, objectY, 50, 50);
     nS.maxX = nS.x + nS.width;
     nS.maxY = nS.y + nS.height;
     nS.type = "square";
     nS.cachedImage = "wokebaby";
     nS.characterType = "baby";
+    nS.isSentient = true;
     nS.width = canvasCache[nS.cachedImage].width;
     nS.height = canvasCache[nS.cachedImage].height;
     entitify(nS);
-    objects.push(nS);
+    addEntity(nS);
     addObjectToTable(nS);
+    collisionObjectsToUpdate.push(nS);
 }
 
 function makeApple()
 {
 	//Spawn upper right quadrant
-    var nS = newSquareEntity(
-        Math.floor(0 - (Math.random() * xWidth) + xWidth),
-        Math.floor(0 - (Math.random() * yHeight)),
+    entities.apple++;
+    var nS = newEntity(
+        Math.floor(0 - (Math.random() * (xWidth - 10)) + xWidth),
+        Math.floor(0 - (Math.random() * (yHeight - 10))),
         50,50);
     nS.maxX = nS.x + nS.width;
     nS.maxY = nS.y + nS.height;
     nS.type = "square";
+    nS.characterType = "apple";
     nS.cachedImage = "apple";
+    nS.isInanimate = true;
     nS.width = canvasCache[nS.cachedImage].width;
     nS.height = canvasCache[nS.cachedImage].height;
     entitify(nS);
-    objects.push(nS);
+    addEntity(nS);
     addObjectToTable(nS);
+    collisionObjectsToUpdate.push(nS);
+    return objects.length;
 }
 
-for(let x = 0; x < 3; x++) { makeDavey(); }
-for(let x = 0; x < 3; x++) { makeJane(); }
-for(let x = 0; x < 3; x++) { makeBaby(); }
-for(let x = 0; x < 11; x++) { makeApple(); }
+function killEntity(object)
+{
+    removeObjectFromTable(object);
+    deadObjects.push(object);
+    objects.splice(objects.indexOf(object), 1);
+}
 
-for(let y = 0; y < objects.length; y++) { collisionObjectsToUpdate.push(objects[y]); }
+function addEntity(object)
+{
+    object.index = entities[object.characterType];
+    object.printableName = object.characterType + object.index;
+    objects.push(object);
+}
+
+for(let x = 0; x < numJanes; x++) { makeJane(); }
+for(let x = 0; x < numApples; x++) { makeApple(); }
+for(let x = 0; x < numDavies; x++) { makeDavey(); }
+for(let x = 0; x < numBabies; x++) { makeBaby(); }
