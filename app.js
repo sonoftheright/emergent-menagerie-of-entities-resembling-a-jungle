@@ -1199,7 +1199,7 @@ function letEntitiesThink(number)
         if(objects[x].sentient)
         {
             seeLocalObjects(objects[x], objects[x].viewDistance); 
-            if(engine.frame % 125 == 0) { deteriorateTraits(objects[x]); }
+            if(engine.frame % 300 == 0) { deteriorateTraits(objects[x]); }
         }
     }
 }
