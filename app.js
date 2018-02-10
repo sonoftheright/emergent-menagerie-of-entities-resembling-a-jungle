@@ -65,7 +65,7 @@ function createEventListeners()
         }
         else
         {
-            state.controls.mouse.wheel.delta = event.deltaX;
+            state.controls.mouse.wheel.delta = -event.deltaX;
             state.input.push("mousewheeldown");
         }
     }, {passive: true});
@@ -435,6 +435,17 @@ function drawHUD()
         4 * hud.menu.fontSize//max column width
     );
 
+    if(hud.menu.rightClickMenu)
+    {
+        for(var x = 0; x < hud.menu.items.length; x++)
+        {
+            if(hud.menu.items[x].type === "button")
+            {
+                ctx.rect()
+            }
+        }
+    }
+
     ctx.stroke();
 }
 
@@ -640,7 +651,7 @@ function mouseDown()
             }
             else
             {
-                switchWithLastIndex(objects.inanimate, state.controls.mouse.clicked.index);   
+                switchWithLastIndex(objects.inanimate, state.controls.mouse.clicked.index);
             }
         }
     }
@@ -765,6 +776,18 @@ function handleInput()
         state.menuClicked = false;
     }
 
+    if(state.input.includes("rightmouseup"))
+    {
+        hud.menu.rightClickMenu = NULL;
+        if(hud.menu.rightClickMenu)
+        {
+        }
+        else
+        {
+            makeSpawnMenu();
+        }
+    }
+
     if(state.controls.rightdown){ map.focusPoint.x -= Math.floor(map.moveSpeedX / map.scale); state.x++; }
     if(state.controls.leftdown) { map.focusPoint.x += Math.floor(map.moveSpeedX / map.scale); state.x++; }
     if(state.controls.updown)   { map.focusPoint.y += Math.floor(map.moveSpeedY / map.scale); state.x++; }
@@ -781,17 +804,21 @@ function handleInput()
 var engine = {};
 
 
-function togglePause()
+function makeSpawnMenu()
 {
-    if(engine.paused)
-    {
-        engine.paused = false;
-    }
-    else
-    {
-        engine.paused = true;
-    }
+    var menuY = state.controls.mouse.y,
+    menuX = state.controls.mouse.x;
+    hud.menu.rightClickMenu = {};
+    hud.menu.rightClickMenu.person = {x: menuX, y: menuY, width: 100, height: 20 };
+    hud.menu.rightClickMenu.apple = {x: menuX, y: menuY + 20, width: 100, height: 20 };
+
+    hud.menu.rightClickMenu.person.type = "button";
+    hud.menu.rightClickMenu.apple.type = "button";
+    hud.menu.items.push(hud.menu.rightClickMenu.apple);
+    hud.menu.items.push(hud.menu.rightClickMenu.person);
 }
+
+function togglePause() { if(engine.paused) { engine.paused = false; } else { engine.paused = true; } }
 
 function refreshEngineVariables()
 {
@@ -1036,6 +1063,7 @@ function removeObjectFromTable(object)
             if(engine.ht.buckets[object.buckets[x]][y] === object)
             {
                 engine.ht.buckets[object.buckets[x]].splice(y, 1);
+                flagBucketForUpdate(object.buckets[x]);
             }
         }
     }
@@ -1117,9 +1145,9 @@ function checkArrayForMemberWithProperty(object, type, array)
 }
 
 function resetArrayMemberIndexes(array) { for(x = 0; x < array.length; x++) { array[x].index = x; } }
-// function deleteArrayMemberByIndex(object, array) 
-// { 
-//     array.splice(object.index, 1); 
+// function deleteArrayMemberByIndex(object, array)
+// {
+//     array.splice(object.index, 1);
 //     resetArrayMemberIndexes(array);
 // }
 
@@ -1198,7 +1226,7 @@ function letEntitiesThink(number)
     {
         if(objects[x].sentient)
         {
-            seeLocalObjects(objects[x], objects[x].viewDistance); 
+            seeLocalObjects(objects[x], objects[x].viewDistance);
             if(engine.frame % 300 == 0) { deteriorateTraits(objects[x]); }
         }
     }
@@ -1206,13 +1234,13 @@ function letEntitiesThink(number)
 
 function letEntitiesAct(number)
 {
-    for(x = 0; x < objects.length; x++) 
-    { 
+    for(x = 0; x < objects.length; x++)
+    {
         if(objects[x].sentient)
         {
-            if(!act(objects[x])) 
-            { 
-                objects[x].printableStatus = "Idle"; 
+            if(!act(objects[x]))
+            {
+                objects[x].printableStatus = "Idle";
             }
         }
     }
@@ -1238,10 +1266,19 @@ function updateEntities(number)
 
 function spawnRandomApples()
 {
-    for(var num = Math.floor(Math.random() * 5); num > 0; num--)
-    {
-        makeApple();
-    }
+    if(numApples < 100)
+   { let apples = 0;
+       for(var num = Math.floor(Math.random() * 5); num > 0; num--)
+       {
+           makeApple();
+           apples++;
+       }
+       numApples += apples;
+   }
+   else
+   {
+        console.log("Too many apples. Cancelling apple spawn.")
+   }
 }
 
 function cleanHashTable()

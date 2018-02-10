@@ -5,7 +5,7 @@
 
   Meta-behavior functions:
   each entity type has a different way of behaving based on status/properties
-  but maybe I should be building types as characteristics and setting them up 
+  but maybe I should be building types as characteristics and setting them up
   as modules? Hmm. 'Dave is male and mature and has these various other traits.'
   'Jane is female and mature and has these other traits...'. Hmmm...
 
@@ -33,6 +33,7 @@ function act(object)
   {
     return findHungerSatisfaction(object);
   }
+
   return 0;
 }
 
@@ -41,8 +42,8 @@ function act(object)
 /*
 
 	Above: weigh needs and prioritize high-need jobs
-	Below: 	
-		- a) Check own memories and knowledge 
+	Below:
+		- a) Check own memories and knowledge
 		- b) Check area and, if successful, add to own memories and knowledge
 
 */
@@ -72,11 +73,13 @@ function findHungerSatisfaction(object)
       object.printableStatus = "Getting food item.";
       object.addToInventory(seeEdible);
     }
-    else
-    {
-      object.printableStatus = "Moving to grab " + seeEdible.printableName;
-    }
+    else if(!seeEdible) { object.printableStatus = "Hungry, but can't see any food."; }
+    else { object.printableStatus = "Moving to grab " + seeEdible.printableName; }
     return 1;
+  }
+  else
+  {
+    object.printableStatus = "Hungry, but can't see any food.";
   }
   return 0;
 }
@@ -104,9 +107,9 @@ function eatEdibleObject(object, food)
 function seeLocalObjects(object, dist)
 {
   if(!object.buckets) { debugger; }
-  var b       = object.buckets, 
+  var b       = object.buckets,
   minBucketX  = getBucketCoords(b[0]).x,
-  maxBucketX  = getBucketCoords(b[b.length - 1]).x, 
+  maxBucketX  = getBucketCoords(b[b.length - 1]).x,
   minBucketY  = getBucketCoords(b[0]).y,
   maxBucketY  = getBucketCoords(b[b.length - 1]).y,
   objectsSeen = [],
@@ -119,12 +122,12 @@ function seeLocalObjects(object, dist)
       curBucket = x + "," + y;
       if(engine.ht.buckets[curBucket] === undefined) { continue; }
       else
-      { 
+      {
         for(w = 0; w < engine.ht.buckets[curBucket].length; w++)
         {
-          if( objectsSeen.indexOf(engine.ht.buckets[curBucket][w]) < 0 && 
+          if( objectsSeen.indexOf(engine.ht.buckets[curBucket][w]) < 0 &&
               engine.ht.buckets[curBucket][w].index !== object.index)
-          { 
+          {
             objectsSeen.push(engine.ht.buckets[curBucket][w]);
           }
         }
@@ -185,49 +188,25 @@ function moveToward(mover, dest)
   if(objects.indexOf(dest) < 0) { return 0; }
   var moveX, moveY;
   if(mover.x > dest.x)
-  { 
-    if(mover.x - mover.traits.speed <= dest.x)
-    {
-      moveX = dest.x - mover.x;
-    }
-    else
-    {
-      moveX = -mover.traits.speed;
-    }
+  {
+    if(mover.x - mover.traits.speed <= dest.x) { moveX = dest.x - mover.x; }
+    else { moveX = -mover.traits.speed; }
   }
   else
   {
-    if(mover.x + mover.traits.speed >= dest.x)
-    {
-      moveX = dest.x - mover.x;
-    }
-    else
-    {
-      moveX = mover.traits.speed;
-    }
+    if(mover.x + mover.traits.speed >= dest.x) { moveX = dest.x - mover.x; }
+    else { moveX = mover.traits.speed; }
   }
 
   if(mover.y > dest.y)
-  { 
-    if(mover.y - mover.traits.speed <= dest.y)
-    {
-      moveY = dest.y - mover.y;
-    }
-    else
-    {
-      moveY = -mover.traits.speed;
-    }
+  {
+    if(mover.y - mover.traits.speed <= dest.y) { moveY = dest.y - mover.y; }
+    else { moveY = -mover.traits.speed; }
   }
   else
   {
-    if(mover.y + mover.traits.speed >= dest.y)
-    {
-      moveY = dest.y - mover.y;
-    }
-    else
-    {
-      moveY = mover.traits.speed;
-    }
+    if(mover.y + mover.traits.speed >= dest.y) { moveY = dest.y - mover.y; }
+    else { moveY = mover.traits.speed; }
   }
 
   mover.move(moveX, moveY);
@@ -248,11 +227,11 @@ function dropObjectFromInventory(object, index)
 function spiralHunt(originCoords, object, iterations)
 {
   /*
-  
+
     variables to work out:
       1. object view diameter
       2. number of iterations before giving up
-      3. 
+      3.
 
   */
 }
@@ -262,8 +241,17 @@ function deteriorateTraits(object)
   if(object.isSentient)
   {
     if(object.status.hunger > 0)
-    { 
-      object.status.hunger -= 20;
+    {
+      if(object.characterType === "baby")
+      {
+        object.status.hunger -= 20;
+      }else if (object.characterType === "davey")
+      {
+        object.status.hunger -= 15;
+      }else if(object.characterType === "jane")
+      {
+        object.status.hunger -= 10;
+      }
     }
   }
 }

@@ -7,7 +7,7 @@ var numJanes =  2,
     numDavies = 2,
     numApples = 30;
 
-var entities = 
+var entities =
 {
     "davey":    0,
     "jane":     0,
@@ -24,9 +24,9 @@ function getCoinFlip(choice1, choice2)
 
 /*
 Metatraits based on personality?
-Traits: 
- object.status.age 
-  - infant 
+Traits:
+ object.status.age
+  - infant
   - toddler
   - child
   - adolescant
@@ -56,11 +56,11 @@ function entitify(object)
         };
         object.status       =
         {
-            health:             100,
-            hunger:             100,
-            thirst:             100,
-            energy:             100,
-            temperature:        100,
+            health:             20,
+            hunger:             20,
+            thirst:             20,
+            energy:             20,
+            temperature:        20,
             contentedness:      100,
             fear:               0
         };
@@ -72,7 +72,7 @@ function entitify(object)
             intelligence:       0,
             charisma:           0,
             memory:             0,
-            sex:                null      
+            sex:                null
         };
 
         object.personality.agreeableness     = Math.trunc(Math.random() * 100) / 100;
@@ -98,15 +98,17 @@ function entitify(object)
         {
             console.log(inv.printableName + " is being picked up by " + object.printableName);
             object.inventory.push(objects.splice(objects.indexOf(inv), 1)[0]);
+            collisionObjectsToUpdate.push(object);
         };
         object.deleteFromInventory = function(inv)
         {
+            if(inv.characterType === "apple") { numApples--; }
             removeObjectFromTable(inv);
             object.inventory.splice(object.inventory.indexOf(inv), 1);
         };
 
         // for now, just remember the locations of people and edible things
-        object.memory    = 
+        object.memory    =
         {
             edible: [],
             sentient: []
@@ -124,7 +126,7 @@ function entitify(object)
         if(object.characterType === "apple")
         {
             object.edible = true;
-            object.hungerSatiation = Math.round((Math.random() * 30) + 20);
+            object.hungerSatiation = Math.round((Math.random() * 10) + 40);
         }
         else if(object.characterType === "steak")
         {

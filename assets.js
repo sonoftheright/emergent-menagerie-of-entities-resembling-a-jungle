@@ -75,6 +75,17 @@ var apple = function(context, width, height)
     img.src = 'img/wokebaby.png';
 }
 
+var menuButton = function(context, width, height)
+{
+    var img = new Image(width, height);
+    img.onload = function()
+    {
+        img.width = width;
+        img.height = height;
+        context.drawImage(img, 0, 0, width, height);
+    }
+}
+
 canvasCache['bluesquare'] = makeCachedImage(50, 50, blueSquare);
 canvasCache['redsquare'] = makeCachedImage(50, 50, redSquare);
 canvasCache['greensquare'] = makeCachedImage(50, 50, greenSquare);
