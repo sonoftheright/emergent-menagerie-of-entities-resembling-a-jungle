@@ -5,14 +5,16 @@
 var numJanes =  2,
     numBabies = 2,
     numDavies = 2,
-    numApples = 30;
+    numApples = 30,
+    numTrees = 1;
 
 var entities =
 {
     "davey":    0,
     "jane":     0,
     "baby":     0,
-    "apple":    0
+    "apple":    0,
+    "tree": 0
 }
 
 
@@ -37,7 +39,7 @@ Traits:
   - male
   - female
   - other
-  */
+*/
 
 function entitify(object)
 {
@@ -170,10 +172,9 @@ var yHeight = el.height / 2;
 function makeDavey()
 {
     entities.davey++;
-	var nS = newEntity(
-        Math.floor(0 - (Math.random() * xWidth)),
-        Math.floor(0 - (Math.random() * yHeight) + yHeight - 50),
-        50,50);
+    var objectX = Math.floor(-(el.middleX / 4) + Math.random() * (el.middleX));
+    var objectY = Math.floor(-(el.middleY / 4) + Math.random() * (el.middleY));
+	var nS = newEntity(objectX, objectY, 50, 50);
     nS.maxX = nS.x + nS.width;
     nS.maxY = nS.y + nS.height;
     nS.type = "square";
@@ -193,10 +194,9 @@ function makeJane()
 {
 	//Spawn bottom right quadrant
     entities.jane++;
-    var nS = newEntity(
-        Math.floor(0 - (Math.random() * (xWidth - 50)) + xWidth),
-        Math.floor(0 - (Math.random() * yHeight) + yHeight - 50),
-        50,50);
+    var objectX = Math.floor(-(el.middleX / 2) + Math.random() * (el.middleX));
+    var objectY = Math.floor(-(el.middleY / 2) + Math.random() * (el.middleY));
+    var nS = newEntity(objectX, objectY, 50, 50);
     nS.maxX = nS.x + nS.width;
     nS.maxY = nS.y + nS.height;
     nS.type = "square";
@@ -215,8 +215,8 @@ function makeBaby()
 {
 	//Spawn bottom right quadrant
     entities.baby++;
-    var objectX = Math.floor(0 - (Math.random() * (xWidth - 50)) + xWidth);
-    var objectY = Math.floor(0 - (Math.random() * yHeight) + yHeight - 50);
+    var objectX = Math.floor(-(el.middleX / 2) + Math.random() * (el.middleX));
+    var objectY = Math.floor(-(el.middleY / 2) + Math.random() * (el.middleY));
     var nS = newEntity( objectX, objectY, 50, 50);
     nS.maxX = nS.x + nS.width;
     nS.maxY = nS.y + nS.height;
@@ -236,15 +236,36 @@ function makeApple()
 {
 	//Spawn upper right quadrant
     entities.apple++;
-    var nS = newEntity(
-        Math.floor(0 - (Math.random() * (xWidth - 10)) + xWidth),
-        Math.floor(0 - (Math.random() * (yHeight - 10))),
-        50,50);
+    var objectX = Math.floor(-(el.middleX / 2) + Math.random() * (el.middleX));
+    var objectY = Math.floor(-(el.middleY / 2) + Math.random() * (el.middleY));
+    var nS = newEntity(objectX, objectY, 50, 50);
     nS.maxX = nS.x + nS.width;
     nS.maxY = nS.y + nS.height;
     nS.type = "square";
     nS.characterType = "apple";
     nS.cachedImage = "apple";
+    nS.isInanimate = true;
+    nS.width = canvasCache[nS.cachedImage].width;
+    nS.height = canvasCache[nS.cachedImage].height;
+    entitify(nS);
+    addEntity(nS);
+    addObjectToTable(nS);
+    collisionObjectsToUpdate.push(nS);
+    return objects.length;
+}
+
+function makeTree()
+{
+    //Spawn upper right quadrant
+    entities.tree++;
+    var objectX = Math.floor(el.middleX - (0.66 * el.middleX));
+    var objectY = Math.floor(el.middleY - (0.66 * el.middleX));
+    var nS = newEntity(objectX, objectY, 50, 50);
+    nS.maxX = nS.x + nS.width;
+    nS.maxY = nS.y + nS.height;
+    nS.type = "square";
+    nS.characterType = "tree";
+    nS.cachedImage = "tree";
     nS.isInanimate = true;
     nS.width = canvasCache[nS.cachedImage].width;
     nS.height = canvasCache[nS.cachedImage].height;
@@ -273,3 +294,4 @@ for(let x = 0; x < numJanes; x++) { makeJane(); }
 for(let x = 0; x < numApples; x++) { makeApple(); }
 for(let x = 0; x < numDavies; x++) { makeDavey(); }
 for(let x = 0; x < numBabies; x++) { makeBaby(); }
+//for(let x = 0; x < numTrees; x++) { makeTree(); }

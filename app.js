@@ -80,7 +80,7 @@ function createEventListeners()
             state.input.push("rightmousedown");
             state.controls.mouse.rightmousedown = true;
         }
-        else
+        else if (keyPressed === 1)
         {
             //TODO: (Ben) Do something real here.
             state.input.push("leftmousedown");
@@ -453,13 +453,21 @@ function drawHUD()
 
 var canvasCache = {};
 
-function makeCachedImage(width, height, renderFunction )
+function makeCachedImage(width, height, imgsrc)
 {
     var c = document.createElement('canvas');
     c.width = width + 2;
     c.height = height + 2;
     var canv = c.getContext('2d');
-    renderFunction(canv, width, height);
+    if (typeof imgsrc === "function")
+    {
+        imgsrc(canv, width, height);
+    }
+    else if(typeof imgsrc === "string")
+    {
+        var img = getImage(width, height, canv, imgsrc);
+    }
+
     return c;
 }
 
@@ -778,9 +786,9 @@ function handleInput()
 
     if(state.input.includes("rightmouseup"))
     {
-        hud.menu.rightClickMenu = NULL;
         if(hud.menu.rightClickMenu)
         {
+            hud.menu.rightClickMenu = NULL;
         }
         else
         {
@@ -792,10 +800,6 @@ function handleInput()
     if(state.controls.leftdown) { map.focusPoint.x += Math.floor(map.moveSpeedX / map.scale); state.x++; }
     if(state.controls.updown)   { map.focusPoint.y += Math.floor(map.moveSpeedY / map.scale); state.x++; }
     if(state.controls.downdown) { map.focusPoint.y -= Math.floor(map.moveSpeedY / map.scale); state.x++; }
-    if(state.controls.rightdown){}
-    if(state.controls.leftdown) {}
-    if(state.controls.updown)   {}
-    if(state.controls.downdown) {}
 
     if(state.x > 0) { state.inactive = 0; } else {state.inactive++;}
     state.input = [];
@@ -877,6 +881,7 @@ function initializeHUD()
     addStatToHud({"text": "framerate: ", "value": function() {return engine.framerate + " FPS";}, style: "item" });
     addStatToHud({"text": "Frames inactive: ", "value": function() {return state.inactive + " frames";}, style: "item" });
     addStatToHud({"text": "state.x: ", "value": function() {return state.x;}, style: "item" });
+    addStatToHud({"text": "paused: ", "value": function() {return engine.paused;}, style: "item" });
     addStatToHud({"text": "     I N P U T", "value": function() {return "";}, style: "subheader" });
     addStatToHud({"text": "focusPointXGfx:", "value": function() {return getGfxCoordsX(map.focusPoint.x);}, style: "item" });
     addStatToHud({"text": "focusPointYGfx:", "value": function() {return getGfxCoordsY(map.focusPoint.y);}, style: "item" });
@@ -1251,7 +1256,7 @@ function updateEntities(number)
     var flagForDeath = [];
     for(x = 0; x < objects.length; x++)
     {
-        if(objects[x].sentient && objects[x].status.hunger <= 1)
+        if(objects[x].sentient && objects[x].status.hunger < 1)
         {
             console.log(objects[x].printableName + " has died of starvation.");
             flagForDeath.push(objects[x]);
@@ -1266,7 +1271,7 @@ function updateEntities(number)
 
 function spawnRandomApples()
 {
-    if(numApples < 100)
+    if(numApples < 30)
    { let apples = 0;
        for(var num = Math.floor(Math.random() * 5); num > 0; num--)
        {
@@ -1302,12 +1307,9 @@ function loop()
         letEntitiesThink(10);
         letEntitiesAct(10);
         if(engine.frame % 500 === 0) { spawnRandomApples(); }
-        if(engine.from % 7 === 0) { cleanHashTable(); }
+        if(engine.frame % 1000 === 0) { cleanHashTable(); console.log("Hashtable cleaned.");}
     }
-    if(collisionObjectsToUpdate[0])
-    {
-        updateCollisionObjects();
-    }
+    if(collisionObjectsToUpdate[0]) { updateCollisionObjects(); }
     updateGraphics();
     if(engine.running)
     {

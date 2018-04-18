@@ -1,33 +1,12 @@
 //assets.js
 
-var blueSquare = function(context, width, height)
-{
-    context.beginPath();
-    context.lineWidth = 2.0;
-    context.strokeStyle = 'blue';
-    context.rect(0, 0, width, height);
-    context.stroke();
-}
+let wokedaveysrc    = 'img/wokedavey.png',
+    wokejanesrc     = 'img/wokejezebel.png',
+    wokebabysrc     = 'img/wokebaby.png',
+    applesrc        = 'img/apple.png',
+    treesrc         = 'img/tree.png';
 
-var greenSquare = function(context, width, height)
-{
-    context.beginPath();
-    context.lineWidth = 2.0;
-    context.strokeStyle = 'green';
-    context.rect(0, 0, width, height);
-    context.stroke();
-}
-
-var redSquare = function(context, width, height)
-{
-    context.beginPath();
-    context.lineWidth = 2.0;
-    context.strokeStyle = 'red';
-    context.rect(0, 0, width, height);
-    context.stroke();
-}
-
-var wokeDavey = function(context, width, height)
+var getImage = function(width, height, context, src)
 {
     var img = new Image(width, height);
     img.onload = function()
@@ -36,60 +15,26 @@ var wokeDavey = function(context, width, height)
         img.height = height;
         context.drawImage(img, 0, 0, width, height);
     }
-    img.src = 'img/wokedavey.png';
+    img.src = src;
+    return img;
 }
 
-var wokeJane = function(context, width, height)
+function coloredSquare (color)
 {
-    var img = new Image(width, height);
-    img.onload = function()
+    return function(context, width, height)
     {
-        img.width = width;
-        img.height = height;
-        context.drawImage(img, 0, 0, width, height);
-    }
-    img.src = 'img/wokejezebel.png';
-}
-
-var wokeBaby = function(context, width, height)
-{
-    var img = new Image(width, height);
-    img.onload = function()
-    {
-        img.width = width;
-        img.height = height;
-        context.drawImage(img, 0, 0, width, height);
-    }
-    img.src = 'img/wokebaby.png';
-}
-
-var apple = function(context, width, height)
-{
-    var img = new Image(width, height);
-    img.onload = function()
-    {
-        img.width = width;
-        img.height = height;
-        context.drawImage(img, 0, 0, width, height);
-    }
-    img.src = 'img/wokebaby.png';
-}
-
-var menuButton = function(context, width, height)
-{
-    var img = new Image(width, height);
-    img.onload = function()
-    {
-        img.width = width;
-        img.height = height;
-        context.drawImage(img, 0, 0, width, height);
+        context.beginPath();
+        context.lineWidth = 2.0;
+        context.strokeStyle = color;
+        context.rect(0, 0, width, height);
+        context.stroke();
     }
 }
 
-canvasCache['bluesquare'] = makeCachedImage(50, 50, blueSquare);
-canvasCache['redsquare'] = makeCachedImage(50, 50, redSquare);
-canvasCache['greensquare'] = makeCachedImage(50, 50, greenSquare);
-canvasCache['wokedavey'] = makeCachedImage(50, 50, wokeDavey);
-canvasCache['wokejezebel'] = makeCachedImage(50, 50, wokeJane);
-canvasCache['wokebaby'] = makeCachedImage(50, 50, wokeBaby);
-canvasCache['apple'] = makeCachedImage(10, 10, apple);
+canvasCache['bluesquare'] = makeCachedImage(50, 50, coloredSquare('blue'));
+canvasCache['redsquare'] = makeCachedImage(50, 50, coloredSquare('red'));
+canvasCache['greensquare'] = makeCachedImage(50, 50, coloredSquare('green'));
+canvasCache['wokedavey'] = makeCachedImage(50, 50, wokedaveysrc);
+canvasCache['wokejezebel'] = makeCachedImage(50, 50, wokejanesrc);
+canvasCache['wokebaby'] = makeCachedImage(50, 50, wokebabysrc);
+canvasCache['apple'] = makeCachedImage(10, 10, applesrc);

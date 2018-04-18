@@ -29,11 +29,7 @@
 
 function act(object)
 {
-  if(object.status.hunger < 50)
-  {
-    return findHungerSatisfaction(object);
-  }
-
+  if(object.status.hunger < 50) { return findHungerSatisfaction(object); }
   return 0;
 }
 
@@ -50,6 +46,16 @@ function act(object)
 
 function findHungerSatisfaction(object)
 {
+
+  /*
+    - Find an item of a certain type (tag 'edible').
+      - look in inventory.
+      - look in immediate vicinity.
+    - If seen but not in inventory and not within reach, move towards it.
+    - If within reach but not in inventory, put it in inventory.
+    - If within inventory, eat it.
+
+  */
   var haveEdible = checkArrayForMemberWithProperty(object, "edible", object.inventory),
   seeEdible      = checkArrayForMemberWithProperty(object, "edible", object.objectsSeen);
   if(haveEdible)
@@ -107,11 +113,10 @@ function eatEdibleObject(object, food)
 function seeLocalObjects(object, dist)
 {
   if(!object.buckets) { debugger; }
-  var b       = object.buckets,
-  minBucketX  = getBucketCoords(b[0]).x,
-  maxBucketX  = getBucketCoords(b[b.length - 1]).x,
-  minBucketY  = getBucketCoords(b[0]).y,
-  maxBucketY  = getBucketCoords(b[b.length - 1]).y,
+  let minBucketX  = getBucketCoords(object.buckets[0]).x,
+  maxBucketX  = getBucketCoords(object.buckets[object.buckets.length - 1]).x,
+  minBucketY  = getBucketCoords(object.buckets[0]).y,
+  maxBucketY  = getBucketCoords(object.buckets[object.buckets.length - 1]).y,
   objectsSeen = [],
   curBucket, x, y, w, z;
 
@@ -136,7 +141,7 @@ function seeLocalObjects(object, dist)
   }
   object.objectsSeen = objectsSeen;
   var seenList = [];
-  for(var z = 0; z < objectsSeen.length; z++) { seenList.push(objectsSeen[z].index); }
+  for(z = 0; z < objectsSeen.length; z++) { seenList.push(objectsSeen[z].index); }
 }
 
 function lengthOfDirectPath(distX, distY, objA, objB){ return Math.sqrt((distX*distX)+(distY*distY)); }
@@ -211,9 +216,10 @@ function moveToward(mover, dest)
 
   mover.move(moveX, moveY);
   collisionObjectsToUpdate.push(mover);
-  if(mover.x == dest.x && mover.y == dest.y)
+
+  for(let i = 0; i < mover.collisions.length; i++ )
   {
-    return true;
+    if(mover.collisions[i].index == dest.index) { console.log("Object touching!"); return true; }
   }
   return false;
 }
@@ -244,13 +250,13 @@ function deteriorateTraits(object)
     {
       if(object.characterType === "baby")
       {
-        object.status.hunger -= 20;
+        object.status.hunger -= 3;
       }else if (object.characterType === "davey")
       {
-        object.status.hunger -= 15;
+        object.status.hunger -= 2;
       }else if(object.characterType === "jane")
       {
-        object.status.hunger -= 10;
+        object.status.hunger -= 1;
       }
     }
   }
@@ -280,3 +286,8 @@ function findMemoryByIndex(object, memoryIndex)
 {
 
 }
+
+let wokeDaveyBehaviorMap = 
+{
+
+};
