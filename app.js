@@ -405,9 +405,35 @@ function addStatToHud( stat )
 
 function drawHUD()
 {
-    if(hud.menu.open === true)
+    if(hud.menu.rightClickMenu)
     {
+        for(var x = 0; x < hud.menu.items.length; x++)
+        {
+            if(hud.menu.items[x].type === "button")
+            {
+                ctx.fillStyle = 'white';
+                ctx.strokeRect(
+                    hud.menu.items[x].x,
+                    hud.menu.items[x].y,
+                    150,
+                    hud.menu.fontSize
+                );
+                ctx.fillRect(
+                    hud.menu.items[x].x,
+                    hud.menu.items[x].y,
+                    150,
+                    hud.menu.fontSize
+                );
 
+                ctx.fillStyle = 'black';
+                ctx.fillText(
+                    hud.menu.items[x].name,              //text
+                    hud.menu.items[x].x + (hud.menu.items[x].width / 2),   //x position
+                    hud.menu.items[x].y,   //y position
+                    4 * hud.menu.fontSize//max column width
+                );
+            }
+        }
     }
 
     hud.menu.button.lineWidth = 2;
@@ -435,27 +461,6 @@ function drawHUD()
         4 * hud.menu.fontSize//max column width
     );
 
-    if(hud.menu.rightClickMenu)
-    {
-        for(var x = 0; x < hud.menu.items.length; x++)
-        {
-            if(hud.menu.items[x].type === "button")
-            {
-                ctx.rect(
-                    hud.menu.items[x].x,
-                    hud.menu.items[x].y,
-                    150,
-                    hud.menu.fontSize
-                    );
-                ctx.fillText(
-                    hud.menu.items[x].name,              //text
-                    hud.menu.items[x].x + (hud.menu.items[x].width / 2),   //x position
-                    hud.menu.items[x].y,   //y position
-                    4 * hud.menu.fontSize//max column width
-    );
-            }
-        }
-    }
 
     ctx.stroke();
 }
@@ -510,6 +515,7 @@ function newEntity ( x, y, w, h )
         },
         move: function(xDist, yDist)
         {
+            if(!xDist || !yDist) {console.log("Entity " + this.printableName + " is trying to move an undetermined distance."); return; }
             this.x += xDist;
             this.y += yDist;
         },
@@ -845,22 +851,51 @@ function makeSpawnMenu()
     hud.menu.rightClickMenu = {};
     hud.menu.rightClickMenu.x = getEngCoordsX(state.controls.mouse.x);
     hud.menu.rightClickMenu.y = getEngCoordsY(state.controls.mouse.y);
-    hud.menu.rightClickMenu.person = {
+    hud.menu.rightClickMenu.davey = {
             type: "button",
             name: "Spawn Davey",
+            menuPosition: 0,
             x: menuX,
             y: menuY,
             width: 100,
             height: 20,
             action: function() {
-                makePlacedDavey(hud.menu.rightClickMenu.x,
+                makeHuman("davey", "wokedavey", hud.menu.rightClickMenu.x,
                                 hud.menu.rightClickMenu.y);
             }
-        };
-    hud.menu.rightClickMenu.apple = {x: menuX,
+    };
+    hud.menu.rightClickMenu.jane = {
+            type: "button",
+            name: "Spawn Jane",
+            menuPosition: 1,
+            x: menuX,
+            y: menuY + (hud.menu.fontSize * 1),
+            width: 100,
+            height: 20,
+            action: function() {
+                makeHuman("jane", "wokejezebel", hud.menu.rightClickMenu.x,
+                                hud.menu.rightClickMenu.y);
+            }
+    };
+    hud.menu.rightClickMenu.baby = {
+            type: "button",
+            name: "Spawn Baby",
+            menuPosition: 2,
+            x: menuX,
+            y: menuY + (hud.menu.fontSize * 2),
+            width: 100,
+            height: 20,
+            action: function() {
+                makeHuman("baby", "wokebaby", hud.menu.rightClickMenu.x,
+                                hud.menu.rightClickMenu.y);
+            }
+    };
+    hud.menu.rightClickMenu.apple = {
         type: "button",
         name: "Spawn Apple",
-        y: menuY + hud.menu.fontSize,
+        menuPosition: 3,
+        x: menuX,
+        y: menuY + (hud.menu.fontSize * 3),
         width: 100,
         height: 20,
         action: function()
@@ -869,10 +904,14 @@ function makeSpawnMenu()
         }
     };
     addObjectToTable(hud.menu.rightClickMenu.apple);
-    addObjectToTable(hud.menu.rightClickMenu.person);
+    addObjectToTable(hud.menu.rightClickMenu.davey);
+    addObjectToTable(hud.menu.rightClickMenu.jane);
+    addObjectToTable(hud.menu.rightClickMenu.baby);
 
     hud.menu.items.push(hud.menu.rightClickMenu.apple);
-    hud.menu.items.push(hud.menu.rightClickMenu.person);
+    hud.menu.items.push(hud.menu.rightClickMenu.davey);
+    hud.menu.items.push(hud.menu.rightClickMenu.jane);
+    hud.menu.items.push(hud.menu.rightClickMenu.baby);
 }
 
 function togglePause() { if(engine.paused) { engine.paused = false; } else { engine.paused = true; } }

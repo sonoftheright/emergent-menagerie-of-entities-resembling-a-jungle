@@ -169,6 +169,28 @@ function printEntityInfo(object)
 var xWidth = el.width / 2;
 var yHeight = el.height / 2;
 
+function makeHuman(name, cachedImage, x, y)
+{
+    entities[name]++; 
+    if(!entities[name]){ console.log("Human doesn't exist with name \"" + name + "\".");}
+
+    var human = newEntity(x, y, 50, 50);
+    human.cachedImage = cachedImage;
+    human.characterType = name;
+    human.isSentient = true;
+
+    human.width = canvasCache[human.cachedImage].width;
+    human.height = canvasCache[human.cachedImage].height;
+    human.maxX = human.x + human.width;
+    human.maxY = human.y + human.height;
+
+    entitify(human);
+    addEntity(human);
+    addObjectToTable(human);
+    collisionObjectsToUpdate.push(human);
+}
+
+
 function makePlacedDavey(x, y)
 {
     entities.davey++;
@@ -209,8 +231,6 @@ function makeDavey()
     addEntity(nS);
     addObjectToTable(nS);
     collisionObjectsToUpdate.push(nS);
-    var appleNumber = makeApple() - 1;
-    nS.addToInventory(objects[appleNumber]);
 }
 function makeJane()
 {
@@ -331,8 +351,11 @@ function addEntity(object)
     objects.push(object);
 }
 
-// for(let x = 0; x < numJanes; x++) { makeJane(); }
+function getRandomX() { return Math.floor(-(el.middleX / 2) + Math.random() * (el.middleX));}
+function getRandomY() { return Math.floor(-(el.middleY / 2) + Math.random() * (el.middleY));}
+
 for(let x = 0; x < numApples; x++) { makeApple(); }
-for(let x = 0; x < numDavies; x++) { makeDavey(); }
-// for(let x = 0; x < numBabies; x++) { makeBaby(); }
+for(let x = 0; x < numJanes; x++) { makeHuman("jane", "wokejezebel", getRandomX(), getRandomY()); }
+for(let x = 0; x < numDavies; x++) { makeHuman("davey", "wokedavey", getRandomX(), getRandomY()); }
+for(let x = 0; x < numBabies; x++) { makeHuman("baby", "wokebaby", getRandomX(), getRandomY()); }
 //for(let x = 0; x < numTrees; x++) { makeTree(); }
