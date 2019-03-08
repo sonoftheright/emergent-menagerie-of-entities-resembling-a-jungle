@@ -5,7 +5,7 @@
 var numJanes =  2,
     numBabies = 2,
     numDavies = 2,
-    numApples = 30,
+    numApples = 5,
     numTrees = 1;
 
 var entities =
@@ -182,6 +182,7 @@ function makePlacedDavey(x, y)
     nS.maxX = nS.x + nS.width;
     nS.maxY = nS.y + nS.height;
     entitify(nS);
+    console.log("nS Speed: " + nS.speed);
     addEntity(nS);
     addObjectToTable(nS);
     collisionObjectsToUpdate.push(nS);
@@ -196,14 +197,14 @@ function makeDavey()
     var objectX = Math.floor(-(el.middleX / 4) + Math.random() * (el.middleX));
     var objectY = Math.floor(-(el.middleY / 4) + Math.random() * (el.middleY));
 	var nS = newEntity(objectX, objectY, 50, 50);
-    nS.maxX = nS.x + nS.width;
-    nS.maxY = nS.y + nS.height;
     nS.type = "square";
     nS.cachedImage = "wokedavey";
     nS.characterType = "davey";
     nS.isSentient = true;
     nS.width = canvasCache[nS.cachedImage].width;
     nS.height = canvasCache[nS.cachedImage].height;
+    nS.maxX = nS.x + nS.width;
+    nS.maxY = nS.y + nS.height;
     entitify(nS);
     addEntity(nS);
     addObjectToTable(nS);

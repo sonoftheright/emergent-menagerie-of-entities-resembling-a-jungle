@@ -194,10 +194,14 @@ function moveToward(mover, dest)
   var distY = dest.y - mover.y;
   var adistX = Math.abs(distX);
   var adistY = Math.abs(distY);
+  console.log("distX: " + distX )
+  console.log()
+  console.log()
+  console.log()
 
   var lengthPath = Math.sqrt((distX*distX)+(distY*distY));
-  var nX = (mover.speed / lengthPath) * distX;
-  var nY = (mover.speed / lengthPath) * distY;
+  var nX = (mover.traits.speed / lengthPath) * distX;
+  var nY = (mover.traits.speed / lengthPath) * distY;
 
   mover.move(nX, nY);
   collisionObjectsToUpdate.push(mover);
