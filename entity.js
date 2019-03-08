@@ -256,6 +256,7 @@ function makeBaby()
 
 function makePlacedApple(x, y)
 {
+    entities.apple++;
     var nS = newEntity(x, y, 50, 50);
     nS.maxX = nS.x + nS.width;
     nS.maxY = nS.y + nS.height;

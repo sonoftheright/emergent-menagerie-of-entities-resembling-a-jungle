@@ -1357,7 +1357,7 @@ function loop()
         updateEntities(10);
         letEntitiesThink(10);
         letEntitiesAct(10);
-        if(engine.frame % 500 === 0) { spawnRandomApples(); }
+        if(engine.frame % 15000 === 0) { spawnRandomApples(); }
     }
     if(collisionObjectsToUpdate[0]) { updateCollisionObjects(); }
     updateGraphics();

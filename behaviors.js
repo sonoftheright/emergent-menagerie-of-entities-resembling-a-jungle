@@ -194,10 +194,6 @@ function moveToward(mover, dest)
   var distY = dest.y - mover.y;
   var adistX = Math.abs(distX);
   var adistY = Math.abs(distY);
-  console.log("distX: " + distX )
-  console.log()
-  console.log()
-  console.log()
 
   var lengthPath = Math.sqrt((distX*distX)+(distY*distY));
   var nX = (mover.traits.speed / lengthPath) * distX;
@@ -208,7 +204,7 @@ function moveToward(mover, dest)
 
   for(let i = 0; i < mover.collisions.length; i++ )
   {
-    if(mover.collisions[i].index == dest.index) { console.log("Object touching!"); return true; }
+    if(mover.collisions[i].index == dest.index) { return true; }
   }
   return false;
 }
