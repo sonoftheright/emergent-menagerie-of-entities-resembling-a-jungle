@@ -441,7 +441,18 @@ function drawHUD()
         {
             if(hud.menu.items[x].type === "button")
             {
-                ctx.rect()
+                ctx.rect(
+                    hud.menu.items[x].x,
+                    hud.menu.items[x].y,
+                    150,
+                    hud.menu.fontSize
+                    );
+                ctx.fillText(
+                    hud.menu.items[x].name,              //text
+                    hud.menu.items[x].x + (hud.menu.items[x].width / 2),   //x position
+                    hud.menu.items[x].y,   //y position
+                    4 * hud.menu.fontSize//max column width
+    );
             }
         }
     }
@@ -629,8 +640,9 @@ function switchWithLastIndex(array, index)
     }
 }
 
-function mouseUp()
+function leftMouseUp()
 {
+    var clickedObject = detectObjectClicked();
     if(state.controls.mouse.clicked !== 0)
     {
         state.controls.mouse.clicked.draggedX = 0;
@@ -638,7 +650,7 @@ function mouseUp()
         state.controls.mouse.clicked.clicked  = false;
         state.controls.mouse.clicked.moving   = false;
         state.controls.mouse.clicked.moved    = false;
-        updateObjectInTable(state.controls.mouse.clicked);
+        if(clickedObject) { updateObjectInTable(clickedObject); }
         state.controls.mouse.clicked = 0;
     }
 
@@ -646,10 +658,22 @@ function mouseUp()
     return 1;
 }
 
-function mouseDown()
+function deleteSpawnMenu()
+{
+
+    for (var x = 0; x < hud.menu.items.length; x++)
+    {
+        removeObjectFromTable(hud.menu.items[x]);
+    }
+
+    hud.menu.items = [];
+    hud.menu.rightClickMenu = 0;
+}
+
+function leftMouseDown()
 {
     if(state.controls.mouse.clicked == 0)
-    {7
+    {
         state.controls.mouse.clicked = detectObjectClicked();
         if(state.controls.mouse.clicked.type === "square")
         {
@@ -662,17 +686,23 @@ function mouseDown()
                 switchWithLastIndex(objects.inanimate, state.controls.mouse.clicked.index);
             }
         }
+        else if (state.controls.mouse.clicked.type === "button")
+        {
+            state.controls.mouse.clicked.action();
+        }
     }
     if(state.controls.mouse.clicked !== 0)
     {
         state.controls.mouse.clicked.clicked = true;
     }
+    if(hud.menu.items.length > 0) { deleteSpawnMenu(); }
     return 1;
 }
 
 function rightMouseDown()
 {
     // console.log(JSON.stringify(detectObjectClicked()));
+    if(hud.menu.items.length > 1) { deleteSpawnMenu(); }
     var monkey = detectObjectClicked();
     if(monkey.entitified)
     {
@@ -683,7 +713,7 @@ function rightMouseDown()
     {
         var print = monkey !== 0 ? "object#" + monkey.index : "nothing."
     }
-    console.log("Clicked: " + print);
+    // console.log("Clicked: " + print);
     return 1;
 }
 
@@ -709,8 +739,8 @@ function handleInput()
         //functions here must return an integer (1 or 0 are preferred) for activity tracking purposes
         state.x +=
             state.input[i] == "resize"         ? fitElementSize() :
-            state.input[i] == "leftmouseup"    ? mouseUp()        :
-            state.input[i] == "leftmousedown"  ? mouseDown() :
+            state.input[i] == "leftmouseup"    ? leftMouseUp()        :
+            state.input[i] == "leftmousedown"  ? leftMouseDown() :
             state.input[i] == "rightmouseup"   ? 1 :
             state.input[i] == "rightmousedown" ? rightMouseDown() :
             state.input[i] == "mousewheelup"   ? 1 /*zoomOut() */  :
@@ -729,8 +759,8 @@ function handleInput()
             state.input[i] == "spaceup"        ? spaceUp() :
             state.input[i] == "escup"          ? 1 :
             state.input[i] == "escdown"        ? 1 :
-            state.input[i] == "touchdown"      ? mouseDown() :
-            state.input[i] == "touchup"        ? mouseUp() :
+            state.input[i] == "touchdown"      ? leftMouseDown() :
+            state.input[i] == "touchup"        ? leftMouseUp() :
             state.input[i] == "shiftup"        ? escUp() :
             state.input[i] == "shiftdown"      ? 1 : 0;
     }
@@ -788,7 +818,7 @@ function handleInput()
     {
         if(hud.menu.rightClickMenu)
         {
-            hud.menu.rightClickMenu = NULL;
+            deleteSpawnMenu();
         }
         else
         {
@@ -813,11 +843,34 @@ function makeSpawnMenu()
     var menuY = state.controls.mouse.y,
     menuX = state.controls.mouse.x;
     hud.menu.rightClickMenu = {};
-    hud.menu.rightClickMenu.person = {x: menuX, y: menuY, width: 100, height: 20 };
-    hud.menu.rightClickMenu.apple = {x: menuX, y: menuY + 20, width: 100, height: 20 };
+    hud.menu.rightClickMenu.x = getEngCoordsX(state.controls.mouse.x);
+    hud.menu.rightClickMenu.y = getEngCoordsY(state.controls.mouse.y);
+    hud.menu.rightClickMenu.person = {
+            type: "button",
+            name: "Spawn Davey",
+            x: menuX,
+            y: menuY,
+            width: 100,
+            height: 20,
+            action: function() {
+                makePlacedDavey(hud.menu.rightClickMenu.x,
+                                hud.menu.rightClickMenu.y);
+            }
+        };
+    hud.menu.rightClickMenu.apple = {x: menuX,
+        type: "button",
+        name: "Spawn Apple",
+        y: menuY + hud.menu.fontSize,
+        width: 100,
+        height: 20,
+        action: function()
+        { makePlacedApple(hud.menu.rightClickMenu.x,
+                          hud.menu.rightClickMenu.y);
+        }
+    };
+    addObjectToTable(hud.menu.rightClickMenu.apple);
+    addObjectToTable(hud.menu.rightClickMenu.person);
 
-    hud.menu.rightClickMenu.person.type = "button";
-    hud.menu.rightClickMenu.apple.type = "button";
     hud.menu.items.push(hud.menu.rightClickMenu.apple);
     hud.menu.items.push(hud.menu.rightClickMenu.person);
 }
@@ -903,7 +956,6 @@ function initializeHUD()
     hud.menu.button.type = "button";
 
     hud.menu.items = [];                    //for storing HUD button references to check clicks
-    hud.menu.items.push(hud.menu.button);
 }
 
 /* S P A T I A L  H A S H  T A B L E */
@@ -1074,7 +1126,8 @@ function removeObjectFromTable(object)
     }
 
     var oldBuckets = object.buckets.slice();
-    var oldCollisions = object.collisions.slice();
+    var oldCollisions;
+    if(object.collisions) { oldCollisions = object.collisions.slice();}
     object.buckets = [];
     object.collisions = [];
     return {'buckets': oldBuckets };
@@ -1102,10 +1155,13 @@ function hasCollision(object, a)
 
 function detectObjectClicked()
 {
+    // debugger;
     var h = state.controls.mouse.hash;
 
     var result;
     var potentials = hud.menu.items;
+    // console.log("Mouse coords: " + state.controls.mouse.x + ", " + state.controls.mouse.y);
+    // console.log("Potentials: " + JSON.stringify(potentials));
     for(let x = 0; x < hud.menu.items.length; x++)
     {
         if(
@@ -1115,8 +1171,9 @@ function detectObjectClicked()
             state.controls.mouse.y <= potentials[x].y + potentials[x].height
         )
         {
-            result = potentials[x];
-            togglePause();
+            return hud.menu.items[x];
+            // console.log("Result found: " + JSON.stringify(result));
+            //togglePause();
         }
     }
 
@@ -1137,7 +1194,7 @@ function detectObjectClicked()
     else { return result; }
 }
 
-function checkArrayForMemberWithProperty(object, type, array)
+function checkArrayForMemberWithProperty(type, array)
 {
     for(var x = 0; x < array.length; x++)
     {
@@ -1181,6 +1238,10 @@ function getCollisions(object)
     for(var bucket = 0; bucket < object["buckets"].length; bucket++)
     {
         let bucketNeighbors = engine.ht.buckets[object.buckets[bucket]];
+        if(!bucketNeighbors.length)
+        {
+            continue;
+        }
         for(var friend = 0; friend < bucketNeighbors.length; friend++)
         {
             if(bucketNeighbors[friend] !== object && neighbors.indexOf(bucketNeighbors[friend]) < 0)
@@ -1286,16 +1347,6 @@ function spawnRandomApples()
    }
 }
 
-function cleanHashTable()
-{
-    engine.ht.buckets = [];
-    for(var x = 0; x < engine.ht.members.length; x++)
-    {
-        engine.ht.members[x].buckets = [];
-        addObjectToTable(engine.ht.members[x]);
-    }
-}
-
 function loop()
 {
     engine.beginning = new Date().getTime();
@@ -1307,7 +1358,6 @@ function loop()
         letEntitiesThink(10);
         letEntitiesAct(10);
         if(engine.frame % 500 === 0) { spawnRandomApples(); }
-        if(engine.frame % 1000 === 0) { cleanHashTable(); console.log("Hashtable cleaned.");}
     }
     if(collisionObjectsToUpdate[0]) { updateCollisionObjects(); }
     updateGraphics();

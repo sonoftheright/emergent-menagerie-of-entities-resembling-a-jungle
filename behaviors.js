@@ -56,8 +56,8 @@ function findHungerSatisfaction(object)
     - If within inventory, eat it.
 
   */
-  var haveEdible = checkArrayForMemberWithProperty(object, "edible", object.inventory),
-  seeEdible      = checkArrayForMemberWithProperty(object, "edible", object.objectsSeen);
+  var haveEdible = checkArrayForMemberWithProperty("edible", object.inventory),
+  seeEdible      = checkArrayForMemberWithProperty("edible", object.objectsSeen);
   if(haveEdible)
   {
     eatEdibleObject(object, haveEdible);
@@ -190,31 +190,16 @@ function findNearestObject(object, array){
 
 function moveToward(mover, dest)
 {
-  if(objects.indexOf(dest) < 0) { return 0; }
-  var moveX, moveY;
-  if(mover.x > dest.x)
-  {
-    if(mover.x - mover.traits.speed <= dest.x) { moveX = dest.x - mover.x; }
-    else { moveX = -mover.traits.speed; }
-  }
-  else
-  {
-    if(mover.x + mover.traits.speed >= dest.x) { moveX = dest.x - mover.x; }
-    else { moveX = mover.traits.speed; }
-  }
+  var distX = dest.x - mover.x;
+  var distY = dest.y - mover.y;
+  var adistX = Math.abs(distX);
+  var adistY = Math.abs(distY);
 
-  if(mover.y > dest.y)
-  {
-    if(mover.y - mover.traits.speed <= dest.y) { moveY = dest.y - mover.y; }
-    else { moveY = -mover.traits.speed; }
-  }
-  else
-  {
-    if(mover.y + mover.traits.speed >= dest.y) { moveY = dest.y - mover.y; }
-    else { moveY = mover.traits.speed; }
-  }
+  var lengthPath = Math.sqrt((distX*distX)+(distY*distY));
+  var nX = (mover.speed / lengthPath) * distX;
+  var nY = (mover.speed / lengthPath) * distY;
 
-  mover.move(moveX, moveY);
+  mover.move(nX, nY);
   collisionObjectsToUpdate.push(mover);
 
   for(let i = 0; i < mover.collisions.length; i++ )

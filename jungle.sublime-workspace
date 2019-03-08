@@ -187,38 +187,6 @@
 	},
 	"buffers":
 	[
-		{
-			"file": "app.js",
-			"settings":
-			{
-				"buffer_size": 42775,
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "assets.js",
-			"settings":
-			{
-				"buffer_size": 1246,
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "behaviors.js",
-			"settings":
-			{
-				"buffer_size": 7021,
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "entity.js",
-			"settings":
-			{
-				"buffer_size": 9182,
-				"line_ending": "Windows"
-			}
-		}
 	],
 	"build_system": "",
 	"build_system_choices":
@@ -286,6 +254,17 @@
 	],
 	"file_history":
 	[
+		"/B/Dropbox/Server/MultiRoom Chat/public/javascripts/chat_ui.js",
+		"/B/Dropbox/Server/MultiRoom Chat/server.js",
+		"/B/Dropbox/Server/MultiRoom Chat/public/javascripts/chat.js",
+		"/B/Dropbox/Server/MultiRoom Chat/lib/chat_server.js",
+		"/B/Dropbox/Programming/jungle/behaviors.js",
+		"/B/Dropbox/Programming/jungle/entity.js",
+		"/B/Dropbox/Programming/jungle/index.html",
+		"/B/Dropbox/Programming/jungle/assets.js",
+		"/B/Dropbox/Programming/jungle/app.js",
+		"/B/Dropbox/Programming/PHP/Laracasts/index.php",
+		"/C/Users/Benjamin/Desktop/chunk.txt",
 		"/B/Dropbox/Programming/Kowloon/main.cpp",
 		"/B/Dropbox/Programming/Kowloon/oldbatchfile.bat",
 		"/B/Dropbox/Programming/Kowloon/compile.bat",
@@ -294,15 +273,10 @@
 		"/B/Dropbox/Programming/The Story Project/The Story Project/build.bat",
 		"/B/Dropbox/Programming/Kowloon/README.md",
 		"/B/Dropbox/Programming/Kowloon/Kowloon.h",
-		"/B/Dropbox/Programming/jungle/entity.js",
-		"/B/Dropbox/Programming/jungle/app.js",
-		"/B/Dropbox/Programming/jungle/assets.js",
-		"/B/Dropbox/Programming/jungle/behaviors.js",
 		"/G/Movies/$ERIE$/The Lord of the Rings/Lord of the Rings - Appendices/Disc 6/LOTR DVD Extra File Names.txt",
 		"/K/Program Files/Dwarf Fortress/PeridexisErrant's Starter Pack 0.44.05-r02/Dwarf Fortress 0.44.05/raw/objects/creature_temperate_new.txt",
 		"/K/Program Files/Dwarf Fortress/PeridexisErrant's Starter Pack 0.44.05-r02/Dwarf Fortress 0.44.05/raw/objects/creature_birds.txt",
 		"/B/Dropbox/Sublime Text 3/Packages/JavaScript.sublime-package",
-		"/B/Dropbox/Programming/jungle/index.html",
 		"/C/Users/Benjamin/AppData/Roaming/Spotify/prefs",
 		"/C/Users/admin/Dropbox/Jygdaal's Keep/main.h",
 		"/C/Users/admin/Dropbox/Jygdaal's Keep/main.c",
@@ -407,17 +381,11 @@
 		"/C/Users/admin/Dropbox/Programming/Javascript/WebGL/webgltest.js",
 		"/C/Users/admin/Downloads/FP223B3X13005852_20160912.conf",
 		"/C/Users/admin/Dropbox/Server/server.js",
-		"/C/Users/admin/Dropbox/Server/public/js/GoingApey.js",
-		"/C/Users/admin/Dropbox/Server/public/index.html",
-		"/C/Users/admin/Dropbox/Server/webgltest.js",
-		"/C/main.cpp",
-		"/C/Users/admin/Dropbox/Programming/Javascript/WebGL/index.html",
-		"/C/Users/admin/Downloads/toji-gl-matrix-v2.3.2-14-g256747e/toji-gl-matrix-256747e/README.md",
-		"/C/Users/admin/Dropbox/Programming/Javascript/Frenetic Etchings App/js.js"
+		"/C/Users/admin/Dropbox/Server/public/js/GoingApey.js"
 	],
 	"find":
 	{
-		"height": 27.0
+		"height": 24.0
 	},
 	"find_in_files":
 	{
@@ -432,6 +400,64 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			")\n",
+			"makespawnmenu",
+			"hud.menu.items",
+			"deletespawnmenu",
+			"indexOf(",
+			"indexOf",
+			"removeobjectfromtable",
+			"addobjecttotable",
+			"detectObjectClicked(",
+			"detectObjectClicked( ",
+			"detectObjectClicked",
+			"mouseUp",
+			"rightclickmenu",
+			"getengcoords",
+			"detectObjectClicked",
+			"mouseDown",
+			"leftmousedown",
+			"rightmousedown",
+			"rightclickmenu",
+			"mouseup",
+			"newentity(",
+			" newentity(",
+			"function newentity(",
+			" function newentity(",
+			" newentity(",
+			"newentity",
+			"newEntity",
+			"rightmouseDown",
+			"action: ",
+			"rightmousedown",
+			"hud.menu.items.",
+			"hud.menu.items",
+			"rightmousedown",
+			"mouseUp",
+			"arraysIdentical",
+			"makeSpawnMenu",
+			"mouseDown(",
+			"mouseDown",
+			"type === \"button\"",
+			"type == \"button\"",
+			"state.controls.mouse.clicked",
+			"detectobjectclicked",
+			"detectobjectclicket",
+			"makeApple",
+			"makeapple",
+			"hud.menu.items",
+			"state.controls.mouse.hash",
+			"getobjectbuckets",
+			"getbucket",
+			"collision",
+			"leftmouseup",
+			"mouseUP",
+			"hud.menu.items.push",
+			"hud.menu.items",
+			"\"Pause\"",
+			"hud.menu.items",
+			"hud.menu.rightclickmenu",
+			"spawnmenu",
 			"h",
 			"getgfx",
 			"hud.menu.button.type",
@@ -501,65 +527,7 @@
 			"contents",
 			"engine.ht.contents",
 			"addobjecttotable",
-			"engine.ht.contents",
-			"engine.ht.contents.length",
-			"engine.ht.contents",
-			"objectsseen",
-			"eatedibleobject",
-			"resetarray",
-			"resetmember",
-			"checkArrayForWithProperty",
-			"member",
-			"edible",
-			"makeapple",
-			"inventory",
-			"addobjecttoinventory",
-			"makeapple",
-			"remove",
-			"deletearray",
-			"delete",
-			"objects",
-			"object.index",
-			"printablename",
-			"collisionObjectsToUpdate",
-			"updateobjectintable",
-			"collisionObjectsToUpdate",
-			"updateCollisionobjects",
-			"printentityinfo",
-			"mouseUp(",
-			"mouseUp",
-			"spaceup",
-			"button\"",
-			"spaceup",
-			"mouse.hash",
-			"addstattohud",
-			"detectobjectclicked",
-			"seelocalobjects",
-			"objectsseen",
-			"delete",
-			"deleteobject",
-			"checkarray",
-			"removeobject",
-			"member",
-			"moveToward",
-			"collisionobjectstoupdate.push",
-			"updatecollisionObjects",
-			"seelocalobjects",
-			"speed",
-			"*/",
-			");",
-			"floor",
-			"name",
-			"name =",
-			"type",
-			"type: ",
-			"consumeedibleobject",
-			"foodify",
-			"engine.paused",
-			"engine",
-			"hud.menu.button",
-			"reset",
-			"eat"
+			"engine.ht.contents"
 		],
 		"highlight": true,
 		"in_selection": false,
@@ -578,323 +546,14 @@
 	"groups":
 	[
 		{
-			"selected": 3,
 			"sheets":
 			[
-				{
-					"buffer": 0,
-					"file": "app.js",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 42775,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								19597,
-								19598
-							]
-						],
-						"settings":
-						{
-							"c_time":
-							[
-								128,
-								3,
-								99,
-								100,
-								97,
-								116,
-								101,
-								116,
-								105,
-								109,
-								101,
-								10,
-								100,
-								97,
-								116,
-								101,
-								116,
-								105,
-								109,
-								101,
-								10,
-								113,
-								0,
-								67,
-								10,
-								7,
-								225,
-								9,
-								22,
-								17,
-								31,
-								51,
-								8,
-								7,
-								11,
-								113,
-								1,
-								133,
-								113,
-								2,
-								82,
-								113,
-								3,
-								46
-							],
-							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax",
-							"tab_size": 4,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 10260.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 3,
-					"type": "text"
-				},
-				{
-					"buffer": 1,
-					"file": "assets.js",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 1246,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								0,
-								0
-							]
-						],
-						"settings":
-						{
-							"c_time":
-							[
-								128,
-								3,
-								99,
-								100,
-								97,
-								116,
-								101,
-								116,
-								105,
-								109,
-								101,
-								10,
-								100,
-								97,
-								116,
-								101,
-								116,
-								105,
-								109,
-								101,
-								10,
-								113,
-								0,
-								67,
-								10,
-								7,
-								225,
-								10,
-								3,
-								17,
-								44,
-								46,
-								11,
-								246,
-								213,
-								113,
-								1,
-								133,
-								113,
-								2,
-								82,
-								113,
-								3,
-								46
-							],
-							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax",
-							"tab_size": 4,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 2,
-					"type": "text"
-				},
-				{
-					"buffer": 2,
-					"file": "behaviors.js",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 7021,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								705,
-								705
-							]
-						],
-						"settings":
-						{
-							"c_time":
-							[
-								128,
-								3,
-								99,
-								100,
-								97,
-								116,
-								101,
-								116,
-								105,
-								109,
-								101,
-								10,
-								100,
-								97,
-								116,
-								101,
-								116,
-								105,
-								109,
-								101,
-								10,
-								113,
-								0,
-								67,
-								10,
-								7,
-								225,
-								10,
-								9,
-								10,
-								24,
-								20,
-								13,
-								146,
-								88,
-								113,
-								1,
-								133,
-								113,
-								2,
-								82,
-								113,
-								3,
-								46
-							],
-							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax",
-							"tab_size": 2,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 3186.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 1,
-					"type": "text"
-				},
-				{
-					"buffer": 3,
-					"file": "entity.js",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 9182,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								0,
-								0
-							]
-						],
-						"settings":
-						{
-							"c_time":
-							[
-								128,
-								3,
-								99,
-								100,
-								97,
-								116,
-								101,
-								116,
-								105,
-								109,
-								101,
-								10,
-								100,
-								97,
-								116,
-								101,
-								116,
-								105,
-								109,
-								101,
-								10,
-								113,
-								0,
-								67,
-								10,
-								7,
-								225,
-								9,
-								22,
-								17,
-								31,
-								51,
-								8,
-								81,
-								68,
-								113,
-								1,
-								133,
-								113,
-								2,
-								82,
-								113,
-								3,
-								46
-							],
-							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax",
-							"tab_size": 4,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 0,
-					"type": "text"
-				}
 			]
 		}
 	],
 	"incremental_find":
 	{
-		"height": 27.0
+		"height": 24.0
 	},
 	"input":
 	{
@@ -927,6 +586,10 @@
 	{
 		"height": 0.0
 	},
+	"output.CppYCM.3":
+	{
+		"height": 0.0
+	},
 	"output.SublimeLinter":
 	{
 		"height": 0.0
@@ -943,7 +606,7 @@
 	"project": "jungle.sublime-project",
 	"replace":
 	{
-		"height": 50.0
+		"height": 44.0
 	},
 	"save_all_on_build": true,
 	"select_file":

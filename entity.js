@@ -169,6 +169,27 @@ function printEntityInfo(object)
 var xWidth = el.width / 2;
 var yHeight = el.height / 2;
 
+function makePlacedDavey(x, y)
+{
+    entities.davey++;
+    var nS = newEntity(x, y, 50, 50);
+    nS.type = "square";
+    nS.cachedImage = "wokedavey";
+    nS.characterType = "davey";
+    nS.isSentient = true;
+    nS.width = canvasCache[nS.cachedImage].width;
+    nS.height = canvasCache[nS.cachedImage].height;
+    nS.maxX = nS.x + nS.width;
+    nS.maxY = nS.y + nS.height;
+    entitify(nS);
+    addEntity(nS);
+    addObjectToTable(nS);
+    collisionObjectsToUpdate.push(nS);
+    var appleNumber = makeApple() - 1;
+    nS.addToInventory(objects[appleNumber]);
+    console.log("Placed a new Davey at x: " + x + ", y: " + y);
+}
+
 function makeDavey()
 {
     entities.davey++;
@@ -232,6 +253,24 @@ function makeBaby()
     collisionObjectsToUpdate.push(nS);
 }
 
+function makePlacedApple(x, y)
+{
+    var nS = newEntity(x, y, 50, 50);
+    nS.maxX = nS.x + nS.width;
+    nS.maxY = nS.y + nS.height;
+    nS.type = "square";
+    nS.characterType = "apple";
+    nS.cachedImage = "apple";
+    nS.isInanimate = true;
+    nS.width = canvasCache[nS.cachedImage].width;
+    nS.height = canvasCache[nS.cachedImage].height;
+    entitify(nS);
+    addEntity(nS);
+    addObjectToTable(nS);
+    collisionObjectsToUpdate.push(nS);
+    console.log("Placed a new Apple at x: " + x + ", y: " + y);
+}
+
 function makeApple()
 {
 	//Spawn upper right quadrant
@@ -290,8 +329,8 @@ function addEntity(object)
     objects.push(object);
 }
 
-for(let x = 0; x < numJanes; x++) { makeJane(); }
+// for(let x = 0; x < numJanes; x++) { makeJane(); }
 for(let x = 0; x < numApples; x++) { makeApple(); }
 for(let x = 0; x < numDavies; x++) { makeDavey(); }
-for(let x = 0; x < numBabies; x++) { makeBaby(); }
+// for(let x = 0; x < numBabies; x++) { makeBaby(); }
 //for(let x = 0; x < numTrees; x++) { makeTree(); }
