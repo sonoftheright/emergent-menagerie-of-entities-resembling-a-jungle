@@ -664,7 +664,7 @@ function leftMouseUp()
     return 1;
 }
 
-function deleteSpawnMenu()
+function deleteRightClickMenu()
 {
 
     for (var x = 0; x < hud.menu.items.length; x++)
@@ -703,14 +703,14 @@ function leftMouseDown()
     {
         state.controls.mouse.clicked.clicked = true;
     }
-    if(hud.menu.items.length > 0) { deleteSpawnMenu(); }
+    if(hud.menu.items.length > 0) { deleteRightClickMenu(); }
     return 1;
 }
 
 function rightMouseDown()
 {
     // console.log(JSON.stringify(detectObjectClicked()));
-    if(hud.menu.items.length > 1) { deleteSpawnMenu(); }
+    if(hud.menu.items.length > 1) { deleteRightClickMenu(); }
     var monkey = detectObjectClicked();
     if(monkey.entitified)
     {
@@ -774,9 +774,11 @@ function handleInput()
     }
 
     state.objectClicked = state.controls.mouse.clicked && state.controls.mouse.clicked.type === "square" && state.controls.mouse.leftmousedown;
-    if(state.controls.mouse.leftmousedown) {console.log("state.controls.mouse.clicked: " + state.controls.mouse.clicked
-        + "type = square: " + (state.controls.mouse.clicked.type === "square") 
-        + "state.controls.mouse.leftmousedown: " + state.controls.mouse.leftmousedown); }
+    // if(state.controls.mouse.leftmousedown) {
+    //     console.log("state.controls.mouse.clicked: " + state.controls.mouse.clicked
+    //     + "type = square: " + (state.controls.mouse.clicked.type === "square") 
+    //     + "state.controls.mouse.leftmousedown: " + state.controls.mouse.leftmousedown); 
+    // }
     state.menuClicked = state.controls.mouse.clicked && state.controls.mouse.clicked.type === "button" && state.controls.mouse.leftmousedown;
     state.mapClicked = state.controls.mouse.clicked === undefined || state.controls.mouse.clicked === 0 && state.controls.mouse.leftmousedown;
     if(state.input.includes("leftmousedown") && state.controls.mouse.leftmousedown)
@@ -828,9 +830,14 @@ function handleInput()
 
     if(state.input.includes("rightmouseup"))
     {
+        state.controls.mouse.clicked = detectObjectClicked();
         if(hud.menu.rightClickMenu)
         {
-            deleteSpawnMenu();
+            deleteRightClickMenu();
+        }
+        else if(state.controls.mouse.clicked)
+        {
+            makeInteractionMenu(state.controls.mouse.clicked);
         }
         else
         {
@@ -849,6 +856,13 @@ function handleInput()
 
 var engine = {};
 
+function makeInteractionMenu()
+{
+    var menuY = state.controls.mouse.y,
+    menuX = state.controls.mouse.x;
+
+    hud.menu
+}
 
 function makeSpawnMenu()
 {
