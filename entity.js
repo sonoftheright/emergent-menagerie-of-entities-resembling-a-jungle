@@ -175,6 +175,7 @@ function makeHuman(name, cachedImage, x, y)
     if(!entities[name]){ console.log("Human doesn't exist with name \"" + name + "\".");}
 
     var human = newEntity(x, y, 50, 50);
+    human.type = "square";
     human.cachedImage = cachedImage;
     human.characterType = name;
     human.isSentient = true;

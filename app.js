@@ -678,11 +678,13 @@ function deleteSpawnMenu()
 
 function leftMouseDown()
 {
+    state.controls.mouse.leftmousedown = true;
     if(state.controls.mouse.clicked == 0)
     {
         state.controls.mouse.clicked = detectObjectClicked();
         if(state.controls.mouse.clicked.type === "square")
         {
+            debugger;
             if(state.controls.mouse.clicked.characterType)
             {
                 switchWithLastIndex(objects, state.controls.mouse.clicked.index);
@@ -772,12 +774,16 @@ function handleInput()
     }
 
     state.objectClicked = state.controls.mouse.clicked && state.controls.mouse.clicked.type === "square" && state.controls.mouse.leftmousedown;
+    if(state.controls.mouse.leftmousedown) {console.log("state.controls.mouse.clicked: " + state.controls.mouse.clicked
+        + "type = square: " + (state.controls.mouse.clicked.type === "square") 
+        + "state.controls.mouse.leftmousedown: " + state.controls.mouse.leftmousedown); }
     state.menuClicked = state.controls.mouse.clicked && state.controls.mouse.clicked.type === "button" && state.controls.mouse.leftmousedown;
     state.mapClicked = state.controls.mouse.clicked === undefined || state.controls.mouse.clicked === 0 && state.controls.mouse.leftmousedown;
     if(state.input.includes("leftmousedown") && state.controls.mouse.leftmousedown)
     {
         if(state.objectClicked)
         {
+            debugger;
             state.controls.mouse.clicked.draggedX = getEngCoordsX(state.controls.mouse.x);
             state.controls.mouse.clicked.draggedY = getEngCoordsY(state.controls.mouse.y);
         }

@@ -190,6 +190,7 @@ function findNearestObject(object, array){
 
 function moveToward(mover, dest)
 {
+  if(!dest){ console.log( mover.printableName + "'s destination no longer exists."); return false; }
   var distX = dest.x - mover.x;
   var distY = dest.y - mover.y;
   var adistX = Math.abs(distX);
@@ -199,7 +200,9 @@ function moveToward(mover, dest)
   var nX = (mover.traits.speed / lengthPath) * distX;
   var nY = (mover.traits.speed / lengthPath) * distY;
 
+
   mover.move(nX, nY);
+
   collisionObjectsToUpdate.push(mover);
 
   for(let i = 0; i < mover.collisions.length; i++ )
