@@ -684,7 +684,7 @@ function leftMouseDown()
         state.controls.mouse.clicked = detectObjectClicked();
         if(state.controls.mouse.clicked.type === "square")
         {
-            debugger;
+            //debugger;
             if(state.controls.mouse.clicked.characterType)
             {
                 switchWithLastIndex(objects, state.controls.mouse.clicked.index);
