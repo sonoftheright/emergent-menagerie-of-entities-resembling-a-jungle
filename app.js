@@ -785,7 +785,7 @@ function handleInput()
     {
         if(state.objectClicked)
         {
-            debugger;
+            //debugger;
             state.controls.mouse.clicked.draggedX = getEngCoordsX(state.controls.mouse.x);
             state.controls.mouse.clicked.draggedY = getEngCoordsY(state.controls.mouse.y);
         }
